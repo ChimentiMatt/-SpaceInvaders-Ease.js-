@@ -1,12 +1,13 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import waveOneMovements from './components/Movements.js'
-import invaderImg from "./assets/invader.png"
+import CreatePlayer from './components/CreatePlayer.js';
+import CreateWaveOne from './components/CreateWaveOne.js';
+import WaveOneMovements from './components/WaveOneMovements.js';
+import invaderImg from "./assets/invader.png";
+import Player from "./assets/player.png";
 
 </script>
 
 <template>  
-  <!--<HelloWorld msg="Vite + Vue" /> -->
   <canvas id="demoCanvas" width="1000" height="500"></canvas>
 </template>
 
@@ -31,9 +32,9 @@ export default {
     init() {
       stage = new createjs.Stage("demoCanvas");
 
-
       manifest = [
         {src: invaderImg, id: "invader"},
+        {src: Player, id: "player"},
       ];
 
       loader = new createjs.LoadQueue(false);
@@ -41,16 +42,11 @@ export default {
 
       loader.loadManifest(manifest, true, "./assets/");
 
-      // var circle = new createjs.Shape();
-      // circle.graphics.beginFill("DeepSkyBlue").drawCircle(0, 0, 50);
-      // circle.x = 100;
-      // circle.y = 100;
-      // stage.addChild(circle);
-
       stage.update();
     },
 
     handleComplete() {
+      CreatePlayer.createPlayer(loader, stage);
       this.createInvaders();
       this.paintInvaders();
       this.moveInvaders();
@@ -61,31 +57,25 @@ export default {
       stage.update()
     },
 
-
     tick(event){
       stage.update(event)
     },
 
     createInvaders() {
-      var spriteSheet = new createjs.SpriteSheet({
-          images: [loader.getResult("invader")],
-          framerate: 6,
-          "frames": [
-              [0, 16, 16, 16],
-              [0, 0, 16, 16]
-          ],
+      let spriteSheet = new createjs.SpriteSheet({
+        images: [loader.getResult("invader")],
+        framerate: 3,
+        "frames": [
+            [0, 16, 16, 16],
+            [0, 0, 16, 16]
+        ],
 
-          animations: {
-            "default" : { "frames": [0, 1]}
-          }
-        });
+        animations: {
+          "default" : { "frames": [0, 1]}
+        }
+      });
 
-      let enemy = new createjs.Sprite(spriteSheet, "default");
-      console.log(stage.canvas.width /2)
-      enemy.y = -10;
-      enemy.x = stage.canvas.width - 50;
-      this.enemies.push(enemy)
-
+      CreateWaveOne.spritesWaveOne(spriteSheet, stage, this.enemies)
     },
 
     paintInvaders() {
@@ -96,20 +86,11 @@ export default {
 
     moveInvaders() {
       for (let i = 0; i < this.enemies.length; i++){
-        createjs.Tween.get(this.enemies[i])
-        .to({ y: waveOneMovements[0] }, 1000)
-        .to({ x: this.enemies[i].x - waveOneMovements[1] }, 4000)
-
-
+        WaveOneMovements.move(this.enemies[i])
       }
 
-    console.log(waveOneMovements)
-    }
-
-
-
+    },
   },
-
 
   mounted() {
     this.init()
