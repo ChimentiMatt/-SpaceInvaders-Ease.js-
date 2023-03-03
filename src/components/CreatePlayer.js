@@ -1,7 +1,7 @@
 function createPlayer(players, loader, stage) {
     let spriteSheet = new createjs.SpriteSheet({
         images: [loader.getResult("player")],
-        framerate: 3,
+        framerate: 2,
         "frames": [
             [0, 16, 16, 16],
             [0, 0, 16, 16]

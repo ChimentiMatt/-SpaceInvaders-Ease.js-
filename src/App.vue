@@ -1,9 +1,11 @@
 <script setup>
 import CreatePlayer from './components/CreatePlayer.js';
+import CreateBeam from './components/CreateBeam.js';
 import CreateWaveOne from './components/CreateWaveOne.js';
 import WaveOneMovements from './components/WaveOneMovements.js';
-import invaderImg from "./assets/invader.png";
+import Invader from "./assets/invader.png";
 import Player from "./assets/player.png";
+import Beam from "./assets/beam.png";
 
 </script>
 
@@ -23,8 +25,9 @@ export default {
 
   data () {
     return {
+      players: [],
       enemies: [],
-      players: []
+      beams: []
     }
   },
 
@@ -33,8 +36,9 @@ export default {
       stage = new createjs.Stage("demoCanvas");
 
       manifest = [
-        {src: invaderImg, id: "invader"},
+        {src: Invader, id: "invader"},
         {src: Player, id: "player"},
+        {src: Beam, id: "beam"},
       ];
 
       loader = new createjs.LoadQueue(false);
@@ -47,10 +51,11 @@ export default {
 
     handleComplete() {
       CreatePlayer.createPlayer(this.players, loader, stage);
-      console.log(stage)
+
       this.createInvaders();
       this.paintInvaders();
       this.moveInvaders();
+
 
       createjs.Ticker.timingMode = createjs.Ticker.RAF;
       createjs.Ticker.addEventListener("tick", stage);
@@ -66,7 +71,7 @@ export default {
     createInvaders() {
       let spriteSheet = new createjs.SpriteSheet({
         images: [loader.getResult("invader")],
-        framerate: 3,
+        framerate: 2,
         "frames": [
             [0, 16, 16, 16],
             [0, 0, 16, 16]
@@ -104,7 +109,13 @@ export default {
         this.players[0].x += 10
       }
       if (event.code === 'Space'){
-        console.log('space')
+        CreateBeam.createBeam(this.beams, loader, this.players[0])
+
+
+        for (let i = 0; i < this.beams.length; i++){
+          stage.addChild(this.beams[i])
+        }
+      CreateBeam.moveBeams(this.beams, this.players[0])
       }
     }
   },
