@@ -32,6 +32,7 @@ export default {
   },
 
   methods: {
+
     init() {
       stage = new createjs.Stage("demoCanvas");
 
@@ -56,7 +57,6 @@ export default {
       this.paintInvaders();
       this.moveInvaders();
 
-
       createjs.Ticker.timingMode = createjs.Ticker.RAF;
       createjs.Ticker.addEventListener("tick", stage);
       createjs.Ticker.addEventListener("tick", this.tick);
@@ -65,6 +65,7 @@ export default {
     },
 
     tick(event){
+      CreateBeam.detectCollision(this.beams, this.enemies, stage)
       stage.update(event)
     },
 
@@ -78,7 +79,8 @@ export default {
         ],
 
         animations: {
-          "default" : { "frames": [0, 1]}
+          "default" : { "frames": [0, 1]},
+          "dying" : { "frames": [0]}
         }
       });
 
@@ -115,7 +117,8 @@ export default {
         for (let i = 0; i < this.beams.length; i++){
           stage.addChild(this.beams[i])
         }
-      CreateBeam.moveBeams(this.beams, this.players[0])
+
+        CreateBeam.moveBeams(this.beams, this.players[0])
       }
     }
   },

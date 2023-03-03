@@ -13,7 +13,8 @@ function spritesWaveOne(spriteSheet, stage, enemies) {
   
         if (i === 19){
           enemyX = stage.canvas.width - 50;
-          enemyY += 25
+          enemyY += 55
+          // 25
         }
       }
 }
