@@ -17,14 +17,14 @@ import Player from "./assets/player.png";
   var loader;
   var manifest;
   var stage; 
-  var knight;
 
 export default {
   name: 'App',
 
   data () {
     return {
-      enemies: []
+      enemies: [],
+      players: []
     }
   },
 
@@ -46,7 +46,8 @@ export default {
     },
 
     handleComplete() {
-      CreatePlayer.createPlayer(loader, stage);
+      CreatePlayer.createPlayer(this.players, loader, stage);
+      console.log(stage)
       this.createInvaders();
       this.paintInvaders();
       this.moveInvaders();
@@ -54,6 +55,7 @@ export default {
       createjs.Ticker.timingMode = createjs.Ticker.RAF;
       createjs.Ticker.addEventListener("tick", stage);
       createjs.Ticker.addEventListener("tick", this.tick);
+
       stage.update()
     },
 
@@ -90,10 +92,30 @@ export default {
       }
 
     },
+
+    onPress(event) {
+      if (event.code === 'ArrowUp'){
+        console.log('up')
+      }
+      else if (event.code === 'ArrowLeft'){
+       this.players[0].x -= 10
+      }
+      else if (event.code === 'ArrowRight'){
+        this.players[0].x += 10
+      }
+      if (event.code === 'Space'){
+        console.log('space')
+      }
+    }
   },
 
   mounted() {
     this.init()
+
+    addEventListener('keydown', (event) => {
+      this.onPress(event)
+    })
+    
   }
 
 

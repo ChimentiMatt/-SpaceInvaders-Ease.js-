@@ -10,6 +10,7 @@ function spritesWaveOne(spriteSheet, stage, enemies) {
         enemies.push(enemy)
 
         enemyX -= 30;
+  
         if (i === 19){
           enemyX = stage.canvas.width - 50;
           enemyY += 25

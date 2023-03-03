@@ -1,4 +1,4 @@
-function createPlayer(loader, stage) {
+function createPlayer(players, loader, stage) {
     let spriteSheet = new createjs.SpriteSheet({
         images: [loader.getResult("player")],
         framerate: 3,
@@ -14,7 +14,8 @@ function createPlayer(loader, stage) {
       let player = new createjs.Sprite(spriteSheet, "default");
       player.x = 100;
       player.y = 450;
-      stage.addChild(player)
+      players.push(player)
+      stage.addChild(players[0])
 }
 
 export default { createPlayer } ;
