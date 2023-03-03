@@ -3,9 +3,12 @@ import CreatePlayer from './components/CreatePlayer.js';
 import CreateBeam from './components/CreateBeam.js';
 import CreateWaveOne from './components/CreateWaveOne.js';
 import WaveOneMovements from './components/WaveOneMovements.js';
+
+
 import Invader from "./assets/invader.png";
 import Player from "./assets/player.png";
 import Beam from "./assets/beam.png";
+import ContactExplosion from "./assets/contactExplosion.png";
 
 </script>
 
@@ -27,7 +30,8 @@ export default {
     return {
       players: [],
       enemies: [],
-      beams: []
+      beams: [],
+      explosions: [],
     }
   },
 
@@ -40,6 +44,7 @@ export default {
         {src: Invader, id: "invader"},
         {src: Player, id: "player"},
         {src: Beam, id: "beam"},
+        {src: ContactExplosion, id: "contactExplosion"},
       ];
 
       loader = new createjs.LoadQueue(false);
@@ -65,7 +70,7 @@ export default {
     },
 
     tick(event){
-      CreateBeam.detectCollision(this.beams, this.enemies, stage)
+      CreateBeam.detectCollision(this.beams, this.enemies, stage, loader)
       stage.update(event)
     },
 
@@ -113,12 +118,12 @@ export default {
       if (event.code === 'Space'){
         CreateBeam.createBeam(this.beams, loader, this.players[0])
 
-
         for (let i = 0; i < this.beams.length; i++){
           stage.addChild(this.beams[i])
         }
 
-        CreateBeam.moveBeams(this.beams, this.players[0])
+        let contact = CreateBeam.moveBeams(this.beams, this.players[0])
+
       }
     }
   },

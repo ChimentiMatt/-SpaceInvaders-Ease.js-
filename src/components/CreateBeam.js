@@ -1,3 +1,5 @@
+import CreateContactExplosion from './CreateContactExplosion.js';
+
 function createBeam(beams, loader, player) {
     let spriteSheet = new createjs.SpriteSheet({
         images: [loader.getResult("beam")],
@@ -30,13 +32,15 @@ function moveBeams(beams, player) {
     }
 }
 
-function detectCollision(beams, enemies, stage) {
+function detectCollision(beams, enemies, stage, loader) {
   
+  // loop over invaders
   for (let i = 0; i < enemies.length; i++){
-    
+
     // used after invader dies for the x value they travel on fall
     let deathDirection = Math.floor(Math.random() * (300 - - 300) + - 300)
 
+    // stop if invader is dead
     if (enemies[i].currentAnimation !== 'dying'){
     
       // if invader has not yet made contact with beam
@@ -59,10 +63,13 @@ function detectCollision(beams, enemies, stage) {
                 stage.removeChild(enemies[i])
               })
 
-              beams[j].gotoAndPlay("contact")
-              beams[j].visible = false
-              stage.removeChild(beams[j])
+              beams[j].gotoAndPlay("contact");
+              beams[j].visible = false;
+              stage.removeChild(beams[j]);
 
+              
+              
+              CreateContactExplosion.explode(loader, stage, enemies[i].x, enemies[i].y)
 
             }
           }
