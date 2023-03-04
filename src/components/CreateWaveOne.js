@@ -3,7 +3,7 @@ function spritesWaveOne(spriteSheet, stage, enemies) {
     let enemyX = stage.canvas.width - 50;
     let enemyY = -10;
     
-    for (let i = 0; i < 40; i++){
+    for (let i = 0; i < 23; i++){
         enemy = new createjs.Sprite(spriteSheet, "default");
         enemy.x = enemyX;
         enemy.y = enemyY;
@@ -11,10 +11,14 @@ function spritesWaveOne(spriteSheet, stage, enemies) {
 
         enemyX -= 30;
   
-        if (i === 19){
-          enemyX = stage.canvas.width - 50;
+        if (i === 10){
+          enemyX = stage.canvas.width - 50 - 60;
           enemyY += 55
-          // 25
+        }
+
+        if (i === 17){
+          enemyX = stage.canvas.width - 50 - 89;
+          enemyY += 55
         }
       }
 }

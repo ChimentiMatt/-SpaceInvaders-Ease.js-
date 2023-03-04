@@ -27,7 +27,7 @@ function moveBeams(beams, player) {
         // Only Tween on first fire
         if (beams[i].y === player.y - 17){
             createjs.Tween.get(beams[i])
-            .to({ y: -16 }, 1000)
+            .to({ y: -16 }, 1500)
         }
     }
 }
@@ -53,7 +53,7 @@ function detectCollision(beams, enemies, stage, loader) {
           if (beams[j].currentAnimation !== 'contact'){
 
             // if beam x is between invader sprite
-            if (beams[j].x >= enemies[i].x && beams[j].x <= enemies[i].x + 16 ){
+            if (beams[j].x >= enemies[i].x -16 && beams[j].x <= enemies[i].x + 16 ){
 
               enemies[i].gotoAndPlay("dying")
               

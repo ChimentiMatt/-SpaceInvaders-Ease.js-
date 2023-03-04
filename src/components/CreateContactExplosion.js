@@ -18,6 +18,6 @@ function explode(loader, stage, x, y) {
       ex.y = y;
       stage.addChild(ex)
 }
-
+ 
 export default { explode } ;
 

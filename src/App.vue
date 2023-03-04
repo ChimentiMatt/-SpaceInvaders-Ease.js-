@@ -1,22 +1,23 @@
 <script setup>
 import CreatePlayer from './components/CreatePlayer.js';
+import CreateHealthBar from './components/CreateHealthBar.js'
 import CreateBeam from './components/CreateBeam.js';
 import CreateWaveOne from './components/CreateWaveOne.js';
 import WaveOneMovements from './components/WaveOneMovements.js';
-
 
 import Invader from "./assets/invader.png";
 import Player from "./assets/player.png";
 import Beam from "./assets/beam.png";
 import ContactExplosion from "./assets/contactExplosion.png";
+import HealthBar from "./assets/health.png"
 
 </script>
 
 <template>  
-  <canvas id="demoCanvas" width="1000" height="500"></canvas>
+  <div id='body'>
+    <canvas id="demoCanvas" width="900" height="500"></canvas>
+  </div>
 </template>
-
-
 
 <script>
   var loader;
@@ -29,6 +30,7 @@ export default {
   data () {
     return {
       players: [],
+      healthBars: [],
       enemies: [],
       beams: [],
       explosions: [],
@@ -45,6 +47,7 @@ export default {
         {src: Player, id: "player"},
         {src: Beam, id: "beam"},
         {src: ContactExplosion, id: "contactExplosion"},
+        {src: HealthBar, id: "healthBar"},
       ];
 
       loader = new createjs.LoadQueue(false);
@@ -57,6 +60,7 @@ export default {
 
     handleComplete() {
       CreatePlayer.createPlayer(this.players, loader, stage);
+      CreateHealthBar.createHealthBar(loader, stage, this.healthBars);
 
       this.createInvaders();
       this.paintInvaders();
