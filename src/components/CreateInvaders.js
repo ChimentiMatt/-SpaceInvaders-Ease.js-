@@ -5,13 +5,14 @@ function createInvaders(loader, stage, spriteSheet, enemies) {
         images: [loader.getResult("invader")],
         framerate: 2,
         "frames": [
+            [0, 0, 16, 16],
+            [16, 0, 16, 16],
             [0, 16, 16, 16],
-            [0, 0, 16, 16]
         ],
 
         animations: {
           "default" : { "frames": [0, 1]},
-          "dying" : { "frames": [0]}
+          "dying" : { "frames": [2]}
         }
     });
 

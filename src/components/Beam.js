@@ -39,7 +39,7 @@ function detectCollision(beams, enemies, stage, loader) {
 
     // used after invader dies for the x value they travel on fall
     let deathDirection = Math.floor(Math.random() * (200 - - 200) + - 200)
-    // deathDirection = 0
+    deathDirection = 0
 
     // stop if invader is dead
     if (enemies[i].currentAnimation !== 'dying'){
@@ -54,21 +54,25 @@ function detectCollision(beams, enemies, stage, loader) {
           if (beams[j].currentAnimation !== 'contact'){
 
             // if beam x is between invader sprite
-            if (beams[j].x >= enemies[i].x -16 && beams[j].x <= enemies[i].x + 16 ){
+            if (beams[j].x >= enemies[i].x -16 && beams[j].x <= enemies[i].x + 16  ){
 
               enemies[i].gotoAndPlay("dying")
-              
+              enemies[i].scaleX = 1.3;
+              enemies[i].scaleY = 1.3;
+              let randomAngle = Math.floor(Math.random() * (180 - - 180) + 180)
+
+
               createjs.Tween.get(enemies[i])
-              .to({ y: enemies[i].y + 500 , x: enemies[i].x + deathDirection}, 1500)
+              .to({ y: enemies[i].y + 500 , x: enemies[i].x + deathDirection, rotation : randomAngle}, 1500)
               .call(() => {
-                stage.removeChild(enemies[i])
-              })
+                stage.removeChild(enemies[i]);
+               })
 
               beams[j].gotoAndPlay("contact");
-              beams[j].visible = false;
+              beams[j].visible = false;;
               stage.removeChild(beams[j]);
 
-              CreateContactExplosion.explode(loader, stage, enemies[i].x, enemies[i].y)
+              CreateContactExplosion.explode(loader, stage, enemies[i].x, enemies[i].y);
 
             }
           }
