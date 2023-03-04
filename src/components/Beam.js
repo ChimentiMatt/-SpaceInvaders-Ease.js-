@@ -38,7 +38,8 @@ function detectCollision(beams, enemies, stage, loader) {
   for (let i = 0; i < enemies.length; i++){
 
     // used after invader dies for the x value they travel on fall
-    let deathDirection = Math.floor(Math.random() * (300 - - 300) + - 300)
+    let deathDirection = Math.floor(Math.random() * (200 - - 200) + - 200)
+    // deathDirection = 0
 
     // stop if invader is dead
     if (enemies[i].currentAnimation !== 'dying'){
@@ -67,8 +68,6 @@ function detectCollision(beams, enemies, stage, loader) {
               beams[j].visible = false;
               stage.removeChild(beams[j]);
 
-              
-              
               CreateContactExplosion.explode(loader, stage, enemies[i].x, enemies[i].y)
 
             }

@@ -1,4 +1,4 @@
-function createHealthBar(loader, stage, healthBars) {
+function createHealthBar(loader, stage, healthBars, players) {
     let spriteSheet = new createjs.SpriteSheet({
         images: [loader.getResult("healthBar")],
         framerate: 2,
@@ -20,13 +20,22 @@ function createHealthBar(loader, stage, healthBars) {
             [32, 104, 32, 16],
         ],
         animations: {
-          "default" : { "frames": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]}
+          "health10" : { "frames": [0]},
+          "health9" : { "frames": [1]},
+          "health8" : { "frames": [2]},
+          "health7" : { "frames": [3]},
+          "health6" : { "frames": [4]},
+          "health5" : { "frames": [5]},
+          "health4" : { "frames": [6]},
+          "health3" : { "frames": [7]},
+          "health2" : { "frames": [8]},
+          "health1" : { "frames": [9]},
         }
       });
 
-      let healthBar = new createjs.Sprite(spriteSheet, "default");
-      healthBar.x =  (stage.canvas.width /2) - 32;
-      healthBar.y = 480;
+      let healthBar = new createjs.Sprite(spriteSheet, "health10");
+      healthBar.x =  players[0].x - 8 ;
+      healthBar.y = 475;
       healthBars.push(healthBar)
       stage.addChild(healthBars[0])
 }

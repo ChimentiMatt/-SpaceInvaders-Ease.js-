@@ -1,15 +1,19 @@
 <script setup>
 import CreatePlayer from './components/CreatePlayer.js';
 import CreateHealthBar from './components/CreateHealthBar.js'
-import CreateBeam from './components/CreateBeam.js';
+import CreateShield from './components/CreateShield.js'
+import CreateInvaders from './components/CreateInvaders.js'
+
 import CreateWaveOne from './components/CreateWaveOne.js';
+import Beam from './components/Beam.js';
 import WaveOneMovements from './components/WaveOneMovements.js';
 
-import Invader from "./assets/invader.png";
-import Player from "./assets/player.png";
-import Beam from "./assets/beam.png";
-import ContactExplosion from "./assets/contactExplosion.png";
-import HealthBar from "./assets/health.png"
+import InvaderImg from "./assets/invader.png";
+import PlayerImg from "./assets/player.png";
+import BeamImg from "./assets/beam.png";
+import ContactExplosionImg from "./assets/contactExplosion.png";
+import HealthBarImg from "./assets/health.png"
+import ShieldImg from "./assets/shield.png"
 
 </script>
 
@@ -30,7 +34,12 @@ export default {
   data () {
     return {
       players: [],
+      shields: [],
+      player1Properties: {
+        invincible: false
+      },
       healthBars: [],
+      invadersSprites: '',
       enemies: [],
       beams: [],
       explosions: [],
@@ -43,11 +52,12 @@ export default {
       stage = new createjs.Stage("demoCanvas");
 
       manifest = [
-        {src: Invader, id: "invader"},
-        {src: Player, id: "player"},
-        {src: Beam, id: "beam"},
-        {src: ContactExplosion, id: "contactExplosion"},
-        {src: HealthBar, id: "healthBar"},
+        {src: InvaderImg, id: "invader"},
+        {src: PlayerImg, id: "player"},
+        {src: BeamImg, id: "beam"},
+        {src: ContactExplosionImg, id: "contactExplosion"},
+        {src: HealthBarImg, id: "healthBar"},
+        {src: ShieldImg, id: "shield"}
       ];
 
       loader = new createjs.LoadQueue(false);
@@ -56,13 +66,19 @@ export default {
       loader.loadManifest(manifest, true, "./assets/");
 
       stage.update();
+
+      addEventListener('keydown', (event) => {
+        this.onPress(event)
+      })
     },
 
     handleComplete() {
       CreatePlayer.createPlayer(this.players, loader, stage);
-      CreateHealthBar.createHealthBar(loader, stage, this.healthBars);
+      CreateHealthBar.createHealthBar(loader, stage, this.healthBars, this.players);
+      CreateShield.createShield(this.shields, this.players[0], loader, stage)
+      CreateInvaders.createInvaders(loader, stage, this.invadersSprites, this.enemies)
 
-      this.createInvaders();
+
       this.paintInvaders();
       this.moveInvaders();
 
@@ -74,26 +90,9 @@ export default {
     },
 
     tick(event){
-      CreateBeam.detectCollision(this.beams, this.enemies, stage, loader)
-      stage.update(event)
-    },
-
-    createInvaders() {
-      let spriteSheet = new createjs.SpriteSheet({
-        images: [loader.getResult("invader")],
-        framerate: 2,
-        "frames": [
-            [0, 16, 16, 16],
-            [0, 0, 16, 16]
-        ],
-
-        animations: {
-          "default" : { "frames": [0, 1]},
-          "dying" : { "frames": [0]}
-        }
-      });
-
-      CreateWaveOne.spritesWaveOne(spriteSheet, stage, this.enemies)
+      Beam.detectCollision(this.beams, this.enemies, stage, loader);
+      this.fallCollision();
+      stage.update(event);
     },
 
     paintInvaders() {
@@ -109,24 +108,91 @@ export default {
 
     },
 
+    fallCollision() {
+      if (!this.player1Properties.invincible){
+
+        for (let i = 0; i < this.enemies.length; i++){
+          if (this.enemies[i].currentAnimation === "dying"){
+            
+            // check if between y quadrates of player and falling invader
+            if (this.players[0].y <= this.enemies[i].y + 8 && this.players[0].y >= this.enemies[i].y  ){
+              // check if between x quadrates of player and falling invader
+              if (this.players[0].x >= this.enemies[i].x -16 && this.players[0].x <= this.enemies[i].x + 16 ){
+
+                this.shields[0].gotoAndPlay("on");
+                this.player1Properties.invincible = true
+
+                setInterval(() => 
+                {
+                  this.player1Properties.invincible = false;
+                  this.shields[0].gotoAndPlay("off");
+                }, 1000)
+
+                switch(this.healthBars[0].currentAnimation){
+                  case "health10":
+                    this.healthBars[0].gotoAndPlay("health9");
+                    break;
+                  case "health9":
+                    this.healthBars[0].gotoAndPlay("health8");
+                    break;
+                  case "health8":
+                    this.healthBars[0].gotoAndPlay("health7");
+                    break;
+                  case "health7":
+                    this.healthBars[0].gotoAndPlay("health6");
+                    break;
+                  case "health6":
+                    this.healthBars[0].gotoAndPlay("health5");
+                    break;
+                  case "health5":
+                    this.healthBars[0].gotoAndPlay("health4");
+                    break;
+                  case "health4":
+                    this.healthBars[0].gotoAndPlay("health3");
+                    break;
+                  case "health3":
+                    this.healthBars[0].gotoAndPlay("health2");
+                    break;
+                  case "health2":
+                    this.healthBars[0].gotoAndPlay("health1");
+                    break;
+                  case "health1":
+                    // this.healthBars[0].gotoAndPlay("health1");
+                    console.log('dead')
+                    break;
+                  default:
+                    this.healthBars[0].gotoAndPlay("health10");
+                }
+              }
+              
+            }
+          }
+        }
+      }
+    },
+
     onPress(event) {
       if (event.code === 'ArrowUp'){
         console.log('up')
       }
       else if (event.code === 'ArrowLeft'){
-       this.players[0].x -= 10
+        this.players[0].x -= 10
+        this.healthBars[0].x -= 10
+        this.shields[0].x -= 10
       }
       else if (event.code === 'ArrowRight'){
         this.players[0].x += 10
+        this.healthBars[0].x += 10
+        this.shields[0].x += 10
       }
       if (event.code === 'Space'){
-        CreateBeam.createBeam(this.beams, loader, this.players[0])
+        Beam.createBeam(this.beams, loader, this.players[0])
 
         for (let i = 0; i < this.beams.length; i++){
           stage.addChild(this.beams[i])
         }
 
-        let contact = CreateBeam.moveBeams(this.beams, this.players[0])
+        let contact = Beam.moveBeams(this.beams, this.players[0])
 
       }
     }
@@ -134,11 +200,6 @@ export default {
 
   mounted() {
     this.init()
-
-    addEventListener('keydown', (event) => {
-      this.onPress(event)
-    })
-    
   }
 
 
