@@ -1,6 +1,5 @@
-
-function createInvaders(loader, stage, spriteSheet, enemies) {
-    spriteSheet = new createjs.SpriteSheet({
+function createSheet(loader) {
+    let spriteSheet = new createjs.SpriteSheet({
         images: [loader.getResult("invader")],
         framerate: 2,
         "frames": [
@@ -14,7 +13,9 @@ function createInvaders(loader, stage, spriteSheet, enemies) {
           "dying" : { "frames": [2]}
         }
     });
+
+      return spriteSheet
 }
 
-export default { createInvaders } ;
+export default { createSheet } ;
 

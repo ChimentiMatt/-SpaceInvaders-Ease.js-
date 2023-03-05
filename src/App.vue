@@ -1,16 +1,20 @@
 <script setup>
-// update next imports location
+
 import PlayerSpriteSheet from './spriteSheets/PlayerSpriteSheet.js';
 import BeamSpriteSheet from './spriteSheets/BeamSpriteSheet.js';
+import ShieldSpriteSheet from './spriteSheets/ShieldSpriteSheet.js'
+import HealthBarSpriteSheet from './spriteSheets/HealthBarSpriteSheet.js'
+import InvaderSpriteSheet from './spriteSheets/InvaderSpriteSheet.js'
 
-import CreateHealthBar from './components/CreateHealthBar.js'
-import CreateShield from './components/CreateShield.js'
 import CreateInvaders from './components/CreateInvaders.js'
 
 import Player from './constructors/Player.js'
 import Beam from './constructors/Beam.js'
+import Shield from './constructors/Shield.js'
+import HealthBar from './constructors/HealthBar.js'
+import Invader from './constructors/Invader.js'
 
-import CreateWaveOne from './components/CreateWaveOne.js';
+
 import WaveOneMovements from './components/WaveOneMovements.js';
 
 import InvaderImg from "./assets/invader.png";
@@ -39,18 +43,25 @@ export default {
   data () {
     return {
       players: [],
+      player: '',
       shields: [],
       player1Properties: {
         invincible: false
       },
       healthBars: [],
+      heathBar: '',
       invadersSprites: '',
-      enemies: [],
+      invaders: [],
+      invader: '',
       beams: [],
       beam: '',
+      shield: '',
       explosions: [],
+
       playerSheet: '',
       beamSheet: '',
+      shieldSheet: '',
+      healthBarSheet: '',
       
     }
   },
@@ -83,21 +94,9 @@ export default {
     },
 
     handleComplete() {
-      this.playerSheet = PlayerSpriteSheet.createSheet(this.players, loader, stage);
-      let player = new Player();
-      player.draw(this.players, stage, this.playerSheet);
-
-      this.beamSheet = BeamSpriteSheet.createSheet(loader);
-      this.beam = new Beam();
-      this.beam.draw(this.players[0], stage, this.beamSheet, this.beams);
-
-      CreateHealthBar.createHealthBar(loader, stage, this.healthBars, this.players);
-      CreateShield.createShield(this.shields, this.players[0], loader, stage)
-      CreateInvaders.createInvaders(loader, stage, this.invadersSprites, this.enemies)
-
-
-      this.paintInvaders();
-      this.moveInvaders();
+      this.createSpriteSheets()
+      
+      CreateInvaders.createInvaders(loader, stage, this.invadersSprites, this.invaders)
 
       createjs.Ticker.timingMode = createjs.Ticker.RAF;
       createjs.Ticker.addEventListener("tick", stage);
@@ -107,35 +106,45 @@ export default {
     },
 
     tick(event){
-      this.beam.detectCollision(this.beams, this.enemies, stage, loader);
+      this.beam.detectCollision(this.beams, this.invaders, stage, loader);
       this.fallCollision();
       
       this.beam.removeIfOffScreen(this.beams, stage)
       stage.update(event);
     },
 
-    paintInvaders() {
-      for (let i = 0; i < this.enemies.length; i++){
-        stage.addChild(this.enemies[i])
-      }
-    },
+    createSpriteSheets() {
+      this.playerSheet = PlayerSpriteSheet.createSheet(this.players, loader, stage);
+      this.player = new Player(this.playerSheet);
+      this.player.addToArray(this.players, stage);
 
-    moveInvaders() {
-      for (let i = 0; i < this.enemies.length; i++){
-        WaveOneMovements.move(this.enemies[i])
-      }
+      this.beamSheet = BeamSpriteSheet.createSheet(loader);
+      this.beam = new Beam();
+
+      this.shieldSheet = ShieldSpriteSheet.createSheet(loader);
+      this.shield = new Shield(this.shieldSheet);
+      this.shield.addToArray(this.players[0], stage, this.shields);
+
+      this.healthBarSheet = HealthBarSpriteSheet.createSheet(loader);
+      this.healthBar = new HealthBar();
+      this.healthBar.draw(this.players, stage, this.healthBarSheet, this.healthBars)
+
+      this.invaderSheet = InvaderSpriteSheet.createSheet(loader);
+      WaveOneMovements.createWaveOne(this.invaders, this.invaderSheet, stage)
+
+      
     },
 
     fallCollision() {
       if (!this.player1Properties.invincible){
 
-        for (let i = 0; i < this.enemies.length; i++){
-          if (this.enemies[i].currentAnimation === "dying"){
+        for (let i = 0; i < this.invaders.length; i++){
+          if (this.invaders[i].currentAnimation === "dying"){
             
             // check if between y quadrates of player and falling invader
-            if (this.players[0].y <= this.enemies[i].y + 8 && this.players[0].y >= this.enemies[i].y  ){
+            if (this.players[0].y <= this.invaders[i].y + 8 && this.players[0].y >= this.invaders[i].y  ){
               // check if between x quadrates of player and falling invader
-              if (this.players[0].x >= this.enemies[i].x -16 && this.players[0].x <= this.enemies[i].x + 16 ){
+              if (this.players[0].x >= this.invaders[i].x -16 && this.players[0].x <= this.invaders[i].x + 16 ){
 
                 this.shields[0].gotoAndPlay("on");
                 this.player1Properties.invincible = true

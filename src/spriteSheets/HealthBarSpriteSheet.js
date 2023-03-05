@@ -1,4 +1,4 @@
-function createHealthBar(loader, stage, healthBars, players) {
+function createSheet(loader) {
     let spriteSheet = new createjs.SpriteSheet({
         images: [loader.getResult("healthBar")],
         framerate: 2,
@@ -33,12 +33,8 @@ function createHealthBar(loader, stage, healthBars, players) {
         }
       });
 
-      let healthBar = new createjs.Sprite(spriteSheet, "health10");
-      healthBar.x =  players[0].x - 8 ;
-      healthBar.y = 475;
-      healthBars.push(healthBar)
-      stage.addChild(healthBars[0])
+      return spriteSheet
 }
 
-export default { createHealthBar } ;
+export default { createSheet } ;
 

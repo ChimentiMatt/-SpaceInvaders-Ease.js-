@@ -12,12 +12,6 @@ function createSheet(players, loader, stage) {
       });
 
       return spriteSheet
-
-      // let player = new createjs.Sprite(spriteSheet, "default");
-      // player.x = 100;
-      // player.y = 450;
-      // players.push(player)
-      // stage.addChild(players[0])
 }
 
 

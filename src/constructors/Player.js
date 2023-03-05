@@ -1,12 +1,12 @@
 class Player {
-    constructor(){
+    constructor(spriteSheet){
+      this.player = new createjs.Sprite(spriteSheet, "default");
     }
   
-    draw = function(players, stage, spriteSheet) {
-      let player = new createjs.Sprite(spriteSheet, "default");
-      player.x = 100;
-      player.y = 450;
-      players.push(player)
+    addToArray = function(players, stage) {
+      this.player.x = 100;
+      this.player.y = 450;
+      players.push(this.player)
       stage.addChild(players[0])
     }
 }

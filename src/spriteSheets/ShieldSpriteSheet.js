@@ -1,4 +1,4 @@
-function createShield(shields, player, loader, stage) {
+function createSheet(loader) {
     let spriteSheet = new createjs.SpriteSheet({
         images: [loader.getResult("shield")],
         framerate: 2,
@@ -12,12 +12,8 @@ function createShield(shields, player, loader, stage) {
         }
       });
 
-      let shield = new createjs.Sprite(spriteSheet, "off");
-      shield.x = player.x + .5;
-      shield.y = player.y - 10;
-      shields.push(shield)
-      stage.addChild(shields[0])
+      return spriteSheet
 }
 
-export default { createShield } ;
+export default { createSheet } ;
 
