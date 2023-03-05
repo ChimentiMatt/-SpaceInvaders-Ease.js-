@@ -1,11 +1,16 @@
 <script setup>
-import CreatePlayer from './components/CreatePlayer.js';
+// update next imports location
+import PlayerSpriteSheet from './spriteSheets/PlayerSpriteSheet.js';
+import BeamSpriteSheet from './spriteSheets/BeamSpriteSheet.js';
+
 import CreateHealthBar from './components/CreateHealthBar.js'
 import CreateShield from './components/CreateShield.js'
 import CreateInvaders from './components/CreateInvaders.js'
 
+import Player from './constructors/Player.js'
+import Beam from './constructors/Beam.js'
+
 import CreateWaveOne from './components/CreateWaveOne.js';
-import Beam from './components/Beam.js';
 import WaveOneMovements from './components/WaveOneMovements.js';
 
 import InvaderImg from "./assets/invader.png";
@@ -42,7 +47,11 @@ export default {
       invadersSprites: '',
       enemies: [],
       beams: [],
+      beam: '',
       explosions: [],
+      playerSheet: '',
+      beamSheet: '',
+      
     }
   },
 
@@ -70,10 +79,18 @@ export default {
       addEventListener('keydown', (event) => {
         this.onPress(event)
       })
+
     },
 
     handleComplete() {
-      CreatePlayer.createPlayer(this.players, loader, stage);
+      this.playerSheet = PlayerSpriteSheet.createSheet(this.players, loader, stage);
+      let player = new Player();
+      player.draw(this.players, stage, this.playerSheet);
+
+      this.beamSheet = BeamSpriteSheet.createSheet(loader);
+      this.beam = new Beam();
+      this.beam.draw(this.players[0], stage, this.beamSheet, this.beams);
+
       CreateHealthBar.createHealthBar(loader, stage, this.healthBars, this.players);
       CreateShield.createShield(this.shields, this.players[0], loader, stage)
       CreateInvaders.createInvaders(loader, stage, this.invadersSprites, this.enemies)
@@ -90,8 +107,10 @@ export default {
     },
 
     tick(event){
-      Beam.detectCollision(this.beams, this.enemies, stage, loader);
+      this.beam.detectCollision(this.beams, this.enemies, stage, loader);
       this.fallCollision();
+      
+      this.beam.removeIfOffScreen(this.beams, stage)
       stage.update(event);
     },
 
@@ -105,7 +124,6 @@ export default {
       for (let i = 0; i < this.enemies.length; i++){
         WaveOneMovements.move(this.enemies[i])
       }
-
     },
 
     fallCollision() {
@@ -186,13 +204,13 @@ export default {
         this.shields[0].x += 10
       }
       if (event.code === 'Space'){
-        Beam.createBeam(this.beams, loader, this.players[0])
+        this.beam.draw(this.players[0], stage, this.beamSheet, this.beams)
 
         for (let i = 0; i < this.beams.length; i++){
           stage.addChild(this.beams[i])
         }
 
-        let contact = Beam.moveBeams(this.beams, this.players[0])
+        let contact =  this.beam.moveBeams(this.beams, this.players[0])
 
       }
     }
