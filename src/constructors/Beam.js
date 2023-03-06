@@ -58,7 +58,7 @@ class Beam {
                   // if beam x is between invader sprite
                   if (beams[j].x >= enemies[i].x -16 && beams[j].x <= enemies[i].x + 16  ){
 
-                    this.deathFall(enemies[i], stage)
+                    this.deathFall(enemies[i], stage, enemies)
   
                     // problem below
                     beams[j].visible = false;
@@ -91,6 +91,8 @@ class Beam {
         stage.removeChild(enemy);
         enemy.gotoAndPlay("dead")
         createjs.Tween.removeTweens(enemy)
+
+  
        })
     }
 }

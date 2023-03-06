@@ -155,8 +155,14 @@ export default {
 
     changeWave() {
       if (this.nextWaveCheck(this.invaders)){
-        this.enemies = []
+        this.invaders = []
+        this.enemyBullets = []
         this.waveNumber++
+
+        for (let i = 0; i < this.invaders.length; i++){
+          stage.removeChild(this.invaders[i]);
+        }
+
         if (this.waveNumber === 2 ){
           WaveTwo.createWave(this.invaders, this.invaderSheet, stage)
         }
@@ -169,13 +175,13 @@ export default {
 
     enemyFire () {
       let number = Math.floor(Math.random() * (100 + 0) + 0)
-      console.log(number> 97)
-      if (number > 98){
+  
+      if (number > 80){
         this.enemyBullet = new EnemyBullet(this.enemyBulletSheet)
         this.enemyBullets.push(this.enemyBullet)
         this.enemyBullets[this.enemyBullets.length -1].addToStage(stage, this.invaders)
 
-        this.enemyBullets[this.enemyBullets.length -1].direction(this.players, this.enemyBullets, this.invaders);
+        this.enemyBullets[this.enemyBullets.length -1].direction(this.players, this.enemyBullets, this.invaders, stage);
       }
     },
 
