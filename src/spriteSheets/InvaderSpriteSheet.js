@@ -10,7 +10,8 @@ function createSheet(loader) {
 
         animations: {
           "default" : { "frames": [0, 1]},
-          "dying" : { "frames": [2]}
+          "dying" : { "frames": [2]},
+          "dead": { "frames": [2]}
         }
     });
 

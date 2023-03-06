@@ -15,7 +15,8 @@ import HealthBar from './constructors/HealthBar.js'
 import Invader from './constructors/Invader.js'
 
 
-import WaveOneMovements from './components/WaveOneMovements.js';
+import WaveOne from './components/WaveOne.js';
+import WaveTwo from './components/WaveTwo.js'
 
 import InvaderImg from "./assets/invader.png";
 import PlayerImg from "./assets/player.png";
@@ -106,11 +107,20 @@ export default {
     },
 
     tick(event){
+  
       this.beam.detectCollision(this.beams, this.invaders, stage, loader);
       this.fallCollision();
       
+      // removes sprites that are no longer on canvas for beams
       this.beam.removeIfOffScreen(this.beams, stage)
+      
+      if (this.nextWaveCheck(this.invaders)){
+        this.enemies = []
+        WaveTwo.createWave(this.invaders, this.invaderSheet, stage)
+      }
+
       stage.update(event);
+
     },
 
     createSpriteSheets() {
@@ -130,9 +140,8 @@ export default {
       this.healthBar.draw(this.players, stage, this.healthBarSheet, this.healthBars)
 
       this.invaderSheet = InvaderSpriteSheet.createSheet(loader);
-      WaveOneMovements.createWaveOne(this.invaders, this.invaderSheet, stage)
+      WaveOne.createWaveOne(this.invaders, this.invaderSheet, stage)
 
-      
     },
 
     fallCollision() {
@@ -200,7 +209,9 @@ export default {
 
     onPress(event) {
       if (event.code === 'ArrowUp'){
-        console.log('up')
+
+        this.clearInvaders();
+        WaveTwo.createWave(this.invaders, this.invaderSheet, stage);
       }
       else if (event.code === 'ArrowLeft'){
         this.players[0].x -= 10
@@ -222,7 +233,24 @@ export default {
         let contact =  this.beam.moveBeams(this.beams, this.players[0])
 
       }
+    },
+    
+    clearInvaders() {
+      this.invaders = []
+    },
+
+    nextWaveCheck () {
+      for (let i = 0; i < this.invaders.length; i++){
+        if (this.invaders[i].currentAnimation !== "dead"){
+          
+            return false;
+          
+        }
+      }
+
+      return true;
     }
+
   },
 
   mounted() {
