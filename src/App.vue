@@ -32,7 +32,7 @@ import EnemyBulletImg from "./assets/enemyBullet.png"
 
 <template>  
   <div id='body'>
-    <canvas id="demoCanvas" width="900" height="500"></canvas>
+    <canvas id="demoCanvas" width="900" height="1000"></canvas>
   </div>
 </template>
 
@@ -40,6 +40,7 @@ import EnemyBulletImg from "./assets/enemyBullet.png"
   var loader;
   var manifest;
   var stage; 
+  var beams = [];
 
 export default {
   name: 'App',
@@ -57,7 +58,7 @@ export default {
       invadersSprites: '',
       invaders: [],
       invader: '',
-      beams: [],
+      // beams: [],
       beam: '',
       shield: '',
       explosions: [],
@@ -116,12 +117,47 @@ export default {
     },
 
     tick(event){
-  
-      this.beam.detectCollision(this.beams, this.invaders, stage, loader);
+      console.log(beams.length)
+      for(let i = 0; i < beams.length; i++){
+        beams[i].detectCollision(beams, this.invaders, stage, loader);
+
+      }
+
+
+
       this.fallCollision();
+
+      let isOffScreen = false;
+      const stillInScreen = []
+      const removeIndex = []
       
       // removes sprites that are no longer on canvas for beams
-      this.beam.removeIfOffScreen(this.beams, stage)
+      if (beams.length > 0){
+    
+        for (let i = 0; i < beams.length; i++){
+          isOffScreen = beams[i].removeIfOffScreen()
+
+          if (!isOffScreen){
+            stillInScreen.push(beams[i]);
+          }
+          else {
+            removeIndex.push(beams[i])
+          }
+          isOffScreen = false;
+      }
+
+      // remove from stage
+      for (let i = 0; i < removeIndex.length; i++){
+        stage.removeChild(removeIndex[i]);
+        beams = stillInScreen;
+      }
+
+
+
+
+
+      // this.beam.removeIfOffScreen(this.beams, stage)
+      }
       
       this.changeWave()
 
@@ -137,7 +173,7 @@ export default {
       this.player.addToArray(this.players, stage);
 
       this.beamSheet = BeamSpriteSheet.createSheet(loader);
-      this.beam = new Beam();
+      // this.beam = new Beam(this.beamSheet);
       
       this.shieldSheet = ShieldSpriteSheet.createSheet(loader);
       this.shield = new Shield(this.shieldSheet);
@@ -155,13 +191,17 @@ export default {
 
     changeWave() {
       if (this.nextWaveCheck(this.invaders)){
+        
+        // remove from stage invaders
+        for (let i = 0; i < this.invaders.length; i++){
+          stage.removeChild(this.invaders[i]);
+        }
+        // remove from array invaders
         this.invaders = []
         this.enemyBullets = []
         this.waveNumber++
 
-        for (let i = 0; i < this.invaders.length; i++){
-          stage.removeChild(this.invaders[i]);
-        }
+        console.log(stage)
 
         if (this.waveNumber === 2 ){
           WaveTwo.createWave(this.invaders, this.invaderSheet, stage)
@@ -174,15 +214,17 @@ export default {
     },
 
     enemyFire () {
+      // make a bullet at random intervals 
       let number = Math.floor(Math.random() * (100 + 0) + 0)
   
       if (number > 80){
         this.enemyBullet = new EnemyBullet(this.enemyBulletSheet)
-        this.enemyBullets.push(this.enemyBullet)
-        this.enemyBullets[this.enemyBullets.length -1].addToStage(stage, this.invaders)
+        // this.enemyBullets.push(this.enemyBullet)
+        this.enemyBullet.addToStage(stage, this.invaders)
 
-        this.enemyBullets[this.enemyBullets.length -1].direction(this.players, this.enemyBullets, this.invaders, stage);
+        this.enemyBullet.direction(this.players, this.enemyBullets, this.invaders, stage);
       }
+     
     },
 
     fallCollision() {
@@ -273,13 +315,16 @@ export default {
         }, 200)
       }
       if (event.code === 'Space'){
-        this.beam.draw(this.players[0], stage, this.beamSheet, this.beams)
+        this.beam = new Beam(this.beamSheet);
+        this.beam.addToArray(this.players[0], stage, this.beamSheet)
+        beams.push(this.beam)
 
-        for (let i = 0; i < this.beams.length; i++){
-          stage.addChild(this.beams[i])
-        }
+        // for (let i = 0; i < this.beams.length; i++){
+        //   stage.addChild(this.beams[i])
+        // }
+        stage.addChild(this.beam.beam)
 
-        let contact =  this.beam.moveBeams(this.beams, this.players[0])
+        this.beam.moveBeams(this.players[0])
 
       }
     },

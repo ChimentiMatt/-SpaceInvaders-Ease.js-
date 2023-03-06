@@ -66,12 +66,7 @@ function moveInvaders (invaders, stage) {
     }
 }
 
-function enemyFire () {
-    let number = Math.floor(Math.random() (100 + 0) + 0)
-    if (number > 80){
-        return true;
-    }
-}
+
 
 export default { move, createWave, paintWave, moveInvaders } ;
 

@@ -55,8 +55,5 @@ function moveInvaders (invaders, stage) {
     }
 }
 
-function deleteInvaders (invader, stage, invaders) {
-    // stage.removeChild(invader);
-}
 
 export default { move, createWave, paintWave, moveInvaders } ;
