@@ -117,51 +117,12 @@ export default {
     },
 
     tick(event){
-      console.log(beams.length)
-      for(let i = 0; i < beams.length; i++){
-        beams[i].detectCollision(beams, this.invaders, stage, loader);
 
-      }
-
-
-
+      this.beamsCollisionDetection();
       this.fallCollision();
-
-      let isOffScreen = false;
-      const stillInScreen = []
-      const removeIndex = []
-      
-      // removes sprites that are no longer on canvas for beams
-      if (beams.length > 0){
-    
-        for (let i = 0; i < beams.length; i++){
-          isOffScreen = beams[i].removeIfOffScreen()
-
-          if (!isOffScreen){
-            stillInScreen.push(beams[i]);
-          }
-          else {
-            removeIndex.push(beams[i])
-          }
-          isOffScreen = false;
-      }
-
-      // remove from stage
-      for (let i = 0; i < removeIndex.length; i++){
-        stage.removeChild(removeIndex[i]);
-        beams = stillInScreen;
-      }
-
-
-
-
-
-      // this.beam.removeIfOffScreen(this.beams, stage)
-      }
-      
-      this.changeWave()
-
-      this.enemyFire()
+      this.changeWave();
+      this.removeOldBullets();
+      this.enemyFire();
 
       stage.update(event);
 
@@ -196,12 +157,11 @@ export default {
         for (let i = 0; i < this.invaders.length; i++){
           stage.removeChild(this.invaders[i]);
         }
+        
         // remove from array invaders
         this.invaders = []
         this.enemyBullets = []
         this.waveNumber++
-
-        console.log(stage)
 
         if (this.waveNumber === 2 ){
           WaveTwo.createWave(this.invaders, this.invaderSheet, stage)
@@ -225,6 +185,40 @@ export default {
         this.enemyBullet.direction(this.players, this.enemyBullets, this.invaders, stage);
       }
      
+    },
+
+    removeOldBullets () {
+      let isOffScreen = false;
+      const stillInScreen = []
+      const removeIndex = []
+      
+      // removes sprites that are no longer on canvas for beams
+      if (beams.length > 0){
+    
+        for (let i = 0; i < beams.length; i++){
+          isOffScreen = beams[i].removeIfOffScreen()
+
+          if (!isOffScreen){
+            stillInScreen.push(beams[i]);
+          }
+          else {
+            removeIndex.push(beams[i])
+          }
+          isOffScreen = false;
+        }
+
+        // remove from stage
+        for (let i = 0; i < removeIndex.length; i++){
+          stage.removeChild(removeIndex[i]);
+          beams = stillInScreen;
+        }
+      }
+    },
+
+    beamsCollisionDetection() {
+      for(let i = 0; i < beams.length; i++){
+        beams[i].detectCollision(beams, this.invaders, stage, loader);
+      }
     },
 
     fallCollision() {

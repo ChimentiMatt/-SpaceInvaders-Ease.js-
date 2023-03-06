@@ -29,21 +29,9 @@ class Beam {
       if (this.beam.y < 10 ){
         return true
       }
-      
-      // const removeIndex = []
-      // for (let i = 0; i < beams.length; i++){
-      //   if (beams[i].y < 10 ){
-      //     removeIndex.push(i)
-      //   }
-      // }
-      // for (let i = 0; i < removeIndex.length; i++){
-      //     stage.removeChild(removeIndex[i]);
-      //     // beams.splice(1, removeIndex[i])
-      //     beams.splice(removeIndex[i], 1)
-      // }
     }
 
-    detectCollision = function (beams, enemies, stage, loader) {
+    detectCollision = function (beams, enemies, stage, loader) { 
   
         // loop over invaders
         for (let i = 0; i < enemies.length; i++){
@@ -62,56 +50,15 @@ class Beam {
 
                   this.deathFall(enemies[i], stage, enemies)
 
-                  // problem below
                   this.beam.visible = false;
                   stage.removeChild(this.beam);
-
-                  // beams.splice(j, 1)
     
                   CreateContactExplosion.explode(loader, stage, enemies[i].x, enemies[i].y);
     
                 }
               }
             }
-            
 
-
-
-
-
-
-
-
-
-
-
-          
-            // // if invader has not yet made contact with beam
-            // for (let j = 0; j < beams.length; j++){
-              
-            //   // if beam y is between invader sprite
-            //   if (beams[j].y <= enemies[i].y + 8 && beams[j].y >= enemies[i].y  ) {
-      
-            //     // if beam has not yet made contact
-            //     if (beams[j].currentAnimation !== 'contact'){
-      
-            //       // if beam x is between invader sprite
-            //       if (beams[j].x >= enemies[i].x -16 && beams[j].x <= enemies[i].x + 16  ){
-
-            //         this.deathFall(enemies[i], stage, enemies)
-  
-            //         // problem below
-            //         beams[j].visible = false;
-            //         stage.removeChild(beams[j]);
-
-            //         beams.splice(j, 1)
-      
-            //         CreateContactExplosion.explode(loader, stage, enemies[i].x, enemies[i].y);
-      
-            //       }
-            //     }
-            //   }
-            // }
           }
         }
       }
