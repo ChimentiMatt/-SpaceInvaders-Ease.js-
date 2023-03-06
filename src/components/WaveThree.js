@@ -1,16 +1,17 @@
 function move(invader, stage, invaders) {
+    console.log('wave 3')
     if (invader.currentAnimation !== "dying"){
         createjs.Tween.get(invader, {override: true})
         .to({ y: invader.y + 150 }, 1000)
         .to({ x: invader.x + -500 }, 2000)
         .to({ y: invader.y + 200 }, 1000)
-        .to({ x: invader.x + 0 }, 2000)      
-        .to({ y: invader.y + 250 }, 1000)
-        .to({ x: invader.x + -500 }, 2000)      
-        .to({ y: invader.y + 300 }, 1000)
-        .to({ x: invader.x + 0 }, 2000)      
-        .to({ y: invader.y + 350 }, 1000)
-        .to({ x: invader.x + -500 }, 2000) 
+        // .to({ x: invader.x + 0 }, 2000)      
+        // .to({ y: invader.y + 250 }, 1000)
+        // .to({ x: invader.x + -500 }, 2000)      
+        // .to({ y: invader.y + 300 }, 1000)
+        // .to({ x: invader.x + 0 }, 2000)      
+        // .to({ y: invader.y + 350 }, 1000)
+        // .to({ x: invader.x + -500 }, 2000) 
         .call(() => {
         
             if (invader.currentAnimation !== "dying"){
@@ -63,13 +64,6 @@ function paintWave (stage, invaders) {
 function moveInvaders (invaders, stage) {
     for (let i = 0; i < invaders.length; i++){
       move(invaders[i], stage, invaders)
-    }
-}
-
-function enemyFire () {
-    let number = Math.floor(Math.random() (100 + 0) + 0)
-    if (number > 80){
-        return true;
     }
 }
 

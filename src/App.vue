@@ -2,28 +2,31 @@
 
 import PlayerSpriteSheet from './spriteSheets/PlayerSpriteSheet.js';
 import BeamSpriteSheet from './spriteSheets/BeamSpriteSheet.js';
-import ShieldSpriteSheet from './spriteSheets/ShieldSpriteSheet.js'
-import HealthBarSpriteSheet from './spriteSheets/HealthBarSpriteSheet.js'
-import InvaderSpriteSheet from './spriteSheets/InvaderSpriteSheet.js'
+import ShieldSpriteSheet from './spriteSheets/ShieldSpriteSheet.js';
+import HealthBarSpriteSheet from './spriteSheets/HealthBarSpriteSheet.js';
+import InvaderSpriteSheet from './spriteSheets/InvaderSpriteSheet.js';
+import EnemyBulletSheet from './spriteSheets/EnemyBulletSheet.js'
 
 import CreateInvaders from './components/CreateInvaders.js'
 
-import Player from './constructors/Player.js'
-import Beam from './constructors/Beam.js'
-import Shield from './constructors/Shield.js'
-import HealthBar from './constructors/HealthBar.js'
-import Invader from './constructors/Invader.js'
-
+import Player from './constructors/Player.js';
+import Beam from './constructors/Beam.js';
+import Shield from './constructors/Shield.js';
+import HealthBar from './constructors/HealthBar.js';
+import Invader from './constructors/Invader.js';
+import EnemyBullet from './constructors/EnemyBullet.js'
 
 import WaveOne from './components/WaveOne.js';
-import WaveTwo from './components/WaveTwo.js'
+import WaveTwo from './components/WaveTwo.js';
+import WaveThree from './components/WaveThree.js';
 
 import InvaderImg from "./assets/invader.png";
 import PlayerImg from "./assets/player.png";
 import BeamImg from "./assets/beam.png";
 import ContactExplosionImg from "./assets/contactExplosion.png";
-import HealthBarImg from "./assets/health.png"
-import ShieldImg from "./assets/shield.png"
+import HealthBarImg from "./assets/health.png";
+import ShieldImg from "./assets/shield.png";
+import EnemyBulletImg from "./assets/enemyBullet.png"
 
 </script>
 
@@ -58,11 +61,16 @@ export default {
       beam: '',
       shield: '',
       explosions: [],
+      enemyBullets: [],
+      enemyBullet: '',
 
       playerSheet: '',
       beamSheet: '',
       shieldSheet: '',
       healthBarSheet: '',
+      enemyBulletSheet: '',
+
+      waveNumber: 1,
       
     }
   },
@@ -78,7 +86,8 @@ export default {
         {src: BeamImg, id: "beam"},
         {src: ContactExplosionImg, id: "contactExplosion"},
         {src: HealthBarImg, id: "healthBar"},
-        {src: ShieldImg, id: "shield"}
+        {src: ShieldImg, id: "shield"},
+        {src: EnemyBulletImg, id: "enemyBullet"}
       ];
 
       loader = new createjs.LoadQueue(false);
@@ -114,10 +123,9 @@ export default {
       // removes sprites that are no longer on canvas for beams
       this.beam.removeIfOffScreen(this.beams, stage)
       
-      if (this.nextWaveCheck(this.invaders)){
-        this.enemies = []
-        WaveTwo.createWave(this.invaders, this.invaderSheet, stage)
-      }
+      this.changeWave()
+
+      this.enemyFire()
 
       stage.update(event);
 
@@ -130,18 +138,45 @@ export default {
 
       this.beamSheet = BeamSpriteSheet.createSheet(loader);
       this.beam = new Beam();
-
+      
       this.shieldSheet = ShieldSpriteSheet.createSheet(loader);
       this.shield = new Shield(this.shieldSheet);
       this.shield.addToArray(this.players[0], stage, this.shields);
 
       this.healthBarSheet = HealthBarSpriteSheet.createSheet(loader);
       this.healthBar = new HealthBar();
-      this.healthBar.draw(this.players, stage, this.healthBarSheet, this.healthBars)
+      this.healthBar.addToArray(this.players, stage, this.healthBarSheet, this.healthBars)
 
       this.invaderSheet = InvaderSpriteSheet.createSheet(loader);
-      WaveOne.createWaveOne(this.invaders, this.invaderSheet, stage)
+      WaveOne.createWave(this.invaders, this.invaderSheet, stage)
 
+      this.enemyBulletSheet = EnemyBulletSheet.createSheet(loader);
+    },
+
+    changeWave() {
+      if (this.nextWaveCheck(this.invaders)){
+        this.enemies = []
+        this.waveNumber++
+        if (this.waveNumber === 2 ){
+          WaveTwo.createWave(this.invaders, this.invaderSheet, stage)
+        }
+        else if (this.waveNumber === 3)
+        {
+          WaveThree.createWave(this.invaders, this.invaderSheet, stage)
+        }
+      }
+    },
+
+    enemyFire () {
+      let number = Math.floor(Math.random() * (100 + 0) + 0)
+      console.log(number> 97)
+      if (number > 98){
+        this.enemyBullet = new EnemyBullet(this.enemyBulletSheet)
+        this.enemyBullets.push(this.enemyBullet)
+        this.enemyBullets[this.enemyBullets.length -1].addToStage(stage, this.invaders)
+
+        this.enemyBullets[this.enemyBullets.length -1].direction(this.players, this.enemyBullets, this.invaders);
+      }
     },
 
     fallCollision() {
@@ -217,11 +252,19 @@ export default {
         this.players[0].x -= 10
         this.healthBars[0].x -= 10
         this.shields[0].x -= 10
+        this.players[0].gotoAndPlay("left")
+        setTimeout(() => {
+          this.players[0].gotoAndPlay("default")
+        }, 200)
       }
       else if (event.code === 'ArrowRight'){
         this.players[0].x += 10
         this.healthBars[0].x += 10
         this.shields[0].x += 10
+        this.players[0].gotoAndPlay("right")
+        setTimeout(() => {
+          this.players[0].gotoAndPlay("default")
+        }, 200)
       }
       if (event.code === 'Space'){
         this.beam.draw(this.players[0], stage, this.beamSheet, this.beams)
