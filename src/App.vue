@@ -347,7 +347,6 @@ export default {
                 this.takeDamage()
                 this.invinciblePlayer();
               }
-              
             }
           }
         }
