@@ -154,7 +154,6 @@ export default {
       this.gameOverCheck()
 
       stage.update(event);
-    
     },
 
     createSpriteSheets() {
