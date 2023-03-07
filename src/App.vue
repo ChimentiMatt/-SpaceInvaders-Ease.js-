@@ -46,7 +46,6 @@ import EnemyBulletTestImg from "./assets/enemyBulletTest.png"
       <button v-if="gameOver" @click="resetGame">Play again?</button>
     </div>
     
-      
   <canvas id="demoCanvas" width="900" height="500"></canvas>
   <div id="hud">
     <p>score: {{ score }}</p>
