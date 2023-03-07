@@ -51,7 +51,6 @@ import EnemyBulletTestImg from "./assets/enemyBulletTest.png"
       <p>score: {{ score }}</p>
       <p>time: {{ timer }}</p>
     </div>
-
   </div>
 
 </template>
