@@ -159,8 +159,8 @@ export default {
 
     createSpriteSheets() {
       this.playerSheet = PlayerSpriteSheet.createSheet(players, loader, stage);
-      // this.player = new Player(this.playerSheet);
-      // this.player.addToArray(players, stage);
+      this.player = new Player(this.playerSheet);
+      this.player.addToArray(players, stage);
       // this.beamSheet = BeamSpriteSheet.createSheet(loader);
       // this.shieldSheet = ShieldSpriteSheet.createSheet(loader);
       // this.shield = new Shield(this.shieldSheet);
