@@ -161,16 +161,17 @@ export default {
       this.playerSheet = PlayerSpriteSheet.createSheet(players, loader, stage);
       this.player = new Player(this.playerSheet);
       this.player.addToArray(players, stage);
-      // this.beamSheet = BeamSpriteSheet.createSheet(loader);
-      // this.shieldSheet = ShieldSpriteSheet.createSheet(loader);
-      // this.shield = new Shield(this.shieldSheet);
-      // this.shield.addToArray(players[0], stage, this.shields);
-      // this.shields[0].visible = false;
-      // this.healthBarSheet = HealthBarSpriteSheet.createSheet(loader);
-      // this.healthBar = new HealthBar();
-      // this.healthBar.addToArray(players, stage, this.healthBarSheet, this.healthBars)
-      // this.enemyBulletSheet = EnemyBulletSheet.createSheet(loader);
-      // this.explosionSheet = CreateContactExplosion.createSheet(loader);
+      this.beamSheet = BeamSpriteSheet.createSheet(loader);
+      this.shieldSheet = ShieldSpriteSheet.createSheet(loader);
+      this.shield = new Shield(this.shieldSheet);
+      this.shield.addToArray(players[0], stage, this.shields);
+      this.shields[0].visible = false;
+      this.healthBarSheet = HealthBarSpriteSheet.createSheet(loader);
+      this.healthBar = new HealthBar();
+      this.healthBar.addToArray(players, stage, this.healthBarSheet, this.healthBars)
+      this.enemyBulletSheet = EnemyBulletSheet.createSheet(loader);
+      this.explosionSheet = CreateContactExplosion.createSheet(loader);
+      console.log('end')
       
       // this.dashIconSheet = DashIconSheet.createSheet(loader);
       // this.dashIcon = new DashIcon();
