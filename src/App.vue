@@ -45,12 +45,12 @@ import EnemyBulletTestImg from "./assets/enemyBulletTest.png"
       <button v-if="!gameOver" @click="init">Start</button>
       <button v-if="gameOver" @click="resetGame">Play again?</button>
     </div>
-    
-  <canvas id="demoCanvas" width="900" height="500"></canvas>
-  <div id="hud">
-    <p>score: {{ score }}</p>
-    <p>time: {{ timer }}</p>
-  </div>
+      
+    <canvas id="demoCanvas" width="900" height="500"></canvas>
+    <div id="hud">
+      <p>score: {{ score }}</p>
+      <p>time: {{ timer }}</p>
+    </div>
 
   </div>
 
