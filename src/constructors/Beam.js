@@ -69,7 +69,9 @@ class Beam {
 
     deathFall = function (enemy, stage) {
       let deathDirection = Math.floor(Math.random() * (200 - - 200) + - 200)
-      deathDirection = 0
+
+      // for debugging
+      // deathDirection = 0
 
       enemy.gotoAndPlay("dying")
       enemy.scaleX = 1.3;

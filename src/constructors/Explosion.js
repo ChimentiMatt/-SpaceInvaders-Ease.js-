@@ -12,7 +12,6 @@ class Explosion {
         setTimeout(() => {
             stage.removeChild(explosion)
         }, 200)
-
     }
 }
 

@@ -6,6 +6,7 @@ import ShieldSpriteSheet from './spriteSheets/ShieldSpriteSheet.js';
 import HealthBarSpriteSheet from './spriteSheets/HealthBarSpriteSheet.js';
 import InvaderSpriteSheet from './spriteSheets/InvaderSpriteSheet.js';
 import EnemyBulletSheet from './spriteSheets/EnemyBulletSheet.js'
+import DashIconSheet from './spriteSheets/DashIconSheet.js'
 import CreateContactExplosion from './spriteSheets/CreateContactExplosion';
 
 import CreateInvaders from './components/CreateInvaders.js'
@@ -17,6 +18,7 @@ import HealthBar from './constructors/HealthBar.js';
 import Invader from './constructors/Invader.js';
 import EnemyBullet from './constructors/EnemyBullet.js'
 import Explosion from './constructors/Explosion.js'
+import DashIcon from './constructors/DashIcon.js'
 
 import WaveOne from './components/WaveOne.js';
 import WaveTwo from './components/WaveTwo.js';
@@ -29,6 +31,7 @@ import HealthBarImg from "./assets/health.png";
 import ShieldImg from "./assets/shield.png";
 import EnemyBulletImg from "./assets/enemyBullet.png"
 import ContactExplosionImg from "./assets/contactExplosion.png";
+import DashIconImg from "./assets/dashIcon.png"
 
 
 </script>
@@ -63,16 +66,16 @@ export default {
       shield: '',
       explosions: [],
       explosion: '',
-
       enemyBullet: '',
-
       playerSheet: '',
       beamSheet: '',
       shieldSheet: '',
       healthBarSheet: '',
       enemyBulletSheet: '',
       explosionSheet: '',
-
+      dashIconSheet: '',
+      dashIcons: [],
+      dashIcon: '',
       waveNumber: 1,
       
     }
@@ -90,7 +93,8 @@ export default {
         {src: ContactExplosionImg, id: "contactExplosion"},
         {src: HealthBarImg, id: "healthBar"},
         {src: ShieldImg, id: "shield"},
-        {src: EnemyBulletImg, id: "enemyBullet"}
+        {src: EnemyBulletImg, id: "enemyBullet"},
+        {src: DashIconImg, id: "dashIcon"},
       ];
 
       loader = new createjs.LoadQueue(false);
@@ -127,9 +131,9 @@ export default {
       this.removeOldPlayerBullets();
       this.removeOldInvaderBullets();
       this.enemyFire();
+      this.dashIcon.updateIcons(this.player.rollCount, this.dashIcons)
 
-      console.log("Rolls: ", this.player.rollCount)
-
+      // console.log("Rolls: ", this.player.rollCount)
       stage.update(event);
 
     },
@@ -138,24 +142,24 @@ export default {
       this.playerSheet = PlayerSpriteSheet.createSheet(players, loader, stage);
       this.player = new Player(this.playerSheet);
       this.player.addToArray(players, stage);
-
       this.beamSheet = BeamSpriteSheet.createSheet(loader);
-      
       this.shieldSheet = ShieldSpriteSheet.createSheet(loader);
       this.shield = new Shield(this.shieldSheet);
       this.shield.addToArray(players[0], stage, this.shields);
-
       this.healthBarSheet = HealthBarSpriteSheet.createSheet(loader);
       this.healthBar = new HealthBar();
       this.healthBar.addToArray(players, stage, this.healthBarSheet, this.healthBars)
-
       this.invaderSheet = InvaderSpriteSheet.createSheet(loader);
+      this.enemyBulletSheet = EnemyBulletSheet.createSheet(loader);
+      this.explosionSheet = CreateContactExplosion.createSheet(loader);
+
+      this.dashIconSheet = DashIconSheet.createSheet(loader);
+      this.dashIcon = new DashIcon();
+      this.dashIcon.addToArray(players, stage, this.dashIconSheet, this.dashIcons)
+      
       WaveOne.createWave(this.invaders, this.invaderSheet, stage)
 
-      this.enemyBulletSheet = EnemyBulletSheet.createSheet(loader);
 
-      
-      this.explosionSheet = CreateContactExplosion.createSheet(loader);
     },
 
     changeWave() {
@@ -252,6 +256,7 @@ export default {
       }
       
     },
+    
 
     beamsCollisionDetection() {
       let x, y;
@@ -369,18 +374,25 @@ export default {
 
         if (event.code === 'ArrowUp'){
 
-          this.clearInvaders();
-          WaveTwo.createWave(this.invaders, this.invaderSheet, stage);
+          // for debugging
+          // this.clearInvaders();
+          // WaveTwo.createWave(this.invaders, this.invaderSheet, stage);
         }
         else if (event.code === 'ArrowLeft'){
           players[0].x -= 10
           this.healthBars[0].x -= 10
           this.shields[0].x -= 10
+          this.dashIcons[0].x -= 10
+          this.dashIcons[1].x -= 10
+          this.dashIcons[2].x -= 10
         }
         else if (event.code === 'ArrowRight'){
           players[0].x += 10
           this.healthBars[0].x += 10
           this.shields[0].x += 10
+          this.dashIcons[0].x += 10
+          this.dashIcons[1].x += 10
+          this.dashIcons[2].x += 10
         }
 
         if (event.code === 'Space'){
@@ -394,10 +406,10 @@ export default {
         }
 
         if (event.key === 'a'){
-          this.player.roll("left", this.healthBars, this.shields);
+          this.player.roll("left", this.healthBars, this.shields, this.dashIcons);
         }
         if (event.key === 'd'){
-          this.player.roll("right", this.healthBars, this.shields);
+          this.player.roll("right", this.healthBars, this.shields, this.dashIcons);
         }
       }
     },

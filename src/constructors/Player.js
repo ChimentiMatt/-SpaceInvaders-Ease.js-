@@ -13,7 +13,7 @@ class Player {
       stage.addChild(players[0])
     }
 
-    roll = function(direction, healthBars, shields) {
+    roll = function(direction, healthBars, shields, dashIcons) {
       if (this.rollCount > 0){
         this.invincible = true
         this.rollCount--
@@ -22,14 +22,23 @@ class Player {
   
         let value = 0
   
-        if (direction === "left") value = -100
-        else value = 100
+        if (direction === "left") value = -250
+        else value = 250
   
         createjs.Tween.get(healthBars[0], {override: true})
         .to({ x: healthBars[0].x + value }, 1000)
   
         createjs.Tween.get(shields[0], {override: true})
         .to({ x: shields[0].x + value }, 1000)
+
+        createjs.Tween.get(dashIcons[0], {override: true})
+        .to({ x: dashIcons[0].x + value }, 1000)
+
+        createjs.Tween.get(dashIcons[1], {override: true})
+        .to({ x: dashIcons[1].x + value }, 1000)
+
+        createjs.Tween.get(dashIcons[2], {override: true})
+        .to({ x: dashIcons[2].x + value }, 1000)
   
         createjs.Tween.get(this.player, {override: true})
         .to({ x: this.player.x + value }, 1000)
