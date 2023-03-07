@@ -144,18 +144,18 @@ export default {
       document.querySelector('#demoCanvas').style.opacity = 1
       document.querySelector('#intro-outro-screen').style.display = 'none'
  
-      // this.playerBulletCollisionDetection()
-      // this.beamsCollisionDetection();
+      this.playerBulletCollisionDetection()
+      this.beamsCollisionDetection();
 
-      // this.fallCollision();
-      // this.changeWave();
-      // this.removeOldPlayerBullets();
-      // this.removeOldInvaderBullets();
-      // this.enemyFire();
-      // this.dashIcon.updateIcons(this.player.rollCount, this.dashIcons)
-      // this.gameOverCheck()
+      this.fallCollision();
+      this.changeWave();
+      this.removeOldPlayerBullets();
+      this.removeOldInvaderBullets();
+      this.enemyFire();
+      this.dashIcon.updateIcons(this.player.rollCount, this.dashIcons)
+      this.gameOverCheck()
 
-      // stage.update(event);
+      stage.update(event);
     },
 
     createSpriteSheets() {
