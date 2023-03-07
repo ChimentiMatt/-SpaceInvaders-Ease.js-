@@ -142,7 +142,6 @@ export default {
       document.querySelector('#demoCanvas').style.opacity = 1
       document.querySelector('#intro-outro-screen').style.display = 'none'
  
-
       this.playerBulletCollisionDetection()
       this.beamsCollisionDetection();
 
