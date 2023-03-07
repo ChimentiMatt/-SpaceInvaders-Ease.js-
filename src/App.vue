@@ -128,6 +128,8 @@ export default {
       this.removeOldInvaderBullets();
       this.enemyFire();
 
+      console.log("Rolls: ", this.player.rollCount)
+
       stage.update(event);
 
     },
@@ -183,7 +185,7 @@ export default {
       // make a bullet at random intervals 
       let number = Math.floor(Math.random() * (100 + 0) + 0)
   
-      if (number > 93){
+      if (number > 80){
         this.enemyBullet = new EnemyBullet(this.enemyBulletSheet)
         enemyBullets.push(this.enemyBullet)
         this.enemyBullet.addToStage(stage, this.invaders)
@@ -309,90 +311,94 @@ export default {
     },
 
     takeDamage() {
-      switch(this.healthBars[0].currentAnimation){
-        case "health10":
-          this.healthBars[0].gotoAndPlay("health9");
-          break;
-        case "health9":
-          this.healthBars[0].gotoAndPlay("health8");
-          break;
-        case "health8":
-          this.healthBars[0].gotoAndPlay("health7");
-          break;
-        case "health7":
-          this.healthBars[0].gotoAndPlay("health6");
-          break;
-        case "health6":
-          this.healthBars[0].gotoAndPlay("health5");
-          break;
-        case "health5":
-          this.healthBars[0].gotoAndPlay("health4");
-          break;
-        case "health4":
-          this.healthBars[0].gotoAndPlay("health3");
-          break;
-        case "health3":
-          this.healthBars[0].gotoAndPlay("health2");
-          break;
-        case "health2":
-          this.healthBars[0].gotoAndPlay("health1");
-          break;
-        case "health1":
-          // this.healthBars[0].gotoAndPlay("health1");
-          // console.log('dead')
-          break;
-        default:
-          this.healthBars[0].gotoAndPlay("health10");
+      if (!this.player.invincible){
+        switch(this.healthBars[0].currentAnimation){
+          case "health10":
+            this.healthBars[0].gotoAndPlay("health9");
+            break;
+          case "health9":
+            this.healthBars[0].gotoAndPlay("health8");
+            break;
+          case "health8":
+            this.healthBars[0].gotoAndPlay("health7");
+            break;
+          case "health7":
+            this.healthBars[0].gotoAndPlay("health6");
+            break;
+          case "health6":
+            this.healthBars[0].gotoAndPlay("health5");
+            break;
+          case "health5":
+            this.healthBars[0].gotoAndPlay("health4");
+            break;
+          case "health4":
+            this.healthBars[0].gotoAndPlay("health3");
+            break;
+          case "health3":
+            this.healthBars[0].gotoAndPlay("health2");
+            break;
+          case "health2":
+            this.healthBars[0].gotoAndPlay("health1");
+            break;
+          case "health1":
+            // this.healthBars[0].gotoAndPlay("health1");
+            // console.log('dead')
+            break;
+          default:
+            this.healthBars[0].gotoAndPlay("health10");
+        }
       }
       
     },
 
     invinciblePlayer() {
-      this.shields[0].gotoAndPlay("on");
-      players[0].invincible = true
+      if (!this.player.rolling){
+        this.shields[0].gotoAndPlay("on");
+        players[0].invincible = true
 
-      setInterval(() => {
-        players[0].invincible = false;
-        this.shields[0].gotoAndPlay("off");
-      }, 1000)
+        setInterval(() => {
+          players[0].invincible = false;
+          this.shields[0].gotoAndPlay("off");
+        }, 1000)
+      }
     },
 
     onPress(event) {
-      if (event.code === 'ArrowUp'){
+      // don't allow movement during "roll" which is the invincible dash left or right
+      if ( this.player.rolling === false){
 
-        this.clearInvaders();
-        WaveTwo.createWave(this.invaders, this.invaderSheet, stage);
-      }
-      else if (event.code === 'ArrowLeft'){
-        players[0].x -= 10
-        this.healthBars[0].x -= 10
-        this.shields[0].x -= 10
-        players[0].gotoAndPlay("left")
-        setTimeout(() => {
-          players[0].gotoAndPlay("default")
-        }, 200)
-      }
-      else if (event.code === 'ArrowRight'){
-        players[0].x += 10
-        this.healthBars[0].x += 10
-        this.shields[0].x += 10
-        players[0].gotoAndPlay("right")
-        setTimeout(() => {
-          players[0].gotoAndPlay("default")
-        }, 200)
-      }
-      if (event.code === 'Space'){
-        this.beam = new Beam(this.beamSheet);
-        this.beam.addToArray(players[0], stage, this.beamSheet)
-        beams.push(this.beam)
+        if (event.code === 'ArrowUp'){
 
-        // for (let i = 0; i < this.beams.length; i++){
-        //   stage.addChild(this.beams[i])
-        // }
-        stage.addChild(this.beam.beam)
+          this.clearInvaders();
+          WaveTwo.createWave(this.invaders, this.invaderSheet, stage);
+        }
+        else if (event.code === 'ArrowLeft'){
+          players[0].x -= 10
+          this.healthBars[0].x -= 10
+          this.shields[0].x -= 10
+        }
+        else if (event.code === 'ArrowRight'){
+          players[0].x += 10
+          this.healthBars[0].x += 10
+          this.shields[0].x += 10
+        }
 
-        this.beam.moveBeams(players[0])
+        if (event.code === 'Space'){
+          this.beam = new Beam(this.beamSheet);
+          this.beam.addToArray(players[0], stage, this.beamSheet)
+          beams.push(this.beam)
 
+          stage.addChild(this.beam.beam)
+
+          this.beam.moveBeams(players[0])
+        }
+
+        if (event.key === 'a'){
+          this.player.roll("left", this.healthBars, this.shields);
+        }
+        if (event.key === 'd'){
+          this.player.roll("right", this.healthBars, this.shields);
+        }
       }
     },
     
