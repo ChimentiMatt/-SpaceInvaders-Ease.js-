@@ -26,8 +26,18 @@
   display: flex;
   justify-content: center;
   font-family: 'Orbitron', sans-serif;
-
 }
+
+/* #cabinet{
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  border: 25px solid black;
+  width: 80rem;
+  height: 50rem;
+  font-size: 2rem;
+} */
 
 #demoCanvas{
   margin-top: 5rem;
@@ -36,6 +46,7 @@
   border: 1px solid white;
   opacity: 0;
   /* width: 80vw; */
+  background-color: black;
 }
 
 #intro-outro-screen{
@@ -57,6 +68,8 @@
   color: #85fc52;
 }
 
+
+
 #intro-outro-screen button{
   margin-top: 5rem;
   font-size: 2rem;
@@ -67,7 +80,7 @@
   position: absolute;
   margin-left: 780px;
   z-index: 3;
-  margin-top: 5rem;
+  top: 5rem;
 }
 
 /* light blue */

@@ -16,9 +16,9 @@ function move(invader) {
             if (invader.currentAnimation !== "dying"){
                 createjs.Tween.get(invader, { loop: true })
                 .to({ y: invader.y - 100}, 2000, createjs.Ease.none)
-                .to({ x: invader.x - 500}, 2000, createjs.Ease.none)
+                .to({ x: invader.x - 500}, 3000, createjs.Ease.none)
                 .to({ y: invader.y + 0 }, 2000, createjs.Ease.none)
-                .to({ x: invader.x + 0}, 2000, createjs.Ease.none)
+                .to({ x: invader.x + 0}, 3000, createjs.Ease.none)
             }
         })   
 }
@@ -29,8 +29,8 @@ function secondMovement(stage,invader) {
     .call(() => {
         if (invader.currentAnimation !== "dying"){
             createjs.Tween.get(invader, { loop: true })
-            .to({ x: invader.x - stage.canvas.width +100 }, 2000, createjs.Ease.none)
-            .to({ x: invader.x + 0}, 2000, createjs.Ease.none)
+            .to({ x: invader.x - stage.canvas.width +100 }, 3000, createjs.Ease.none)
+            .to({ x: invader.x + 0}, 3000, createjs.Ease.none)
         }
     })   
 }
