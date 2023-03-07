@@ -52,6 +52,8 @@ import EnemyBulletTestImg from "./assets/enemyBulletTest.png"
       <p>score: {{ score }}</p>
       <p>time: {{ timer }}</p>
     </div>
+
+    <img :src="InvaderImg">
   </div>
 
 </template>
