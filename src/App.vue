@@ -123,7 +123,6 @@ export default {
       addEventListener('keydown', (event) => {
         this.onPress(event)
       })
-
     },
 
     handleComplete() {
