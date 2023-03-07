@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -23,38 +25,42 @@
 #body{
   display: flex;
   justify-content: center;
+  font-family: 'Orbitron', sans-serif;
 
 }
 
 #demoCanvas{
+  margin-top: 5rem;
   position: relative;
   z-index: 1;
-  margin-top: 2rem;
   border: 1px solid white;
   opacity: 0;
   /* width: 80vw; */
 }
 
 #title-screen{
+  margin-top: 5rem;
   position: absolute;
   z-index: 2;
   border: 1px solid white;
-  margin-top: 2rem;
-  background-image: url("./assets/TITLE.png");
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
   background-color: #484db9;
-  width: 1500px;
-  height: 800px;
+  width: 900px;
+  height: 500px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  font-size: 5rem;
+  color: #85fc52;
 }
 
 #title-screen button{
   margin-top: 5rem;
   font-size: 2rem;
+  padding: .5rem 1rem .5rem 1rem ;
 }
 
 /* light blue */

@@ -1,6 +1,7 @@
 class Shield {
     constructor(spriteSheet){
-        this.shield = new createjs.Sprite(spriteSheet, "off");
+        this.shield = new createjs.Sprite(spriteSheet, "on");
+        let on = false;
     }
   
     addToArray = function(player, stage, shields) {

@@ -36,7 +36,7 @@ class Beam {
       for (let i = 0; i < enemies.length; i++){
         
         // stop if invader is dead
-        if (enemies[i].currentAnimation !== 'dying'){
+        if (enemies[i].currentAnimation !== 'dead'){
           
           // if beam y is between invader sprite
           if (this.beam.y <= enemies[i].y + 8 && this.beam.y >= enemies[i].y  ) {
@@ -50,41 +50,54 @@ class Beam {
 
                 if (!this.madeContact){
                   this.madeContact = true
-                  this.deathFall(enemies[i], stage, enemies)
+                  this.beam.visible = false
 
-                  // this.beam.visible = false;
-                  stage.removeChild(this.beam);
-                  beams.splice(i, 1)
-                  enemies.splice(i, 1)
-    
+                  // this.deathFall(enemies[i], stage, enemies)
+                  // stage.removeChild(this.beam);
+                  // beams.splice(i, 1)
+                  // enemies.splice(i, 1)
+                  
                   // CreateContactExplosion.explode(loader, stage, enemies[i].x, enemies[i].y);
-                  return true
+                  return { collision: true, index: i }
                 }
               }
             }
           }
         }
       }
+      return { collision: false, index: 0 }
     }
 
     deathFall = function (enemy, stage) {
-      let deathDirection = Math.floor(Math.random() * (200 - - 200) + - 200)
 
-      // for debugging
-      // deathDirection = 0
+      // if already dead IE double tap effect
+      if (enemy.currentAnimation === "dying"){
+        createjs.Tween.get(enemy)
+        .to({ y: enemy.y - 50, x: enemy.x + 100  }, 200)
+        .to({ x: enemy.x + 300, y: enemy.y + 500}, 1300)
+      }
+      else{
+        enemy.gotoAndPlay("dying")
 
-      enemy.gotoAndPlay("dying")
-      enemy.scaleX = 1.3;
-      enemy.scaleY = 1.3;
-      let randomAngle = Math.floor(Math.random() * (180 - - 180) + 180)
+        let deathDirection = Math.floor(Math.random() * (400 - - 400) + - 400)
+        // for debugging
+        deathDirection = 0
 
-      createjs.Tween.get(enemy)
-      .to({ y: enemy.y + 500 , x: enemy.x + deathDirection, rotation : randomAngle}, 1500)
-      .call(() => {
-        stage.removeChild(enemy);
-        enemy.gotoAndPlay("dead")
-        // createjs.Tween.removeTweens(enemy)
-       })
+        let randomAngle = Math.floor(Math.random() * (180 - - 180) + 180)
+        // for debugging
+        randomAngle = 0
+    
+        enemy.scaleX = 1.3;
+        enemy.scaleY = 1.3;
+        
+        createjs.Tween.get(enemy)
+        .to({ y: enemy.y + 500 , x: enemy.x + deathDirection, rotation : randomAngle}, 1500)
+        .call(() => {
+          stage.removeChild(enemy);
+          enemy.gotoAndPlay("dead")
+          // createjs.Tween.removeTweens(enemy)
+         })
+      }
     }
 }
 

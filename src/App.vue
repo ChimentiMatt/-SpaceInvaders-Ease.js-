@@ -32,7 +32,7 @@ import ShieldImg from "./assets/shield.png";
 import EnemyBulletImg from "./assets/enemyBullet.png"
 import ContactExplosionImg from "./assets/contactExplosion.png";
 import DashIconImg from "./assets/dashIcon.png"
-import TitleImg from "./assets/TITLE.png/"
+
 
 import EnemyBulletTestImg from "./assets/enemyBulletTest.png"
 </script>
@@ -40,6 +40,7 @@ import EnemyBulletTestImg from "./assets/enemyBulletTest.png"
 <template>  
   <div id='body'>
     <div id="title-screen">
+      <h1>Invaders</h1>
       <button @click="init()">Start</button>
     </div>
 
@@ -135,8 +136,8 @@ export default {
       document.querySelector('#title-screen').style.display = 'none'
  
       this.playerBulletCollisionDetection()
-
       this.beamsCollisionDetection();
+
       this.fallCollision();
       this.changeWave();
       this.removeOldPlayerBullets();
@@ -157,17 +158,18 @@ export default {
       this.shieldSheet = ShieldSpriteSheet.createSheet(loader);
       this.shield = new Shield(this.shieldSheet);
       this.shield.addToArray(players[0], stage, this.shields);
+      this.shields[0].visible = false;
       this.healthBarSheet = HealthBarSpriteSheet.createSheet(loader);
       this.healthBar = new HealthBar();
       this.healthBar.addToArray(players, stage, this.healthBarSheet, this.healthBars)
-      this.invaderSheet = InvaderSpriteSheet.createSheet(loader);
       this.enemyBulletSheet = EnemyBulletSheet.createSheet(loader);
       this.explosionSheet = CreateContactExplosion.createSheet(loader);
-
+      
       this.dashIconSheet = DashIconSheet.createSheet(loader);
       this.dashIcon = new DashIcon();
       this.dashIcon.addToArray(players, stage, this.dashIconSheet, this.dashIcons)
       
+      this.invaderSheet = InvaderSpriteSheet.createSheet(loader);
       WaveOne.createWave(this.invaders, this.invaderSheet, stage)
 
 
@@ -271,14 +273,24 @@ export default {
 
     beamsCollisionDetection() {
       let x, y;
-      let collisionCheck = false;
+      let results, index;
       for(let i = 0; i < beams.length; i++){
         x = beams[i].beam.x
         y = beams[i].beam.y
-        collisionCheck = beams[i].detectCollision(beams, this.invaders, stage, loader);
-        if (collisionCheck){
-            this.explosion = new Explosion();
-            this.explosion.addToArray(players, stage, this.explosionSheet,  this.explosions, x, y)
+        results = beams[i].detectCollision(beams, this.invaders, stage, loader);
+      
+        if (results.collision){
+          index = results.index
+          beams[i].deathFall(this.invaders[index], stage)
+          
+          stage.removeChild(beams[i]);
+          beams.splice(i, 1)
+
+          // issue removing before fall logic      
+          // this.invaders.splice(index, 1)
+
+          this.explosion = new Explosion();
+          this.explosion.addToArray(players, stage, this.explosionSheet,  this.explosions, x, y)
         }
       }
     },
@@ -292,9 +304,9 @@ export default {
 
             // if between player y: top and bottom 
             if (enemyBullets[i].bullet.y >= players[0].y - 10 && enemyBullets[i].bullet.y <= players[0].y + 10){
-
               // if between player x: left and right
               if (enemyBullets[i].bullet.x >= players[0].x - 10 && enemyBullets[i].bullet.x <= players[0].x + 10){
+                // console.log('hit')
                 this.takeDamage()
                 this.invinciblePlayer()
                 return
@@ -306,16 +318,18 @@ export default {
     },
 
     fallCollision() {
-      // console.log(this.players[0].invincible)
       if (!players[0].invincible){
-
+        
         for (let i = 0; i < this.invaders.length; i++){
-          if (this.invaders[i].currentAnimation === "dying"){
+     
+          if (this.invaders[i].currentAnimation !== "default"){
             
             // check if between y quadrates of player and falling invader
-            if (players[0].y <= this.invaders[i].y + 8 && players[0].y >= this.invaders[i].y  ){
+            if (players[0].y <= this.invaders[i].y + 8 && players[0].y >= this.invaders[i].y ){
+              console.log('dead')
+
               // check if between x quadrates of player and falling invader
-              if (players[0].x >= this.invaders[i].x -16 && players[0].x <= this.invaders[i].x + 16 ){
+              if (players[0].x >= this.invaders[i].x - 16 && players[0].x <= this.invaders[i].x + 16 ){
                 this.takeDamage()
                 this.invinciblePlayer();
               }
@@ -361,21 +375,20 @@ export default {
             // console.log('dead')
             break;
           default:
-            this.healthBars[0].gotoAndPlay("health10");
+            // this.healthBars[0].gotoAndPlay("health10");
         }
       }
-      
     },
 
     invinciblePlayer() {
       if (!this.player.rolling){
-        this.shields[0].gotoAndPlay("on");
+        this.shields[0].visible = true
         players[0].invincible = true
 
         setInterval(() => {
           players[0].invincible = false;
-          this.shields[0].gotoAndPlay("off");
-        }, 1000)
+          this.shields[0].visible = false
+        }, 2000)
       }
     },
 
@@ -411,22 +424,22 @@ export default {
         }
         else if (event.code === 'ArrowLeft'){
           if (players[0].x > 0){
-            players[0].x -= 10
-            this.healthBars[0].x -= 10
-            this.shields[0].x -= 10
-            this.dashIcons[0].x -= 10
-            this.dashIcons[1].x -= 10
-            this.dashIcons[2].x -= 10
+            players[0].x -= 20
+            this.healthBars[0].x -= 20
+            this.shields[0].x -= 20
+            this.dashIcons[0].x -= 20
+            this.dashIcons[1].x -= 20
+            this.dashIcons[2].x -= 20
           }
         }
         else if (event.code === 'ArrowRight'){
-          if (players[0].x < stage.canvas.width - 16){
-            players[0].x += 10
-            this.healthBars[0].x += 10
-            this.shields[0].x += 10
-            this.dashIcons[0].x += 10
-            this.dashIcons[1].x += 10
-            this.dashIcons[2].x += 10
+          if (players[0].x < stage.canvas.width - 32){
+            players[0].x += 20
+            this.healthBars[0].x += 20
+            this.shields[0].x += 20
+            this.dashIcons[0].x += 20
+            this.dashIcons[1].x += 20
+            this.dashIcons[2].x += 20
           }
         }
 
@@ -460,11 +473,11 @@ export default {
     nextWaveCheck () {
       for (let i = 0; i < this.invaders.length; i++){
         if (this.invaders[i].currentAnimation !== "dead"){
-          
             return false;
-          
         }
       }
+
+      this.invaders = []
 
       return true;
     }

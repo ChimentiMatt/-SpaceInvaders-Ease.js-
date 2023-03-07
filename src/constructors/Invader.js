@@ -1,6 +1,6 @@
 class Invader {
-    constructor(spriteSheet, stage){
-
+    constructor(spriteSheet){
+        this.invader = new createjs.Sprite(spriteSheet, "default");
     }
   
 }
