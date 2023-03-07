@@ -142,6 +142,8 @@ export default {
         circle.y = 100;
         stage.addChild(circle);
 
+      console.log(manifest)
+
       stage.update()
     },
 
