@@ -1,5 +1,6 @@
 <script setup>
 
+
 import PlayerSpriteSheet from './spriteSheets/PlayerSpriteSheet.js';
 import BeamSpriteSheet from './spriteSheets/BeamSpriteSheet.js';
 import ShieldSpriteSheet from './spriteSheets/ShieldSpriteSheet.js';
@@ -135,7 +136,7 @@ export default {
       createjs.Ticker.addEventListener("tick", stage);
       createjs.Ticker.addEventListener("tick", this.tick);
 
-      stage.update()
+      // stage.update()
     },
 
     tick(event){
@@ -514,6 +515,7 @@ export default {
     
   mounted() {
     // this.init()
+    console.log('mounted')
   }
 
 
