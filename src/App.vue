@@ -32,13 +32,20 @@ import ShieldImg from "./assets/shield.png";
 import EnemyBulletImg from "./assets/enemyBullet.png"
 import ContactExplosionImg from "./assets/contactExplosion.png";
 import DashIconImg from "./assets/dashIcon.png"
+import TitleImg from "./assets/TITLE.png/"
 
-
+import EnemyBulletTestImg from "./assets/enemyBulletTest.png"
 </script>
 
 <template>  
   <div id='body'>
+    <div id="title-screen">
+      <button @click="init()">Start</button>
+    </div>
+
+
     <canvas id="demoCanvas" width="900" height="500"></canvas>
+
   </div>
 </template>
 
@@ -55,6 +62,7 @@ export default {
 
   data () {
     return {
+      titleScreen: true,
       player: '',
       shields: [],
       healthBars: [],
@@ -95,8 +103,8 @@ export default {
         {src: ShieldImg, id: "shield"},
         {src: EnemyBulletImg, id: "enemyBullet"},
         {src: DashIconImg, id: "dashIcon"},
+        {src: EnemyBulletTestImg, id: "enemyBulletTest"},
       ];
-
       loader = new createjs.LoadQueue(false);
       loader.addEventListener("complete", this.handleComplete);
 
@@ -123,6 +131,9 @@ export default {
     },
 
     tick(event){
+      document.querySelector('#demoCanvas').style.opacity = 1
+      document.querySelector('#title-screen').style.display = 'none'
+ 
       this.playerBulletCollisionDetection()
 
       this.beamsCollisionDetection();
@@ -189,7 +200,7 @@ export default {
       // make a bullet at random intervals 
       let number = Math.floor(Math.random() * (100 + 0) + 0)
   
-      if (number > 80){
+      if (number > 90){
         this.enemyBullet = new EnemyBullet(this.enemyBulletSheet)
         enemyBullets.push(this.enemyBullet)
         this.enemyBullet.addToStage(stage, this.invaders)
@@ -280,10 +291,10 @@ export default {
           if (enemyBullets.length > 0){
 
             // if between player y: top and bottom 
-            if (enemyBullets[i].bullet.y > players[0].y && enemyBullets[i].bullet.y < players[0].y + 16){
-              // if between player x: left and right
+            if (enemyBullets[i].bullet.y >= players[0].y - 10 && enemyBullets[i].bullet.y <= players[0].y + 10){
 
-              if (enemyBullets[i].bullet.x >= players[0].x && enemyBullets[i].bullet.x <= players[0].x + 16){
+              // if between player x: left and right
+              if (enemyBullets[i].bullet.x >= players[0].x - 10 && enemyBullets[i].bullet.x <= players[0].x + 10){
                 this.takeDamage()
                 this.invinciblePlayer()
                 return
@@ -373,26 +384,50 @@ export default {
       if ( this.player.rolling === false){
 
         if (event.code === 'ArrowUp'){
-
           // for debugging
           // this.clearInvaders();
           // WaveTwo.createWave(this.invaders, this.invaderSheet, stage);
+ 
+          if (players[0].y > 350){
+            players[0].y -= 10
+            this.healthBars[0].y -= 10
+            this.shields[0].y -= 10
+            this.dashIcons[0].y -= 10
+            this.dashIcons[1].y -= 10
+            this.dashIcons[2].y -= 10
+          }
+        }
+        else if (event.code === 'ArrowDown'){
+          console.log(stage.canvas.height)
+          console.log(players[0].y)
+          if (players[0].y < stage.canvas.height - 50){
+            players[0].y += 10
+            this.healthBars[0].y += 10
+            this.shields[0].y += 10
+            this.dashIcons[0].y += 10
+            this.dashIcons[1].y += 10
+            this.dashIcons[2].y += 10
+          }
         }
         else if (event.code === 'ArrowLeft'){
-          players[0].x -= 10
-          this.healthBars[0].x -= 10
-          this.shields[0].x -= 10
-          this.dashIcons[0].x -= 10
-          this.dashIcons[1].x -= 10
-          this.dashIcons[2].x -= 10
+          if (players[0].x > 0){
+            players[0].x -= 10
+            this.healthBars[0].x -= 10
+            this.shields[0].x -= 10
+            this.dashIcons[0].x -= 10
+            this.dashIcons[1].x -= 10
+            this.dashIcons[2].x -= 10
+          }
         }
         else if (event.code === 'ArrowRight'){
-          players[0].x += 10
-          this.healthBars[0].x += 10
-          this.shields[0].x += 10
-          this.dashIcons[0].x += 10
-          this.dashIcons[1].x += 10
-          this.dashIcons[2].x += 10
+          if (players[0].x < stage.canvas.width - 16){
+            players[0].x += 10
+            this.healthBars[0].x += 10
+            this.shields[0].x += 10
+            this.dashIcons[0].x += 10
+            this.dashIcons[1].x += 10
+            this.dashIcons[2].x += 10
+          }
         }
 
         if (event.code === 'Space'){
@@ -404,12 +439,16 @@ export default {
 
           this.beam.moveBeams(players[0])
         }
-
         if (event.key === 'a'){
-          this.player.roll("left", this.healthBars, this.shields, this.dashIcons);
+          
+          if (players[0].x > 100){
+            this.player.roll("left", this.healthBars, this.shields, this.dashIcons);
+          }
         }
         if (event.key === 'd'){
-          this.player.roll("right", this.healthBars, this.shields, this.dashIcons);
+          if (players[0].x < stage.canvas.width - 16 - 100){
+            this.player.roll("right", this.healthBars, this.shields, this.dashIcons);
+          }
         }
       }
     },
@@ -433,7 +472,7 @@ export default {
   },
 
   mounted() {
-    this.init()
+    // this.init()
   }
 
 

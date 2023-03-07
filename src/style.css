@@ -27,12 +27,46 @@
 }
 
 #demoCanvas{
+  position: relative;
+  z-index: 1;
   margin-top: 2rem;
   border: 1px solid white;
-  width: 80vw;
+  opacity: 0;
+  /* width: 80vw; */
 }
+
+#title-screen{
+  position: absolute;
+  z-index: 2;
+  border: 1px solid white;
+  margin-top: 2rem;
+  background-image: url("./assets/TITLE.png");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  background-color: #484db9;
+  width: 1500px;
+  height: 800px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#title-screen button{
+  margin-top: 5rem;
+  font-size: 2rem;
+}
+
 /* light blue */
 /* color: #17fff8; */
 
 /* blue */
 /* color: #179fff; */
+
+/* green */
+/* color:  #85fc52; */
+/* color:  rgb(133, 252, 82); */
+
+/* purple */
+/* color:  #484db9 */
+/* color:  rgb(72, 77, 185), 45%, 50%) */

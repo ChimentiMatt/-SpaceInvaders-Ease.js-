@@ -39,10 +39,11 @@ class EnemyBullet {
 
     direction = function(players, enemyBullets, invaders, stage) {
         let playerLocation = {x: players[0].x, y: players[0].y}
-        let variance = Math.floor(Math.random() * (100 - -100) + - 100)
+        let xVariance = Math.floor(Math.random() * (150 - -150) + - 150)
+        let durationVariance = Math.floor(Math.random() * (3000 - 2000) + 2000)
 
         createjs.Tween.get(this.bullet )
-        .to( {x: playerLocation.x + variance, y: playerLocation.y + 4}, 2000)
+        .to( {x: playerLocation.x + xVariance, y: playerLocation.y + 4  + 150}, durationVariance)
         .call(() => {
             stage.removeChild(this.bullet);
             createjs.Tween.removeTweens(this.bullet)

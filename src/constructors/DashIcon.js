@@ -6,6 +6,7 @@ class DashIcon {
         let icon = new createjs.Sprite(spriteSheet, "dashIcon");
         icon.x =  players[0].x - 11 ;
         icon.y = 483;
+        
         dashIcons.push(icon)
         stage.addChild(dashIcons[0])
 

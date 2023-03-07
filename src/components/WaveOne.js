@@ -9,14 +9,14 @@ function move(invader, stage, invaders) {
         .to({ x: invader.x + -500 }, 2000)      
         .to({ y: invader.y + 300 }, 1000)
         .to({ x: invader.x + 0 }, 2000)      
-        .to({ y: invader.y + 350 }, 1000)
-        .to({ x: invader.x + -500 }, 2000) 
+        // .to({ y: invader.y + 350 }, 1000)
+        // .to({ x: invader.x + -500 }, 2000) 
         .call(() => {
         
             if (invader.currentAnimation !== "dying"){
                 createjs.Tween.get(invader, { loop: true })
                 .to({ y: invader.y - 100}, 1000, createjs.Ease.none)
-                .to({ x: invader.x + 500}, 1000, createjs.Ease.none)
+                .to({ x: invader.x - 500}, 1000, createjs.Ease.none)
                 .to({ y: invader.y + 0 }, 1000, createjs.Ease.none)
                 .to({ x: invader.x + 0}, 1000, createjs.Ease.none)
             }
