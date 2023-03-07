@@ -171,15 +171,15 @@ export default {
       this.healthBar.addToArray(players, stage, this.healthBarSheet, this.healthBars)
       this.enemyBulletSheet = EnemyBulletSheet.createSheet(loader);
       this.explosionSheet = CreateContactExplosion.createSheet(loader);
+      
+      this.dashIconSheet = DashIconSheet.createSheet(loader);
+      this.dashIcon = new DashIcon();
+      this.dashIcon.addToArray(players, stage, this.dashIconSheet, this.dashIcons)
+      
+      this.invaderSheet = InvaderSpriteSheet.createSheet(loader);
+      WaveOne.createWave(this.invaders, this.invaderSheet, stage)
+      
       console.log('end')
-      
-      // this.dashIconSheet = DashIconSheet.createSheet(loader);
-      // this.dashIcon = new DashIcon();
-      // this.dashIcon.addToArray(players, stage, this.dashIconSheet, this.dashIcons)
-      
-      // this.invaderSheet = InvaderSpriteSheet.createSheet(loader);
-      // WaveOne.createWave(this.invaders, this.invaderSheet, stage)
-
 
     },
 
