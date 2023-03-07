@@ -65,7 +65,6 @@ import EnemyBulletTestImg from "./assets/enemyBulletTest.png"
 
 export default {
   name: 'App',
-
   data () {
     return {
       titleScreen: true,
