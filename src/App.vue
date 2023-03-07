@@ -299,14 +299,13 @@ export default {
       if (!players[0].invincible){
 
         for (let i = 0; i < enemyBullets.length; i++){
-
           if (enemyBullets.length > 0){
 
             // if between player y: top and bottom 
             if (enemyBullets[i].bullet.y >= players[0].y - 10 && enemyBullets[i].bullet.y <= players[0].y + 10){
+
               // if between player x: left and right
               if (enemyBullets[i].bullet.x >= players[0].x - 10 && enemyBullets[i].bullet.x <= players[0].x + 10){
-                // console.log('hit')
                 this.takeDamage()
                 this.invinciblePlayer()
                 return
@@ -342,6 +341,7 @@ export default {
 
     takeDamage() {
       if (!this.player.invincible){
+        console.log('hit')
         switch(this.healthBars[0].currentAnimation){
           case "health10":
             this.healthBars[0].gotoAndPlay("health9");
@@ -381,11 +381,12 @@ export default {
     },
 
     invinciblePlayer() {
-      if (!this.player.rolling){
+      // console.log(this.player.invincible)
+      if (!this.player.rolling && !this.player.invincible){
         this.shields[0].visible = true
         players[0].invincible = true
 
-        setInterval(() => {
+        setTimeout(() => {
           players[0].invincible = false;
           this.shields[0].visible = false
         }, 2000)
