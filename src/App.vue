@@ -127,7 +127,7 @@ export default {
     },
 
     handleComplete() {
-      // this.createSpriteSheets()
+      this.createSpriteSheets()
       // this.reduceTime(this.timer)
       
       // CreateInvaders.createInvaders(loader, stage, this.invadersSprites, this.invaders)
