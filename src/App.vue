@@ -91,7 +91,7 @@ export default {
       dashIcons: [],
       dashIcon: '',
       waveNumber: 1,
-      gameOver: false,
+      gameOver: true,
       score: 0,
       timer: 99
       
@@ -513,7 +513,7 @@ export default {
   },
     
   mounted() {
-    // this.init()
+    this.init()
     console.log('mounted')
   }
 
