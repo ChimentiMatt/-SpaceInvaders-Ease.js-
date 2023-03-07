@@ -467,6 +467,8 @@ export default {
         }
 
         if (event.code === 'Space'){
+          console.log('space')
+
           this.beam = new Beam(this.beamSheet);
           this.beam.addToArray(players[0], stage, this.beamSheet)
           beams.push(this.beam)
