@@ -39,9 +39,11 @@ import EnemyBulletTestImg from "./assets/enemyBulletTest.png"
 
 <template>  
   <div id='body'>
-    <div id="title-screen">
-      <h1>Invaders</h1>
-      <button @click="init()">Start</button>
+    <div id="intro-outro-screen">
+      <h1 v-if="!gameOver">Invaders</h1>
+      <h1 v-if="gameOver">Score: {{score}}</h1>
+      <button v-if="!gameOver" @click="init">Start</button>
+      <button v-if="gameOver" @click="resetGame">Play again?</button>
     </div>
 
 
@@ -86,6 +88,8 @@ export default {
       dashIcons: [],
       dashIcon: '',
       waveNumber: 1,
+      gameOver: false,
+      score: 0
       
     }
   },
@@ -133,8 +137,9 @@ export default {
 
     tick(event){
       document.querySelector('#demoCanvas').style.opacity = 1
-      document.querySelector('#title-screen').style.display = 'none'
+      document.querySelector('#intro-outro-screen').style.display = 'none'
  
+
       this.playerBulletCollisionDetection()
       this.beamsCollisionDetection();
 
@@ -144,10 +149,10 @@ export default {
       this.removeOldInvaderBullets();
       this.enemyFire();
       this.dashIcon.updateIcons(this.player.rollCount, this.dashIcons)
+      this.gameOverCheck()
 
-      // console.log("Rolls: ", this.player.rollCount)
       stage.update(event);
-
+    
     },
 
     createSpriteSheets() {
@@ -202,7 +207,7 @@ export default {
       // make a bullet at random intervals 
       let number = Math.floor(Math.random() * (100 + 0) + 0)
   
-      if (number > 90){
+      if (number > 20){
         this.enemyBullet = new EnemyBullet(this.enemyBulletSheet)
         enemyBullets.push(this.enemyBullet)
         this.enemyBullet.addToStage(stage, this.invaders)
@@ -324,11 +329,10 @@ export default {
           if (this.invaders[i].currentAnimation !== "default"){
             
             // check if between y quadrates of player and falling invader
-            if (players[0].y <= this.invaders[i].y + 8 && players[0].y >= this.invaders[i].y ){
-              console.log('dead')
-
+            if (players[0].y <= this.invaders[i].y + 16 && players[0].y >= this.invaders[i].y - 16 ){
               // check if between x quadrates of player and falling invader
               if (players[0].x >= this.invaders[i].x - 16 && players[0].x <= this.invaders[i].x + 16 ){
+                console.log('fall hit')
                 this.takeDamage()
                 this.invinciblePlayer();
               }
@@ -341,7 +345,6 @@ export default {
 
     takeDamage() {
       if (!this.player.invincible){
-        console.log('hit')
         switch(this.healthBars[0].currentAnimation){
           case "health10":
             this.healthBars[0].gotoAndPlay("health9");
@@ -371,7 +374,7 @@ export default {
             this.healthBars[0].gotoAndPlay("health1");
             break;
           case "health1":
-            // this.healthBars[0].gotoAndPlay("health1");
+            this.healthBars[0].gotoAndPlay("dead");
             // console.log('dead')
             break;
           default:
@@ -393,6 +396,17 @@ export default {
       }
     },
 
+    gameOverCheck() {
+      if (this.healthBars[0].currentAnimation === "dead"){
+        document.querySelector('#intro-outro-screen').style.display = 'flex'
+        this.gameOver = true;
+      }
+    },
+
+    resetGame() {
+      console.log('reset logic here :)')
+    },
+
     onPress(event) {
       // don't allow movement during "roll" which is the invincible dash left or right
       if ( this.player.rolling === false){
@@ -412,8 +426,6 @@ export default {
           }
         }
         else if (event.code === 'ArrowDown'){
-          console.log(stage.canvas.height)
-          console.log(players[0].y)
           if (players[0].y < stage.canvas.height - 50){
             players[0].y += 10
             this.healthBars[0].y += 10

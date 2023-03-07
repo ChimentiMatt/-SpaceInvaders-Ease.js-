@@ -38,7 +38,7 @@
   /* width: 80vw; */
 }
 
-#title-screen{
+#intro-outro-screen{
   margin-top: 5rem;
   position: absolute;
   z-index: 2;
@@ -57,7 +57,7 @@
   color: #85fc52;
 }
 
-#title-screen button{
+#intro-outro-screen button{
   margin-top: 5rem;
   font-size: 2rem;
   padding: .5rem 1rem .5rem 1rem ;

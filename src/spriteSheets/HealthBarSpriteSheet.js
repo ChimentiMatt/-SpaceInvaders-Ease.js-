@@ -30,6 +30,7 @@ function createSheet(loader) {
           "health3" : { "frames": [7]},
           "health2" : { "frames": [8]},
           "health1" : { "frames": [9]},
+          "dead" : { "frames": [0]},
         }
       });
 

@@ -81,11 +81,11 @@ class Beam {
 
         let deathDirection = Math.floor(Math.random() * (400 - - 400) + - 400)
         // for debugging
-        deathDirection = 0
+        // deathDirection = 0
 
         let randomAngle = Math.floor(Math.random() * (180 - - 180) + 180)
         // for debugging
-        randomAngle = 0
+        // randomAngle = 0
     
         enemy.scaleX = 1.3;
         enemy.scaleY = 1.3;
