@@ -1,6 +1,6 @@
 import Invader from '../constructors/Invader'
 
-function move(invader, stage, invaders) {
+function move(invader) {
         createjs.Tween.get(invader, {override: true})
         .to({ y: invader.y + 150 }, 1000)
         .to({ x: invader.x + -500 }, 2000)
@@ -15,12 +15,24 @@ function move(invader, stage, invaders) {
         .call(() => {
             if (invader.currentAnimation !== "dying"){
                 createjs.Tween.get(invader, { loop: true })
-                .to({ y: invader.y - 100}, 1000, createjs.Ease.none)
-                .to({ x: invader.x - 500}, 1000, createjs.Ease.none)
-                .to({ y: invader.y + 0 }, 1000, createjs.Ease.none)
-                .to({ x: invader.x + 0}, 1000, createjs.Ease.none)
+                .to({ y: invader.y - 100}, 2000, createjs.Ease.none)
+                .to({ x: invader.x - 500}, 2000, createjs.Ease.none)
+                .to({ y: invader.y + 0 }, 2000, createjs.Ease.none)
+                .to({ x: invader.x + 0}, 2000, createjs.Ease.none)
             }
         })   
+}
+
+function secondMovement(stage,invader) {
+    createjs.Tween.get(invader, {override: true})
+    .to({ y: invader.y + 150 }, 1000)
+    .call(() => {
+        if (invader.currentAnimation !== "dying"){
+            createjs.Tween.get(invader, { loop: true })
+            .to({ x: invader.x - stage.canvas.width +100 }, 2000, createjs.Ease.none)
+            .to({ x: invader.x + 0}, 2000, createjs.Ease.none)
+        }
+    })   
 }
 
 function createWave (invaders, spriteSheet, stage) {
@@ -29,13 +41,13 @@ function createWave (invaders, spriteSheet, stage) {
     let invaderY = -10;
     
     //23
-    for (let i = 0; i < 23; i++){
+    for (let i = 0; i < 24; i++){
       
         invader = new Invader(spriteSheet);
 
         invader.invader.x = invaderX;
         invader.invader.y = -invaderY;
-        invaders.push(invader.invader)
+
 
         invaderX -= 30;
 
@@ -48,6 +60,11 @@ function createWave (invaders, spriteSheet, stage) {
             invaderX = stage.canvas.width - 50 - 89;
             invaderY += 55
         }
+        if (i === 23){
+            invader.invader.x = stage.canvas.width - 50;
+            invaderY += 55
+        }
+        invaders.push(invader.invader)
     }
  
     paintWave(stage, invaders)
@@ -65,11 +82,17 @@ function paintWave (stage, invaders) {
 function moveInvaders (invaders, stage) {
     for (let i = 0; i < invaders.length; i++){
         if (invaders[i].currentAnimation !== "dying"){
-            move(invaders[i], stage, invaders)
+            if (i !== 23){
+                move(invaders[i], stage, invaders)
+            }
+            else{
+                setTimeout(() => {
+                    secondMovement(stage, invaders[i])
+                }, 3000)
+            }
         }
     }
 }
-
 
 
 export default { move, createWave, paintWave, moveInvaders } ;

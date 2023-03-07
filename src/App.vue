@@ -41,13 +41,17 @@ import EnemyBulletTestImg from "./assets/enemyBulletTest.png"
   <div id='body'>
     <div id="intro-outro-screen">
       <h1 v-if="!gameOver">Invaders</h1>
-      <h1 v-if="gameOver">Score: {{score}}</h1>
+      <p v-if="gameOver">Score: {{score}}</p>
       <button v-if="!gameOver" @click="init">Start</button>
       <button v-if="gameOver" @click="resetGame">Play again?</button>
     </div>
 
 
     <canvas id="demoCanvas" width="900" height="500"></canvas>
+    <div id="hud">
+      <p>score: {{ score }}</p>
+      <p>time: {{ timer }}</p>
+    </div>
 
   </div>
 </template>
@@ -89,7 +93,8 @@ export default {
       dashIcon: '',
       waveNumber: 1,
       gameOver: false,
-      score: 0
+      score: 0,
+      timer: 99
       
     }
   },
@@ -125,6 +130,7 @@ export default {
 
     handleComplete() {
       this.createSpriteSheets()
+      this.reduceTime(this.timer)
       
       CreateInvaders.createInvaders(loader, stage, this.invadersSprites, this.invaders)
 
@@ -192,6 +198,8 @@ export default {
         this.invaders = []
         enemyBullets = []
         this.waveNumber++
+        this.postWaveUpdateScore()
+        this.updateTimerForNewWave()
 
         if (this.waveNumber === 2 ){
           WaveTwo.createWave(this.invaders, this.invaderSheet, stage)
@@ -203,11 +211,19 @@ export default {
       }
     },
 
+    postWaveUpdateScore() {
+      this.score += this.timer
+    },
+
+    updateTimerForNewWave() {
+      this.timer = 99
+    },
+
     enemyFire () {
       // make a bullet at random intervals 
       let number = Math.floor(Math.random() * (100 + 0) + 0)
   
-      if (number > 20){
+      if (number > 85){
         this.enemyBullet = new EnemyBullet(this.enemyBulletSheet)
         enemyBullets.push(this.enemyBullet)
         this.enemyBullet.addToStage(stage, this.invaders)
@@ -233,6 +249,7 @@ export default {
           }
           else {
             removeIndex.push(beams[i])
+            this.score--
           }
           isOffScreen = false;
         }
@@ -275,7 +292,6 @@ export default {
       
     },
     
-
     beamsCollisionDetection() {
       let x, y;
       let results, index;
@@ -306,8 +322,8 @@ export default {
         for (let i = 0; i < enemyBullets.length; i++){
           if (enemyBullets.length > 0){
 
-            // if between player y: top and bottom 
-            if (enemyBullets[i].bullet.y >= players[0].y - 10 && enemyBullets[i].bullet.y <= players[0].y + 10){
+            // if between player y: top and bottom: top && bottom
+            if (enemyBullets[i].bullet.y >= players[0].y - 0 && enemyBullets[i].bullet.y <= players[0].y + 16){
 
               // if between player x: left and right
               if (enemyBullets[i].bullet.x >= players[0].x - 10 && enemyBullets[i].bullet.x <= players[0].x + 10){
@@ -493,10 +509,15 @@ export default {
       this.invaders = []
 
       return true;
-    }
-
+    },
+    
+    reduceTime (){
+      setInterval(() => {
+        this.timer--
+      }, 1000)
+    },
   },
-
+    
   mounted() {
     // this.init()
   }
