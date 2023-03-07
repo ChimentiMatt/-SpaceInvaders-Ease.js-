@@ -29,6 +29,5 @@
 #demoCanvas{
   margin-top: 2rem;
   border: 1px solid white;
-  width: 40vw;
-  /* height: 90vh; */
+  width: 80vw;
 }

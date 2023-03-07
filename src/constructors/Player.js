@@ -1,6 +1,7 @@
 class Player {
     constructor(spriteSheet){
       this.player = new createjs.Sprite(spriteSheet, "default");
+      this.invincible = false;
     }
   
     addToArray = function(players, stage) {

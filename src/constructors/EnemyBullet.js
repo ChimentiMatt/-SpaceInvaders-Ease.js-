@@ -30,11 +30,18 @@ class EnemyBullet {
         
     }
 
+    removeIfAtEnd = function () {
+        // if off screen return true
+        if (this.bullet.y >= 450){
+          return true
+        }
+    }
+
     direction = function(players, enemyBullets, invaders, stage) {
         let playerLocation = {x: players[0].x, y: players[0].y}
 
         createjs.Tween.get(this.bullet )
-        .to( {x: playerLocation.x - 16, y: playerLocation.y + 4}, 2000)
+        .to( {x: playerLocation.x , y: playerLocation.y + 4}, 2000)
         .call(() => {
             stage.removeChild(this.bullet);
             createjs.Tween.removeTweens(this.bullet)

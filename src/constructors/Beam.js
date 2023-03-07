@@ -1,9 +1,7 @@
-import CreateContactExplosion from '../components/CreateContactExplosion';
-
 class Beam {
     constructor(spriteSheet){
-      this.beam = new createjs.Sprite(spriteSheet, "default");
-      this.id = '999'
+      this.beam = new createjs.Sprite(spriteSheet, "default")
+      this.madeContact = false
     }
   
     addToArray = function(player, stage, spriteSheet) {
@@ -32,36 +30,42 @@ class Beam {
     }
 
     detectCollision = function (beams, enemies, stage, loader) { 
+      // console.log(enemies.length)
   
-        // loop over invaders
-        for (let i = 0; i < enemies.length; i++){
+      // loop over invaders
+      for (let i = 0; i < enemies.length; i++){
+        
+        // stop if invader is dead
+        if (enemies[i].currentAnimation !== 'dying'){
           
-          // stop if invader is dead
-          if (enemies[i].currentAnimation !== 'dying'){
+          // if beam y is between invader sprite
+          if (this.beam.y <= enemies[i].y + 8 && this.beam.y >= enemies[i].y  ) {
+            
+            // if beam has not yet made contact
+            if (this.beam.currentAnimation !== 'contact'){
+              
+              // if beam x is between invader sprite
+              if (this.beam.x >= enemies[i].x -16 && this.beam.x <= enemies[i].x + 16  ){
 
-            // if beam y is between invader sprite
-            if (this.beam.y <= enemies[i].y + 8 && this.beam.y >= enemies[i].y  ) {
-    
-              // if beam has not yet made contact
-              if (this.beam.currentAnimation !== 'contact'){
-    
-                // if beam x is between invader sprite
-                if (this.beam.x >= enemies[i].x -16 && this.beam.x <= enemies[i].x + 16  ){
 
+                if (!this.madeContact){
+                  this.madeContact = true
                   this.deathFall(enemies[i], stage, enemies)
 
-                  this.beam.visible = false;
+                  // this.beam.visible = false;
                   stage.removeChild(this.beam);
+                  beams.splice(i, 1)
+                  enemies.splice(i, 1)
     
-                  CreateContactExplosion.explode(loader, stage, enemies[i].x, enemies[i].y);
-    
+                  // CreateContactExplosion.explode(loader, stage, enemies[i].x, enemies[i].y);
+                  return true
                 }
               }
             }
-
           }
         }
       }
+    }
 
     deathFall = function (enemy, stage) {
       let deathDirection = Math.floor(Math.random() * (200 - - 200) + - 200)
