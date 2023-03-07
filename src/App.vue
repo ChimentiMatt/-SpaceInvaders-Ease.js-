@@ -134,7 +134,7 @@ export default {
 
       createjs.Ticker.timingMode = createjs.Ticker.RAF;
       createjs.Ticker.addEventListener("tick", stage);
-      // createjs.Ticker.addEventListener("tick", this.tick);
+      createjs.Ticker.addEventListener("tick", this.tick);
 
       // stage.update()
       console.log('end')
