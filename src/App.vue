@@ -136,8 +136,13 @@ export default {
       createjs.Ticker.addEventListener("tick", stage);
       createjs.Ticker.addEventListener("tick", this.tick);
 
+      var circle = new createjs.Shape();
+        circle.graphics.beginFill("DeepSkyBlue").drawCircle(0, 0, 50);
+        circle.x = 100;
+        circle.y = 100;
+        stage.addChild(circle);
+
       stage.update()
-      console.log('end')
     },
 
     tick(event){
