@@ -296,6 +296,8 @@ export default {
         results = beams[i].detectCollision(beams, this.invaders, stage, loader);
       
         if (results.collision){
+          console.log('hit')
+
           index = results.index
           beams[i].deathFall(this.invaders[index], stage)
           
