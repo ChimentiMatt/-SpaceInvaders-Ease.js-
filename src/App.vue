@@ -133,10 +133,10 @@ export default {
       CreateInvaders.createInvaders(loader, stage, this.invadersSprites, this.invaders)
 
       createjs.Ticker.timingMode = createjs.Ticker.RAF;
-      createjs.Ticker.addEventListener("tick", stage);
-      createjs.Ticker.addEventListener("tick", this.tick);
+      // createjs.Ticker.addEventListener("tick", stage);
+      // createjs.Ticker.addEventListener("tick", this.tick);
 
-      // stage.update()
+      stage.update()
     },
 
     tick(event){
