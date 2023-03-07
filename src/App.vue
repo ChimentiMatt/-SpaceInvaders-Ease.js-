@@ -132,7 +132,7 @@ export default {
       
       CreateInvaders.createInvaders(loader, stage, this.invadersSprites, this.invaders)
 
-      // createjs.Ticker.timingMode = createjs.Ticker.RAF;
+      createjs.Ticker.timingMode = createjs.Ticker.RAF;
       // createjs.Ticker.addEventListener("tick", stage);
       // createjs.Ticker.addEventListener("tick", this.tick);
 
@@ -178,9 +178,6 @@ export default {
       
       this.invaderSheet = InvaderSpriteSheet.createSheet(loader);
       WaveOne.createWave(this.invaders, this.invaderSheet, stage)
-      
-      console.log('end')
-
     },
 
     changeWave() {
