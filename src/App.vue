@@ -136,7 +136,7 @@ export default {
       createjs.Ticker.addEventListener("tick", stage);
       createjs.Ticker.addEventListener("tick", this.tick);
 
-      // stage.update()
+      stage.update()
       console.log('end')
     },
 
