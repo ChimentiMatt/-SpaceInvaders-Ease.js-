@@ -40,12 +40,12 @@ import EnemyBulletTestImg from "./assets/enemyBulletTest.png"
 
 <template>  
   <div id='body'>
-    <div id="intro-outro-screen">
+    <!-- <div id="intro-outro-screen">
       <h1 v-if="!gameOver">Invaders</h1>
       <p v-if="gameOver">Score: {{score}}</p>
       <button v-if="!gameOver" @click="init">Start</button>
       <button v-if="gameOver" @click="resetGame">Play again?</button>
-    </div>
+    </div> -->
       
     <canvas id="demoCanvas" width="900" height="500"></canvas>
     <div id="hud">
@@ -141,8 +141,8 @@ export default {
     },
 
     tick(event){
-      document.querySelector('#demoCanvas').style.opacity = 1
-      document.querySelector('#intro-outro-screen').style.display = 'none'
+      // document.querySelector('#demoCanvas').style.opacity = 1
+      // document.querySelector('#intro-outro-screen').style.display = 'none'
  
       this.playerBulletCollisionDetection()
       this.beamsCollisionDetection();
