@@ -143,7 +143,7 @@ export default {
       document.querySelector('#demoCanvas').style.opacity = 1
       document.querySelector('#intro-outro-screen').style.display = 'none'
  
-      this.playerBulletCollisionDetection()
+      // this.playerBulletCollisionDetection()
       // this.beamsCollisionDetection();
 
       // this.fallCollision();
@@ -159,25 +159,25 @@ export default {
 
     createSpriteSheets() {
       this.playerSheet = PlayerSpriteSheet.createSheet(players, loader, stage);
-      this.player = new Player(this.playerSheet);
-      this.player.addToArray(players, stage);
-      this.beamSheet = BeamSpriteSheet.createSheet(loader);
-      this.shieldSheet = ShieldSpriteSheet.createSheet(loader);
-      this.shield = new Shield(this.shieldSheet);
-      this.shield.addToArray(players[0], stage, this.shields);
-      this.shields[0].visible = false;
-      this.healthBarSheet = HealthBarSpriteSheet.createSheet(loader);
-      this.healthBar = new HealthBar();
-      this.healthBar.addToArray(players, stage, this.healthBarSheet, this.healthBars)
-      this.enemyBulletSheet = EnemyBulletSheet.createSheet(loader);
-      this.explosionSheet = CreateContactExplosion.createSheet(loader);
+      // this.player = new Player(this.playerSheet);
+      // this.player.addToArray(players, stage);
+      // this.beamSheet = BeamSpriteSheet.createSheet(loader);
+      // this.shieldSheet = ShieldSpriteSheet.createSheet(loader);
+      // this.shield = new Shield(this.shieldSheet);
+      // this.shield.addToArray(players[0], stage, this.shields);
+      // this.shields[0].visible = false;
+      // this.healthBarSheet = HealthBarSpriteSheet.createSheet(loader);
+      // this.healthBar = new HealthBar();
+      // this.healthBar.addToArray(players, stage, this.healthBarSheet, this.healthBars)
+      // this.enemyBulletSheet = EnemyBulletSheet.createSheet(loader);
+      // this.explosionSheet = CreateContactExplosion.createSheet(loader);
       
-      this.dashIconSheet = DashIconSheet.createSheet(loader);
-      this.dashIcon = new DashIcon();
-      this.dashIcon.addToArray(players, stage, this.dashIconSheet, this.dashIcons)
+      // this.dashIconSheet = DashIconSheet.createSheet(loader);
+      // this.dashIcon = new DashIcon();
+      // this.dashIcon.addToArray(players, stage, this.dashIconSheet, this.dashIcons)
       
-      this.invaderSheet = InvaderSpriteSheet.createSheet(loader);
-      WaveOne.createWave(this.invaders, this.invaderSheet, stage)
+      // this.invaderSheet = InvaderSpriteSheet.createSheet(loader);
+      // WaveOne.createWave(this.invaders, this.invaderSheet, stage)
 
 
     },
