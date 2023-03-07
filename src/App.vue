@@ -128,9 +128,9 @@ export default {
 
     handleComplete() {
       this.createSpriteSheets()
-      // this.reduceTime(this.timer)
+      this.reduceTime(this.timer)
       
-      // CreateInvaders.createInvaders(loader, stage, this.invadersSprites, this.invaders)
+      CreateInvaders.createInvaders(loader, stage, this.invadersSprites, this.invaders)
 
       // createjs.Ticker.timingMode = createjs.Ticker.RAF;
       // createjs.Ticker.addEventListener("tick", stage);
