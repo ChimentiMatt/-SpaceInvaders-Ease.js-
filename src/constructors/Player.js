@@ -14,6 +14,7 @@ class Player {
     }
 
     roll = function(direction, healthBars, shields, dashIcons) {
+      console
       if (this.rollCount > 0){
         this.invincible = true
         this.rollCount--

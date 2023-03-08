@@ -1,4 +1,4 @@
-import playerImg from '../assets/beam.png'
+import playerImg from '../assets/player.png'
 
 function createSheet(players, loader, img) {
     let spriteSheet = new createjs.SpriteSheet({
@@ -18,7 +18,6 @@ function createSheet(players, loader, img) {
         }
       });
 
-      console.log([loader.getResult("player")])
       return spriteSheet
 }
 

@@ -1,6 +1,8 @@
+import beamImg from '../assets/beam.png'
+
 function createSheet(loader) {
     let spriteSheet = new createjs.SpriteSheet({
-        images: [loader.getResult("beam")],
+        images: [beamImg],
         framerate: 2,
         "frames": [
             [0, 0, 16, 16],

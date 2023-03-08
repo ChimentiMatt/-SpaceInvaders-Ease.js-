@@ -1,7 +1,9 @@
+import invader from '../assets/invader.png'
+
 
 function createInvaders(loader, stage, spriteSheet, enemies) {
     spriteSheet = new createjs.SpriteSheet({
-        images: [loader.getResult("invader")],
+        images: [invader],
         framerate: 2,
         "frames": [
             [0, 0, 16, 16],

@@ -1,6 +1,8 @@
+import contactExplosion from '../assets/contactExplosion.png'
+  
 function createSheet(loader) {
   let spriteSheet = new createjs.SpriteSheet({
-    images: [loader.getResult("contactExplosion")],
+    images: [contactExplosion],
         framerate: 10,
         "frames": [
           [0, 0, 16, 16],

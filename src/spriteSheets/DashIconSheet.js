@@ -1,6 +1,8 @@
+import dashIcon from '../assets/dashIcon.png'
+
 function createSheet(loader) {
     let spriteSheet = new createjs.SpriteSheet({
-        images: [loader.getResult("dashIcon")],
+        images: [dashIcon],
         framerate: 2,
         "frames": [
             [0, 0, 16, 16],

@@ -1,6 +1,8 @@
+import enemyBulletTest from '../assets/enemyBulletTest.png'
+
 function createSheet(loader) {
     let spriteSheet = new createjs.SpriteSheet({
-        images: [loader.getResult("enemyBulletTest")],
+        images: [enemyBulletTest],
         framerate: 2,
         "frames": [
           [0, 0, 5, 5],

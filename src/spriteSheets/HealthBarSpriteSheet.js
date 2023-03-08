@@ -1,6 +1,8 @@
+import health from '../assets/health.png'
+
 function createSheet(loader) {
     let spriteSheet = new createjs.SpriteSheet({
-        images: [loader.getResult("healthBar")],
+        images: [health],
         framerate: 2,
         "frames": [
             // 100 decreasing by 10 down to an empty bar
