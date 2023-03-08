@@ -68,8 +68,6 @@
   color: #85fc52;
 }
 
-
-
 #intro-outro-screen button{
   margin-top: 5rem;
   font-size: 2rem;
@@ -81,6 +79,12 @@
   margin-left: 780px;
   z-index: 3;
   top: 5rem;
+}
+
+#temp-controls{
+  margin-top: 2rem;
+  text-align: center;
+  opacity: .7;
 }
 
 /* light blue */

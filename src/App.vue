@@ -52,7 +52,13 @@ import EnemyBulletTestImg from "./assets/enemyBulletTest.png"
       <p>score: {{ score }}</p>
       <p>time: {{ timer }}</p>
     </div>
+    
+  </div>
 
+  <div id="temp-controls">
+    <p>Arrows to move </p> 
+    <p>Space bar to shoot</p> 
+    <p>a and d to roll</p> 
   </div>
 
 </template>
