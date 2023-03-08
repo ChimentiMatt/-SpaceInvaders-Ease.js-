@@ -54,7 +54,6 @@ class Player {
     }
 
     refillRolls = function () {
-      console.log(this.rollCount)
       if (this.rollCount === -1){
         setTimeout(() => {
           this.rollCount++

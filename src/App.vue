@@ -124,19 +124,6 @@ export default {
   methods: {
 
     resetGame() {
-      // this.domHealthVisual = 10;
-      // this.domRollCount = 1;
-      // this.score = 0;
-      // this.timer = 99;
-      // this.postScreen = false;
-      // this.inPostScreen = false;
-      // this.gameOver = false;
-      // this.waveNumber = 2;
-      // this.startScreen = false;
-      // console.log('x')
-      // document.querySelector('#intro-outro-screen').style.display = 'none'
-      // document.querySelector('#intro-outro-screen').style.opacity = 0
-
      window.location.reload();
     },
 
@@ -203,11 +190,18 @@ export default {
 
     leaveLevel() {
       if (this.nextWaveCheck(this.invaders) && !this.inPostScreen){
-        this.postScreen = true
-        this.inPostScreen = true
-        
+        this.waveNumber++
+        if (this.waveNumber < 4){
+          this.postScreen = true
+          this.inPostScreen = true
+          
+        }
+        else{
+          // game over screen
+          this.postScreen = false
+          this.gameOver = true
+        }
         this.clearLevel()
-
       }
     },
 
@@ -220,13 +214,11 @@ export default {
         // remove from array invaders
         this.invaders = []
         enemyBullets = []
-        this.waveNumber++
     },
 
     viewPostScreen(choice) {
       this.inPostScreen = false
       this.postScreen = false
-      console.log(this.healthBar.healthPoints)
       
       if (choice === "dash"){
         this.player.rollCount++;
@@ -243,7 +235,6 @@ export default {
           this.healthBar.heal()
         }
       }
-
         
       this.postWaveUpdateScore();
       this.updateTimerForNewWave();
@@ -521,7 +512,7 @@ export default {
         }
       }
 
-      this.invaders = []
+      this.clearInvaders()
 
       return true;
     },
