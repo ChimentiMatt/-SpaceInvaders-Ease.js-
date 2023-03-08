@@ -47,21 +47,22 @@ import EnemyBulletTestImg from "./assets/enemyBulletTest.png"
       <button v-if="gameOver" @click="resetGame">Play again?</button>
     </div>
 
-    <!-- <div v-if="postScreen" id="post-stage-screen">
+    <div v-if="postScreen" id="post-stage-screen">
       <p>Upgrade Dash</p>
-      <p>current {{ postScreenRollCount }} max 3</p>
-      <button  @click="leavePostScreen('dash')">Dash</button>
+      <p v-if="domRollCount < 3">current {{ domRollCount }} max 3</p>
+      <button  @click="viewPostScreen('dash')">Dash</button>
 
       <br/>
       <p>Heal 2 Damage: health </p>
-      <p>{{this.postScreenHealth}} / 10</p>
-      <button  @click="leavePostScreen('heal')">heal</button>
-    </div> -->
+      <p>{{this.domHealthVisual}} / 10</p>
+      <button  @click="viewPostScreen('heal')">heal</button>
+    </div>
       
     <canvas id="demoCanvas" width="900" height="500"></canvas>
     <div id="hud">
       <p>score: {{ score }}</p>
       <p>time: {{ timer }}</p>
+      <!-- {{this.domHealthVisual}}  -->
     </div>
     
   </div>
@@ -112,9 +113,12 @@ export default {
       gameOver: false,
       score: 0,
       timer: 99,
-      postScreenHealth: 0,
-      postScreenRollCount: 0,
-      postScreen: false
+      postScreen: false,
+      inPostScreen: false,
+      
+
+      domHealthVisual: 10,
+      domRollCount: 1,
     }
   },
 
@@ -122,24 +126,6 @@ export default {
 
     init() {
       stage = new createjs.Stage("demoCanvas");
-
-      // manifest = [
-      //   {src: InvaderImg, id: "invader"},
-      //   {src: PlayerImg, id: "player"},
-      //   {src: BeamImg, id: "beam"},
-      //   {src: ContactExplosionImg, id: "contactExplosion"},
-      //   {src: HealthBarImg, id: "healthBar"},
-      //   {src: ShieldImg, id: "shield"},
-      //   {src: EnemyBulletImg, id: "enemyBullet"},
-      //   {src: DashIconImg, id: "dashIcon"},
-      //   {src: EnemyBulletTestImg, id: "enemyBulletTest"},
-      // ];
-      // loader = new createjs.LoadQueue(false);
-      // console.log(loader)
-      // loader.addEventListener("complete", this.handleComplete);
-
-      // loader.loadManifest(manifest, true, "./assets/");
-      loader = ''
 
       this.handleComplete()
 
@@ -171,14 +157,14 @@ export default {
       this.beamsCollisionDetection();
 
       this.fallCollision();
-      this.changeWave();
+      this.leaveLevel();
       this.removeOldPlayerBullets();
       this.removeOldInvaderBullets();
       this.enemyFire();
     
       this.dashIcon.updateIcons(this.player.rollCount, this.dashIcons)
       this.gameOverCheck()
-      console.log(this.postScreen)
+
       stage.update(event);
     },
 
@@ -205,10 +191,17 @@ export default {
       WaveOne.createWave(this.invaders, this.invaderSheet, stage)
     },
 
-    changeWave() {
-      if (this.nextWaveCheck(this.invaders)){
+    leaveLevel() {
+      if (this.nextWaveCheck(this.invaders) && !this.inPostScreen){
         this.postScreen = true
+        this.inPostScreen = true
         
+        this.clearLevel()
+
+      }
+    },
+
+    clearLevel() {
         // remove from stage invaders
         for (let i = 0; i < this.invaders.length; i++){
           stage.removeChild(this.invaders[i]);
@@ -218,43 +211,33 @@ export default {
         this.invaders = []
         enemyBullets = []
         this.waveNumber++
-
-        this.postWaveUpdateScore()
-        this.updateTimerForNewWave()
-        if (this.waveNumber === 2 ){
-          WaveTwo.createWave(this.invaders, this.invaderSheet, stage)
-        }
-        else if (this.waveNumber === 3)
-        {
-          WaveThree.createWave(this.invaders, this.invaderSheet, stage)
-        }
-      
-        this.postScreenHealth = this.healthBar.healthPoints;
-        this.postScreenRollCount = this.player.rollCount;
-      }
     },
 
-    leavePostScreen(choice) {
-      console.log(choice)
-        // if (choice === "dash"){
-        //   this.player.rollCount++;
-        // }
-        // else if (choice === "heal"){
-        //   this.HealthBar.healthPoints++
-        // }
-        // document.querySelector('#post-stage-screen').style.display = 'hidden'
+    viewPostScreen(choice) {
+      this.inPostScreen = false
+      this.postScreen = false
+      console.log(this.healthBar.healthPoints)
+      
+      if (choice === "dash"){
+        this.player.rollCount++;
+        this.domRollCount++;
+      }
+      else if (choice === "heal"){
+        if (this.healthBar.healthPoints === 9){
+          this.domHealthVisual++
+          this.healthBar.heal()
+        }
+        else if (this.healthBar.healthPoints < 9){
+          this.domHealthVisual += 2
+          this.healthBar.heal()
+          this.healthBar.heal()
+        }
+      }
 
-        this.postWaveUpdateScore()
-        this.updateTimerForNewWave()
-        if (this.waveNumber === 2 ){
-          WaveTwo.createWave(this.invaders, this.invaderSheet, stage)
-        }
-        else if (this.waveNumber === 3)
-        {
-          WaveThree.createWave(this.invaders, this.invaderSheet, stage)
-        }
-        this.postScreen = false
-        console.log(this.postScreen)
+        
+      this.postWaveUpdateScore();
+      this.updateTimerForNewWave();
+      this.nextWave();
     },
 
     postWaveUpdateScore() {
@@ -263,6 +246,16 @@ export default {
 
     updateTimerForNewWave() {
       this.timer = 99
+    },
+
+    nextWave() {
+      if (this.waveNumber === 2 ){
+        WaveTwo.createWave(this.invaders, this.invaderSheet, stage)
+      }
+      else if (this.waveNumber === 3)
+      {
+        WaveThree.createWave(this.invaders, this.invaderSheet, stage)
+      }
     },
 
     enemyFire () {
@@ -347,7 +340,6 @@ export default {
         results = beams[i].detectCollision(beams, this.invaders, stage, loader);
       
         if (results.collision){
-          console.log('hit')
 
           index = results.index
           beams[i].deathFall(this.invaders[index], stage)
@@ -376,6 +368,11 @@ export default {
               // if between player x: left and right
               if (enemyBullets[i].bullet.x >= players[0].x - 10 && enemyBullets[i].bullet.x <= players[0].x + 10){
                 this.healthBar.takeDamage(this.player.invincible)
+
+                // dom state variable needs to be out of external component
+                if (!this.player.invincible){
+                  this.domHealthVisual--
+                }
                 this.invinciblePlayer()
                 return;
               }
@@ -398,6 +395,11 @@ export default {
               if (players[0].x >= this.invaders[i].x - 16 && players[0].x <= this.invaders[i].x + 16 ){
                 console.log('fall hit')
                 this.healthBar.takeDamage(this.player.invincible)
+
+                // dom state variable needs to be out of external component
+                if (!this.player.invincible){
+                  this.domHealthVisual--
+                }
                 this.invinciblePlayer();
               }
             }
@@ -405,7 +407,7 @@ export default {
         }
       }
     },
-
+  
     invinciblePlayer() {
       // console.log(this.player.invincible)
       if (!this.player.rolling && !this.player.invincible){
@@ -517,6 +519,8 @@ export default {
 
       return true;
     },
+
+
     
     reduceTime (){
       setInterval(() => {
@@ -526,7 +530,7 @@ export default {
   },
     
   mounted() {
-    console.log('mounted')
+                  
   }
 
 

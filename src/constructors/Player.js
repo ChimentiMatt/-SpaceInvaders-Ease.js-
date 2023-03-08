@@ -4,7 +4,7 @@ class Player {
       this.invincible = false;
       this.rolling = false;
       this.rollCount = 1;
-      // this.maxRoll = 3;
+      this.maxRoll = 1;
     }
   
     addToArray = function(players, stage) {
@@ -49,9 +49,7 @@ class Player {
           this.invincible = false
         })
   
-        this.refillRolls()
-      
-
+        this.refillRolls();
       }
     }
 
@@ -79,8 +77,7 @@ class Player {
           this.rollCount++
         }, 3000)
       }
-
-
+      
       // if (this.rollCount < this.maxRoll ){
       //   setTimeout(() => {
       //     this.rollCount++
