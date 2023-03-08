@@ -1,6 +1,9 @@
-function createSheet(players, loader, stage) {
+import playerImg from '../assets/beam.png'
+
+function createSheet(players, loader, img) {
     let spriteSheet = new createjs.SpriteSheet({
-        images: [loader.getResult("player")],
+        images: [playerImg],
+        // images: [loader.getResult("player")],
         framerate: 2,
         "frames": [
             [0, 0, 16, 16],
@@ -14,6 +17,8 @@ function createSheet(players, loader, stage) {
           "left": { "frames": [3]}
         }
       });
+
+      console.log([loader.getResult("player")])
       return spriteSheet
 }
 

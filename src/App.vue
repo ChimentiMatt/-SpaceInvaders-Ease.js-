@@ -116,6 +116,7 @@ export default {
         {src: EnemyBulletTestImg, id: "enemyBulletTest"},
       ];
       loader = new createjs.LoadQueue(false);
+      console.log(loader)
       loader.addEventListener("complete", this.handleComplete);
 
       loader.loadManifest(manifest, true, "./assets/");
@@ -138,16 +139,37 @@ export default {
       createjs.Ticker.addEventListener("tick", this.tick);
 
       // test for heroku issue
-      var circle = new createjs.Shape();
-      circle.graphics.beginFill("DeepSkyBlue").drawCircle(0, 0, 50);
-      circle.x = 100;
-      circle.y = 100;
-      stage.addChild(circle);
+      // var circle = new createjs.Shape();
+      // circle.graphics.beginFill("DeepSkyBlue").drawCircle(0, 0, 50);
+      // circle.x = 100;
+      // circle.y = 100;
+      // stage.addChild(circle);
 
-      console.log(manifest)
+      // console.log(manifest)
+
+
+      let arrayX = [
+    {
+        "src": "./assets/data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAATRJREFUWEftllsOwkAIRW3iCt2O327HFTbR0ISGMpfhVX9M/dLpXDhgeSw38Xmtjw/9fN7fizzn7794PnWkISwwfY9BI/oBwBKzMQ8iqz8AeGIEQRqGyurp/g4QFWsIBqjodwBpxIpGntN37VieEaQGQnq6Bw15BrhSUNSRAOTLOQCg8kNnKAtRrfwbTwFAGfNgOFMXwP9lINopzXcgYwB1wYx+6wNoGqJuJ+8hJ96ktCbqdBihpmI59yJHE5M0MAPVfcCrffT8MIy8qab7ecWh1py+D2Sh2vtA1qGZgco87zrfy7C6D/BY7oBsrRjVePa8CnEA4Bk/M6bvZOt/eAdmO92sLPUK1soAilyezZ63M6B7dDSSrmP2017Lo8DWvQHAiyw69aJgF8CWAbnZRFNX0SDbXzo9s3hZnbxBAAAAAElFTkSuQmCC",
+        "id": "invader",
+        "loadTimeout": 8000,
+        "type": "text",
+        "path": "./assets/",
+        "mimeType": "text/plain; charset=utf-8"
+    }
+  ]
+
+
+
+
+
+
+
+
+
 
       const testArray = []
-      let zz = new Player(this.playerSheet);
+      let zz = new Player(this.playerSheet, loader, arrayX);
       zz.x = 50
       zz.y = 50
       testArray.push(zz.player)
