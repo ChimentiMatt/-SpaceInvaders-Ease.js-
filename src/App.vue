@@ -40,7 +40,7 @@ import EnemyBulletTestImg from "./assets/enemyBulletTest.png"
 
 <template>  
   <div id='body'>
-    <div id="intro-outro-screen">
+    <div v-if="startScreen || gameOver" id="intro-outro-screen">
       <h1 v-if="!gameOver">Invaders</h1>
       <p v-if="gameOver">Score: {{score}}</p>
       <button v-if="!gameOver" @click="init">Start</button>
@@ -77,7 +77,6 @@ import EnemyBulletTestImg from "./assets/enemyBulletTest.png"
 
 <script>
   var loader;
-  var manifest;
   var stage; 
   var beams = [];
   var enemyBullets = [];
@@ -115,6 +114,7 @@ export default {
       timer: 99,
       postScreen: false,
       inPostScreen: false,
+      startScreen: true,
       
 
       domHealthVisual: 10,
@@ -124,19 +124,31 @@ export default {
 
   methods: {
 
+    resetGame() {
+      // this.domHealthVisual = 10;
+      // this.domRollCount = 1;
+      // this.score = 0;
+      // this.timer = 99;
+      // this.postScreen = false;
+      // this.inPostScreen = false;
+      // this.gameOver = false;
+      // this.waveNumber = 2;
+      // this.startScreen = false;
+      // console.log('x')
+      // document.querySelector('#intro-outro-screen').style.display = 'none'
+      // document.querySelector('#intro-outro-screen').style.opacity = 0
+
+     window.location.reload();
+    },
+
     init() {
+      this.startScreen = false;
       stage = new createjs.Stage("demoCanvas");
-
-      this.handleComplete()
-
-      stage.update();
 
       addEventListener('keydown', (event) => {
         this.onPress(event)
       })
-    },
 
-    handleComplete() {
       this.createSpriteSheets()
       this.reduceTime(this.timer)
       
@@ -151,7 +163,6 @@ export default {
 
     tick(event){
       document.querySelector('#demoCanvas').style.opacity = 1
-      document.querySelector('#intro-outro-screen').style.display = 'none'
 
       this.playerBulletCollisionDetection()
       this.beamsCollisionDetection();
@@ -423,13 +434,9 @@ export default {
 
     gameOverCheck() {
       if (this.healthBar.healthPoints < 1){
-        document.querySelector('#intro-outro-screen').style.display = 'flex'
+        console.log('now')
         this.gameOver = true;
       }
-    },
-
-    resetGame() {
-      console.log('reset logic here :)')
     },
 
     onPress(event) {
