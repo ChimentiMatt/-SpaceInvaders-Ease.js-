@@ -53,7 +53,6 @@ import EnemyBulletTestImg from "./assets/enemyBulletTest.png"
       <p>time: {{ timer }}</p>
     </div>
 
-    <img :src="InvaderImg">
   </div>
 
 </template>
@@ -138,13 +137,23 @@ export default {
       createjs.Ticker.addEventListener("tick", stage);
       createjs.Ticker.addEventListener("tick", this.tick);
 
+      // test for heroku issue
       var circle = new createjs.Shape();
-        circle.graphics.beginFill("DeepSkyBlue").drawCircle(0, 0, 50);
-        circle.x = 100;
-        circle.y = 100;
-        stage.addChild(circle);
+      circle.graphics.beginFill("DeepSkyBlue").drawCircle(0, 0, 50);
+      circle.x = 100;
+      circle.y = 100;
+      stage.addChild(circle);
 
       console.log(manifest)
+
+      const testArray = []
+      let zz = new Player(this.playerSheet);
+      zz.x = 50
+      zz.y = 50
+      testArray.push(zz.player)
+
+      stage.addChild(testArray[0])
+
 
       stage.update()
     },
