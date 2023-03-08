@@ -420,7 +420,7 @@ export default {
     },
 
     gameOverCheck() {
-      if (this.healthBar.currentAnimation === "dead"){
+      if (this.healthBar.healthPoints < 1){
         document.querySelector('#intro-outro-screen').style.display = 'flex'
         this.gameOver = true;
       }
