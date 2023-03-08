@@ -69,21 +69,30 @@ class Beam {
     }
 
     deathFall = function (enemy, stage) {
+      let deathDirection, secondDeathDirection;
 
       // if already dead IE double tap effect
       if (enemy.currentAnimation === "dying"){
+        deathDirection = Math.floor(Math.random() * (100 - - 100) + - 100)
+        if (deathDirection > 0){
+          secondDeathDirection = Math.floor(Math.random() * (0 - 300) + 300)
+        }
+        else{
+          secondDeathDirection = Math.floor(Math.random() * (-300 - 0) + 0)
+        }
+
         createjs.Tween.get(enemy)
-        .to({ y: enemy.y - 50, x: enemy.x + 100  }, 200)
-        .to({ x: enemy.x + 300, y: enemy.y + 500}, 1300)
+        .to({ y: enemy.y - 50, x: enemy.x + deathDirection  }, 200)
+        .to({ x: enemy.x + secondDeathDirection, y: enemy.y + 500}, 1300)
       }
       else{
         enemy.gotoAndPlay("dying")
 
-        let deathDirection = Math.floor(Math.random() * (400 - - 400) + - 400)
+        deathDirection = Math.floor(Math.random() * (400 - - 400) + - 400)
         // for debugging
         // deathDirection = 0
 
-        let randomAngle = Math.floor(Math.random() * (180 - - 180) + 180)
+        let randomAngle = Math.floor(Math.random() * (90 - - 90) + 90)
         // for debugging
         // randomAngle = 0
     

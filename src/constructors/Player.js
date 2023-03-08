@@ -3,7 +3,8 @@ class Player {
       this.player = new createjs.Sprite(spriteSheet, "default");
       this.invincible = false;
       this.rolling = false;
-      this.rollCount = 3;
+      this.rollCount = 1;
+      // this.maxRoll = 3;
     }
   
     addToArray = function(players, stage) {
@@ -14,7 +15,6 @@ class Player {
     }
 
     roll = function(direction, healthBars, shields, dashIcons) {
-      console
       if (this.rollCount > 0){
         this.invincible = true
         this.rollCount--
@@ -50,26 +50,42 @@ class Player {
         })
   
         this.refillRolls()
+      
 
       }
     }
 
     refillRolls = function () {
+      console.log(this.rollCount)
+      if (this.rollCount === -1){
+        setTimeout(() => {
+          this.rollCount++
+        }, 3000)
+      }
       if (this.rollCount === 0){
         setTimeout(() => {
           this.rollCount++
-        }, 5000)
+        }, 3000)
       }
-      if (this.rollCount === 1){
+      if (this.rollCount === 1 ){
         setTimeout(() => {
+          console.log(1)
           this.rollCount++
-        }, 5000)
+        }, 3000)
       }
-      if (this.rollCount === 2){
+      if (this.rollCount === 2 ){
         setTimeout(() => {
+          console.log(2)
           this.rollCount++
-        }, 5000)
+        }, 3000)
       }
+
+
+      // if (this.rollCount < this.maxRoll ){
+      //   setTimeout(() => {
+      //     this.rollCount++
+      //   }, 2000)
+      // }
     }
 }
 
