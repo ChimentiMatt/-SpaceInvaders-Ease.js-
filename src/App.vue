@@ -54,7 +54,7 @@ import EnemyBulletTestImg from "./assets/enemyBulletTest.png"
 
       <br/>
       <p>Heal 2 Damage: health </p>
-      <p>{{this.domHealthVisual}} / 10</p>
+      <p>{{domHealthVisual}} / 10</p>
       <button  @click="viewPostScreen('heal')">heal</button>
     </div>
       
@@ -62,7 +62,6 @@ import EnemyBulletTestImg from "./assets/enemyBulletTest.png"
     <div id="hud">
       <p>score: {{ score }}</p>
       <p>time: {{ timer }}</p>
-      <!-- {{this.domHealthVisual}}  -->
     </div>
     
   </div>
