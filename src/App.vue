@@ -53,7 +53,7 @@ import EnemyBulletTestImg from "./assets/enemyBulletTest.png"
       <button  @click="viewPostScreen('dash')">Dash</button>
 
       <br/>
-      <p>Heal 2 Damage: health </p>
+      <p>Heal 2 Damage </p>
       <p>{{domHealthVisual}} / 10</p>
       <button  @click="viewPostScreen('heal')">heal</button>
     </div>
