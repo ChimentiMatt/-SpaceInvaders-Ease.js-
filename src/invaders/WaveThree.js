@@ -30,7 +30,7 @@ function secondMovement(stage,invader) {
     })   
 }
 
-function createWave (invaders, spriteSheet, stage) {
+function createWave (invaders, spriteSheet, invaderWhiteSpriteSheet, stage) {
     let invader;
     let invaderX =  150;
 

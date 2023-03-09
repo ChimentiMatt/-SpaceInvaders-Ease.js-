@@ -5,34 +5,39 @@ class EnemyBullet {
         this.y
     }
   
-    addToStage = function(stage, invaders) {
+    addToStage = function(stage, invaders, index) {
         const aliveInvaders = [];  
-
+        
         for (let i = 0; i < invaders.length; i++){
-            // console.log(invaders[i].currentAnimation)
-            if (invaders[i].currentAnimation === 'default'){
+            if (invaders[i].sprite.currentAnimation === 'default'){
                 aliveInvaders.push(i)
             }
         }
-
         // if there are any alive invaders
         if (aliveInvaders.length !== 0){
             let max = aliveInvaders.length -1
             let min = 0
-    
+            
             let randomIndex = Math.floor(Math.random() * (max - min) + min)
-    
-            let currentInvader = invaders[aliveInvaders[randomIndex]]
             
-            // current location being set
-            this.sprite.x =  currentInvader.x;
-            this.sprite.y = currentInvader.y;
+            // let currentInvader = invaders[aliveInvaders[randomIndex]].sprite
+     
+            let currentInvader = invaders[index].sprite;
+            if (currentInvader.currentAnimation === "default"){
             
-            // for future reference
-            this.x = currentInvader.x
-            this.y = currentInvader.y;
+                // current location being set
+                this.sprite.x =  currentInvader.x;
+                this.sprite.y = currentInvader.y;
+                
+                // for future reference
+                this.x = currentInvader.x
+                this.y = currentInvader.y;
+                
+            
+                stage.addChild(this.sprite)
+            }
 
-            stage.addChild(this.sprite)
+
         }
         
     }

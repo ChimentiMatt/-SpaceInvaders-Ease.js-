@@ -4,6 +4,8 @@ import BeamSpriteSheet from './spriteSheets/BeamSpriteSheet.js';
 import ShieldSpriteSheet from './spriteSheets/ShieldSpriteSheet.js';
 import HealthBarSpriteSheet from './spriteSheets/HealthBarSpriteSheet.js';
 import InvaderSpriteSheet from './spriteSheets/InvaderSpriteSheet.js';
+import InvaderWhiteSpriteSheet from './spriteSheets/InvaderWhiteSpriteSheet'
+
 import EnemyBulletSheet from './spriteSheets/EnemyBulletSheet.js'
 import DashIconSheet from './spriteSheets/DashIconSheet.js'
 import CreateContactExplosion from './spriteSheets/CreateContactExplosion';
@@ -89,6 +91,8 @@ export default {
   data () {
     return {
       titleScreen: true,
+      waveNumber: 1,
+      totalLevels: 3, 
       players: [],
       shields: [],
       beams: [],
@@ -113,12 +117,10 @@ export default {
       explosionSheet: '',
       dashIconSheet: '',
       dashIcon: '',
-      waveNumber: 4,
       score: 0,
       timer: 99,
       domHealthVisual: 10,
       domRollCount: 1,
-      totalLevels: 3,
       gameOver: false,
       postScreen: false,
       inPostScreen: false,
@@ -210,6 +212,7 @@ export default {
       this.dashIcon.addToArray(this.players, stage, this.dashIconSheet, this.dashIcons)
       
       this.invaderSheet = InvaderSpriteSheet.createSheet();
+      this.invaderWhiteSheet = InvaderWhiteSpriteSheet.createSheet();
       this.nextWave()
     },
 
@@ -276,37 +279,19 @@ export default {
 
     nextWave() {
       if (this.waveNumber === 1 ){
-        WaveOne.createWave(this.invaders, this.invaderSheet, stage)
+        WaveOne.createWave(this.invaders, this.invaderSheet, this.invaderWhiteSheet, stage)
       }
       else if (this.waveNumber === 2 ){
-        WaveTwo.createWave(this.invaders, this.invaderSheet, stage)
+        WaveTwo.createWave(this.invaders, this.invaderSheet, this.invaderWhiteSheet, stage)
       }
       else if (this.waveNumber === 3)
       {
-        WaveThree.createWave(this.invaders, this.invaderSheet, stage)
+        WaveThree.createWave(this.invaders, this.invaderSheet, this.invaderWhiteSheet, stage)
       }
       else if (this.waveNumber === 4)
       {
-        WaveFour.createWave(this.invaders, this.invaderSheet, stage)
+        WaveFour.createWave(this.invaders, this.invaderSheet, this.invaderWhiteSheet, stage)
       }
-    },
-
-    enemyFire () {
-      // // make a bullet at random intervals 
-      // let number = Math.floor(Math.random() * (100 + 0) + 0)
-  
-      // if (number > 85){
-      //   this.enemyBullet = new EnemyBullet(this.enemyBulletSheet)
-      //   this.enemyBullets.push(this.enemyBullet)
-      //   this.enemyBullet.addToStage(stage, this.invaders, this.soundOn)
-
-      //   this.enemyBullet.direction(this.players, stage);
-      // }
-
-      // for (let i = 0; i < this.invaders.length; i++){
-      //   // this.invaders[i].fire(this.enemyBullets, this.enemyBulletSheet, this.players, stage, this.soundOn)
-      //   console.log(this.invaders[i].sprite)
-      // }
     },
 
     removeOldPlayerBullets () {
@@ -366,6 +351,12 @@ export default {
         }
       }
       
+    },
+
+    enemyFire() {
+      for (let i = 0; i < this.invaders.length; i++){
+        this.invaders[i].fire(this.invaders, i, this.enemyBullets, this.enemyBulletSheet, this.players, stage, this.soundOn)
+      }
     },
     
     beamsCollisionDetection() {

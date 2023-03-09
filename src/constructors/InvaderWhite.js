@@ -9,7 +9,7 @@ class Invader {
         let number = Math.floor(Math.random() * (100 + 0) + 0)
         let bullet;
   
-        if (number > 98){
+        if (number > 95){
             bullet = new EnemyBullet(enemyBulletSheet)
             enemyBullets.push(bullet)
             bullet.addToStage(stage, invaders, index)

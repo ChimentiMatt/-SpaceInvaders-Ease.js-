@@ -13,7 +13,7 @@ function move(invader, stage, invaders) {
 }
 
 
-function createWave (invaders, spriteSheet, stage) {
+function createWave (invaders, spriteSheet, invaderWhiteSpriteSheet, stage) {
     let invader;
     let invaderX = 300;
     let invaderY = -10;

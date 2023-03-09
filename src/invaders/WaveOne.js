@@ -1,7 +1,7 @@
 import Invader from '../constructors/Invader'
+import InvaderWhite from '../constructors/InvaderWhite'
 
 function move(invader) {
-    console.log(invader)
         createjs.Tween.get(invader, {override: true})
         .to({ y: invader.y + 150 }, 1000)
         .to({ x: invader.x + -500 }, 2000)
@@ -36,14 +36,21 @@ function secondMovement(stage,invader) {
     })   
 }
 
-function createWave (invaders, spriteSheet, stage) {
+function createWave (invaders, spriteSheet, invaderWhiteSpriteSheet, stage) {
     let invader = '';
     let invaderX = stage.canvas.width - 50;
     let invaderY = -10;
+
+    console.log(spriteSheet === invaderWhiteSpriteSheet)
     
     //23
     for (let i = 0; i < 24; i++){
-        invader = new Invader(spriteSheet);
+        if (i < 11){
+            invader = new Invader(spriteSheet);
+        }
+        else{
+            invader = new InvaderWhite(invaderWhiteSpriteSheet);
+        }
 
         invader.sprite.x = invaderX;
         invader.sprite.y = -invaderY;
