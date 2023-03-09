@@ -77,10 +77,10 @@ import backgroundMusic from "./assets/sounds/neonGaming.mp3"
 
 <script>
   var stage; 
-  var bMusic = document.createElement("audio");
-  bMusic.src = backgroundMusic
-  bMusic.volume = .5;
-  bMusic.loop = true;
+  // var bMusic = document.createElement("audio");
+  // bMusic.src = backgroundMusic
+  // bMusic.volume = .5;
+  // bMusic.loop = true;
 
 export default {
   name: 'App',
