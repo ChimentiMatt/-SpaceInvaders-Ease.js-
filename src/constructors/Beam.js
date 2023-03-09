@@ -49,28 +49,22 @@ class Beam {
       for (let i = 0; i < enemies.length; i++){
         
         // stop if invader is dead
-        if (enemies[i].currentAnimation !== 'dead'){
+        if (enemies[i].sprite.currentAnimation !== 'dead'){
           
           // if beam y is between invader sprite
-          if (this.sprite.y <= enemies[i].y + 8 && this.sprite.y >= enemies[i].y  ) {
+          if (this.sprite.y <= enemies[i].sprite.y + 8 && this.sprite.y >= enemies[i].sprite.y  ) {
             
             // if beam has not yet made contact
             if (this.sprite.currentAnimation !== 'contact'){
               
               // if beam x is between invader sprite
-              if (this.sprite.x >= enemies[i].x -16 && this.sprite.x <= enemies[i].x + 16  ){
+              if (this.sprite.x >= enemies[i].sprite.x -16 && this.sprite.x <= enemies[i].sprite.x + 16  ){
 
 
                 if (!this.madeContact){
                   this.madeContact = true
                   this.sprite.visible = false
-
-                  // this.deathFall(enemies[i], stage, enemies)
-                  // stage.removeChild(this.beam);
-                  // beams.splice(i, 1)
-                  // enemies.splice(i, 1)
                   
-                  // CreateContactExplosion.explode(loader, stage, enemies[i].x, enemies[i].y);
                   return { collision: true, index: i }
                 }
               }

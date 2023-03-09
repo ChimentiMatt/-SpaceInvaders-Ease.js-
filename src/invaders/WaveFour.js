@@ -84,7 +84,7 @@ function createWave (invaders, spriteSheet, stage) {
             invaderX += 35
         }
         
-        invaders.push(invader.sprite)
+        invaders.push(invader)
     }
     
     paintWave(stage, invaders)
@@ -92,7 +92,7 @@ function createWave (invaders, spriteSheet, stage) {
 
 function paintWave (stage, invaders) {
     for (let i = 0; i < invaders.length; i++){
-      stage.addChild(invaders[i])
+      stage.addChild(invaders[i].sprite)
     }
     moveInvaders(invaders, stage)
 }
@@ -101,11 +101,11 @@ function moveInvaders (invaders, stage) {
     for (let i = 0; i < invaders.length; i++){
         if (invaders[i].currentAnimation !== "dying"){
             if (i !== 23){
-                move(invaders[i], stage, invaders);
+                move(invaders[i].sprite, stage, invaders);
             }
             else{
                 setTimeout(() => {
-                    secondMovement(stage, invaders[i])
+                    secondMovement(stage, invaders[i].sprite)
                 }, 3000);
             }
         }

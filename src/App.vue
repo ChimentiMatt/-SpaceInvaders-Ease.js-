@@ -113,7 +113,7 @@ export default {
       explosionSheet: '',
       dashIconSheet: '',
       dashIcon: '',
-      waveNumber: 1,
+      waveNumber: 4,
       score: 0,
       timer: 99,
       domHealthVisual: 10,
@@ -233,7 +233,7 @@ export default {
     clearLevel() {
         // remove from stage invaders
         for (let i = 0; i < this.invaders.length; i++){
-          stage.removeChild(this.invaders[i]);
+          stage.removeChild(this.invaders[i].sprite);
         }
         
         // remove from array invaders
@@ -292,17 +292,21 @@ export default {
     },
 
     enemyFire () {
-      // make a bullet at random intervals 
-      let number = Math.floor(Math.random() * (100 + 0) + 0)
+      // // make a bullet at random intervals 
+      // let number = Math.floor(Math.random() * (100 + 0) + 0)
   
-      if (number > 85){
-        this.enemyBullet = new EnemyBullet(this.enemyBulletSheet)
-        this.enemyBullets.push(this.enemyBullet)
-        this.enemyBullet.addToStage(stage, this.invaders, this.soundOn)
+      // if (number > 85){
+      //   this.enemyBullet = new EnemyBullet(this.enemyBulletSheet)
+      //   this.enemyBullets.push(this.enemyBullet)
+      //   this.enemyBullet.addToStage(stage, this.invaders, this.soundOn)
 
-        this.enemyBullet.direction(this.players, stage);
-      }
-     
+      //   this.enemyBullet.direction(this.players, stage);
+      // }
+
+      // for (let i = 0; i < this.invaders.length; i++){
+      //   // this.invaders[i].fire(this.enemyBullets, this.enemyBulletSheet, this.players, stage, this.soundOn)
+      //   console.log(this.invaders[i].sprite)
+      // }
     },
 
     removeOldPlayerBullets () {
@@ -375,7 +379,7 @@ export default {
         if (results.collision){
 
           index = results.index
-          this.beams[i].deathFall(this.invaders[index], stage)
+          this.beams[i].deathFall(this.invaders[index].sprite, stage)
           
           stage.removeChild(this.beams[i]);
           this.beams.splice(i, 1)
@@ -420,12 +424,12 @@ export default {
         
         for (let i = 0; i < this.invaders.length; i++){
      
-          if (this.invaders[i].currentAnimation !== "default"){
+          if (this.invaders[i].sprite.currentAnimation !== "default"){
             
             // check if between y quadrates of player and falling invader
-            if (this.player.sprite.y <= this.invaders[i].y + 16 && this.player.sprite.y >= this.invaders[i].y - 16 ){
+            if (this.player.sprite.y <= this.invaders[i].sprite.y + 16 && this.player.sprite.y >= this.invaders[i].sprite.y - 16 ){
               // check if between x quadrates of player and falling invader
-              if (this.player.sprite.x >= this.invaders[i].x - 16 && this.player.sprite.x <= this.invaders[i].x + 16 ){
+              if (this.player.sprite.x >= this.invaders[i].sprite.x - 16 && this.player.sprite.x <= this.invaders[i].sprite.x + 16 ){
                 this.healthBar.takeDamage(this.player.invincible, this.soundOn)
 
                 // dom state variable needs to be out of external component
@@ -649,7 +653,7 @@ export default {
 
     nextWaveCheck() {
       for (let i = 0; i < this.invaders.length; i++){
-        if (this.invaders[i].currentAnimation !== "dead"){
+        if (this.invaders[i].sprite.currentAnimation !== "dead"){
             return false;
         }
       }
