@@ -74,14 +74,14 @@ import EnemyBulletTestImg from "./assets/enemyBulletTest.png"
 
   <!-- temporary until I make a high quality version -->
   <div id="mobile-controls">
-    <button @click="onPress(null, 'ArrowLeft')">left</button>
+    <button @click="onPress(null, 'a')">l roll</button>
+    <button @click="onPress(null, 'd')">r roll</button>
     <button @click="onPress(null, 'ArrowUp')" id="up">up</button>
-    <button @click="onPress(null, 'ArrowRight')">right</button>
   </div>
 
   <div id="mobile-controls">
-    <button @click="onPress(null, 'a')">roll left</button>
-    <button @click="onPress(null, 'd')">roll right</button>
+    <button @click="onPress(null, 'ArrowLeft')">left</button>
+    <button @click="onPress(null, 'ArrowRight')">right</button>
     <button @click="onPress(null, 'Space')" id="shoot">shoot</button>
   </div>
 
