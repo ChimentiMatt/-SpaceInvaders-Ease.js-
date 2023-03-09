@@ -1,5 +1,5 @@
 import Invader from '../constructors/Invader'
-import InvaderWhite from '../constructors/InvaderWhite'
+import InvaderWhite from '../constructors/Invader'
 
 function move(invader, stage, invaders) {
     console.log(invader)

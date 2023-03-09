@@ -1,4 +1,5 @@
 import Invader from '../constructors/Invader'
+import InvaderWhite from '../constructors/Invader'
 
 function move(invader, stage, invaders) {
     createjs.Tween.get(invader, {override: true})
