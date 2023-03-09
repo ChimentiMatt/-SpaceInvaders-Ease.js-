@@ -19,8 +19,6 @@ class Explosion {
     }
 
     playSoundEffect = function(){
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        const audioCtx = new AudioContext();
         var soundEffect = new Audio(contactSound)
         soundEffect.play()
         soundEffect.volume = .5

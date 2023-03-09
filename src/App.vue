@@ -77,10 +77,10 @@ import backgroundMusic from "./assets/sounds/neonGaming.mp3"
 
 <script>
   var stage; 
-  // var bMusic = document.createElement("audio");
-  // bMusic.src = backgroundMusic
-  // bMusic.volume = .5;
-  // bMusic.loop = true;
+  var bMusic = document.createElement("audio");
+  bMusic.src = backgroundMusic
+  bMusic.volume = .5;
+  bMusic.loop = true;
 
 export default {
   name: 'App',
@@ -130,13 +130,9 @@ export default {
     },
 
     init() {
-      //Fixes audio delay in Safari 
-      const AudioContext = window.AudioContext || window.webkitAudioContext;
-      const audioCtx = new AudioContext();
-
       this.startScreen = false;
       stage = new createjs.Stage("demoCanvas");
-      // bMusic.play()
+      bMusic.play()
 
       this.createSpriteSheets()
       this.reduceTime(this.timer)

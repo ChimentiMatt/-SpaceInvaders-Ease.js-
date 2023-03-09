@@ -58,8 +58,6 @@ class Player {
     }
 
     playRollSoundEffect = function(){
-      const AudioContext = window.AudioContext || window.webkitAudioContext;
-      const audioCtx = new AudioContext();
       var soundEffect = new Audio(dashSound)
       soundEffect.play()
       soundEffect.volume = .6
@@ -69,8 +67,6 @@ class Player {
     }
 
     playNotificationSoundEffect = function(){
-      const AudioContext = window.AudioContext || window.webkitAudioContext;
-      const audioCtx = new AudioContext();
       var soundEffect = new Audio(notificationSound)
       soundEffect.play()
       soundEffect.volume = .99
