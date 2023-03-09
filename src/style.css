@@ -26,6 +26,7 @@
   display: flex;
   justify-content: center;
   font-family: 'Orbitron', sans-serif;
+  touch-action: manipulation;
 }
 
 #demoCanvas{
@@ -101,7 +102,7 @@
 #mobile-controls{
   display: flex;
   justify-content: center;
-  margin-top: 5rem;
+  margin-top: 1rem;
   display: none;
 }
 
