@@ -136,7 +136,7 @@ export default {
 
       this.startScreen = false;
       stage = new createjs.Stage("demoCanvas");
-      bMusic.play()
+      // bMusic.play()
 
       this.createSpriteSheets()
       this.reduceTime(this.timer)
