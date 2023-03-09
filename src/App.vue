@@ -130,6 +130,10 @@ export default {
     },
 
     init() {
+      //Fixes audio delay in Safari 
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      const audioCtx = new AudioContext();
+
       this.startScreen = false;
       stage = new createjs.Stage("demoCanvas");
       bMusic.play()
