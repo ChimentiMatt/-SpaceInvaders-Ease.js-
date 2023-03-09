@@ -64,6 +64,8 @@ class HealthBar {
       }
 
       playSoundEffect = function(){
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        const audioCtx = new AudioContext();
         var soundEffect = new Audio(damageSound)
         soundEffect.play()
         soundEffect.volume = .7

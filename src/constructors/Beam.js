@@ -25,6 +25,8 @@ class Beam {
     }
 
     playSoundEffect = function() {
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      const audioCtx = new AudioContext();
       var soundEffect = new Audio(beamSound)
       soundEffect.play()
       soundEffect.volume = .15
