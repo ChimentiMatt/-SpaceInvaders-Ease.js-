@@ -63,15 +63,16 @@ import backgroundMusic from "./assets/sounds/neonGaming.mp3"
 
   <!-- temporary until I make a high quality version -->
   <div id="mobile-controls">
-    <button @click="onPress(null, 'a')">l roll</button>
-    <button @click="onPress(null, 'd')">r roll</button>
-    <button @click="onPress(null, 'ArrowUp')" id="up">up</button>
+    <button @click="keyPressed(null, 'a')">L roll</button>
+    <button @click="keyPressed(null, 'd')">R roll</button>
+    <button @click="keyPressed(null, 'ArrowUp')" id="up">up</button>
+    <button @click="keyPressed(null, 'ArrowDown')" >Down</button>
   </div>
 
   <div id="mobile-controls">
-    <button @click="onPress(null, 'ArrowLeft')">left</button>
-    <button @click="onPress(null, 'ArrowRight')">right</button>
-    <button @click="onPress(null, 'Space')" id="shoot">shoot</button>
+    <button @click="keyPressed(null, 'ArrowLeft')">left</button>
+    <button @click="keyPressed(null, 'ArrowRight')">right</button>
+    <button @click="keyPressed(null, 'Space')" id="shoot">shoot</button>
   </div>
 
 </template>
@@ -123,6 +124,16 @@ export default {
       inPostScreen: false,
       startScreen: true,
       soundOn: true,
+
+      pressedRight: 0,
+      pressedLeft: 0,
+      pressedUp: 0,
+      pressedSpace: 0,
+      pressedA: 0,
+      pressedD: 0,
+      mobileInput: false,
+
+      fireDelay: false
     }
   },
 
@@ -133,7 +144,7 @@ export default {
 
       // if mobile do not allow sounds as it causes bugs currently
       if (this.detectIfMobile()){
-        this.soundOn = false
+        this.soundOn = false;
       }
 
       if (this.soundOn){
@@ -145,7 +156,11 @@ export default {
       CreateInvaders.createInvaders(stage, this.invadersSprites, this.invaders)
 
       addEventListener('keydown', (event) => {
-        this.onPress(event)
+        this.keyPressed(event)
+      })
+
+      addEventListener('keyup', (event) => {
+        this.keyUp(event)
       })
 
       createjs.Ticker.timingMode = createjs.Ticker.RAF;
@@ -169,6 +184,8 @@ export default {
     
       this.dashIcon.updateIcons(this.player.rollCount, this.dashIcons)
       this.gameOverCheck()
+
+      this.moveHandler()
 
       stage.update(event);
     },
@@ -441,79 +458,190 @@ export default {
       }
     },
 
-    onPress(event, mobileKey = null) {
+    keyPressed(event, mobileKey = null) {
 
-      // if using mobile controls ignore event and make it not break 
-      if (event === null){event = {code: ''}}
+      // if using mobile controls ignore event and make JS not break 
+      if (event === null){
+        event = {code: ''}
+      }
 
       // don't allow movement during "roll" which is the invincible dash left or right
       if ( this.player.rolling === false){
 
         if (event.code === 'ArrowUp' || mobileKey === "ArrowUp"){
-          // for debugging
-          // this.clearInvaders();
-          // WaveTwo.createWave(this.invaders, this.invaderSheet, stage);
- 
-          if (this.player.sprite.y > 350){
-            this.player.sprite.y -= 10
-            this.healthBar.sprite.y -= 10
-            this.shield.sprite.y -= 10
-            this.dashIcons[0].y -= 10
-            this.dashIcons[1].y -= 10
-            this.dashIcons[2].y -= 10
-          }
+          this.pressedUp = 1;
         }
-        else if (event.code === 'ArrowDown' || mobileKey === "ArrowDown"){
-          if (this.player.sprite.y < stage.canvas.height - 50){
-            this.player.sprite.y += 10
-            this.healthBar.sprite.y += 10
-            this.shield.sprite.y += 10
-            this.dashIcons[0].y += 10
-            this.dashIcons[1].y += 10
-            this.dashIcons[2].y += 10
-          }
+        if (event.code === 'ArrowDown' || mobileKey === "ArrowDown"){
+          this.pressedDown = 1;
         }
-        else if (event.code === 'ArrowLeft' || mobileKey === "ArrowLeft"){
-          if (this.player.sprite.x > 0){
-            this.player.sprite.x -= 20
-            this.healthBar.sprite.x -= 20
-            this.shield.sprite.x -= 20
-            this.dashIcons[0].x -= 20
-            this.dashIcons[1].x -= 20
-            this.dashIcons[2].x -= 20
-          }
+        if (event.code === 'ArrowLeft' || mobileKey === "ArrowLeft"){  
+          this.pressedLeft = 1;
         }
-        else if (event.code === 'ArrowRight' || mobileKey === "ArrowRight"){
-          if (this.player.sprite.x < stage.canvas.width - 32){
-            this.player.sprite.x += 20
-            this.healthBar.sprite.x += 20
-            this.shield.sprite.x += 20
-            this.dashIcons[0].x += 20
-            this.dashIcons[1].x += 20
-            this.dashIcons[2].x += 20
-          }
+        if (event.code === 'ArrowRight' || mobileKey === "ArrowRight"){
+          this.pressedRight = 1;
         }
-
         if (event.code === 'Space' || mobileKey === "Space"){
-          this.beam = new Beam(this.beamSheet);
-          this.beam.addToArray(this.player.sprite, stage, this.beamSheet)
-          this.beams.push(this.beam)
-          stage.addChild(this.beam.sprite)
-
-          this.beam.moveBeams(this.player.sprite, this.soundOn)
+          this.pressedSpace = 1;
         }
         if (event.key === 'a' || mobileKey === "a"){
-          if (this.player.sprite.x > 100){
-            this.player.roll("left", this.healthBars, this.shields, this.dashIcons, this.soundOn);
-          }
+          this.pressedA = 1;
         }
         if (event.key === 'd' || mobileKey === "d"){
-          if (this.player.sprite.x < stage.canvas.width - 16 - 100){
+          this.pressedD = 1;
+        }
+
+        if (mobileKey !== null){
+          this.mobileInput = true
+          this.moveHandler()
+          this.keyUp(event, mobileKey)
+        }
+        else{
+          this.mobileInput = false
+        }
+      }
+    },
+
+    keyUp(event, mobileKey) {
+      
+      
+      if (event.code === 'ArrowRight'  || mobileKey === "ArrowRight"){
+        this.pressedRight = 0;
+      }
+      else if (event.code === 'ArrowLeft' || mobileKey === "ArrowLeft"){
+        this.pressedLeft = 0;
+      }
+      else if (event.code === 'ArrowUp' || mobileKey === "ArrowUp"){
+        this.pressedUp = 0;
+      }
+      else if (event.code === 'ArrowDown' || mobileKey === "ArrowDown"){
+        this.pressedDown = 0;
+      }
+      else if (event.code === 'Space' || mobileKey === "Space"){
+        this.pressedSpace = 0;
+      }
+      else if (event.key === 'a' || mobileKey === "a"){
+        this.pressedA = 0;
+      }
+      else if (event.key === 'd' || mobileKey === "d"){
+        this.pressedD = 0;
+      }
+    },
+
+    moveHandler() {
+      this.moveLeft();
+      this.moveRight();
+      this.moveUp();
+      this.moveDown()
+      this.dashRight();
+      this.dashLeft();
+      this.fire();
+    },
+
+    moveRight() {
+      if (this.pressedRight === 1){
+        if (this.player.sprite.x < stage.canvas.width - 32){
+          let value = 5
+          if (this.mobileInput) value = 35;
+        
+          this.player.sprite.x += value;
+          this.healthBar.sprite.x += value;
+          this.shield.sprite.x += value;
+          this.dashIcons[0].x += value;
+          this.dashIcons[1].x += value;
+          this.dashIcons[2].x += value;
+        }
+      }
+    },
+
+    moveLeft() {
+      if (this.pressedLeft === 1){
+        if (this.player.sprite.x > 0){
+          let value = 5
+          if (this.mobileInput) value = 35;
+
+          this.player.sprite.x -= value;
+          this.healthBar.sprite.x -= value;
+          this.shield.sprite.x -= value;
+          this.dashIcons[0].x -= value;
+          this.dashIcons[1].x -= value;
+          this.dashIcons[2].x -= value;
+        }
+      }
+    },
+
+    moveUp() {
+      if (this.pressedUp === 1){
+        if (this.player.sprite.y > 350){
+          let value = 5
+          if (this.mobileInput) value = 35;
+
+          this.player.sprite.y -= value;
+          this.healthBar.sprite.y -= value;
+          this.shield.sprite.y -= value;
+          this.dashIcons[0].y -= value;
+          this.dashIcons[1].y -= value;
+          this.dashIcons[2].y -= value;
+        }
+      }
+    },
+
+    moveDown() {
+      if (this.pressedDown === 1){
+        if (this.player.sprite.y < stage.canvas.height - 50){
+          let value = 5
+          if (this.mobileInput) value = 35;
+
+          this.player.sprite.y += value;
+          this.healthBar.sprite.y += value;
+          this.shield.sprite.y += value;
+          this.dashIcons[0].y += value;
+          this.dashIcons[1].y += value;
+          this.dashIcons[2].y += value;
+        }
+      }
+    },
+
+    dashRight() {
+      if (this.pressedD === 1){
+        if (this.player.sprite.x < stage.canvas.width - 16 - 100){
+
+           // stops spending both rolls at once
+          if (!this.player.rolling){
             this.player.roll("right", this.healthBars, this.shields, this.dashIcons,  this.soundOn);
           }
         }
       }
     },
+
+    dashLeft() {
+      if (this.pressedA === 1){
+        if (this.player.sprite.x > 100){
+
+          // stops spending both rolls at once
+          if (!this.player.rolling){
+            this.player.roll("left", this.healthBars, this.shields, this.dashIcons, this.soundOn);
+          }
+        }
+      }
+    },
+
+    fire() {
+      if (this.pressedSpace === 1){
+        if (!this.fireDelay){
+          this.fireDelay = true;
+          this.beam = new Beam(this.beamSheet);
+          this.beam.addToArray(this.player.sprite, stage, this.beamSheet)
+          this.beams.push(this.beam)
+          stage.addChild(this.beam.sprite)
+  
+          this.beam.moveBeams(this.player.sprite, this.soundOn)
+
+          setTimeout(() => { this.fireDelay = false}, 200)
+        }
+      }
+    },
+
+
     
     clearInvaders() {
       this.invaders = []

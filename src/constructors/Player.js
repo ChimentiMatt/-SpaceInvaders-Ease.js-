@@ -19,14 +19,15 @@ class Player {
 
     roll = function(direction, healthBars, shields, dashIcons, soundOn) {
       if (this.rollCount > 0){
-        if (soundOn){
-          this.playRollSoundEffect()
-        }
         this.invincible = true
         this.rollCount--
         this.rolling = true;
         this.sprite.gotoAndPlay(direction)
-  
+        
+        if (soundOn){
+          this.playRollSoundEffect()
+        }
+        
         let value = 0
   
         if (direction === "left") value = -100
