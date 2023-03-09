@@ -58,6 +58,8 @@ function createWave (invaders, spriteSheet, stage) {
             invaderX = stage.canvas.width - 50 - 89;
             invaderY += 55
         }
+
+        // second wave
         if (i === 23){
             invader.sprite.x = stage.canvas.width - 50;
             invaderY += 55

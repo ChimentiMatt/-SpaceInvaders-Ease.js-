@@ -21,6 +21,7 @@ import Invader from './constructors/Invader.js';
 import WaveOne from './invaders/WaveOne.js';
 import WaveTwo from './invaders/WaveTwo.js';
 import WaveThree from './invaders/WaveThree.js';
+import WaveFour from './invaders/WaveFour.js';
 
 // music from pixabay, free to use by "dopestuff"
 import backgroundMusic from "./assets/sounds/neonGaming.mp3"
@@ -116,6 +117,7 @@ export default {
       timer: 99,
       domHealthVisual: 10,
       domRollCount: 1,
+      totalLevels: 3,
       gameOver: false,
       postScreen: false,
       inPostScreen: false,
@@ -191,13 +193,13 @@ export default {
       this.dashIcon.addToArray(this.players, stage, this.dashIconSheet, this.dashIcons)
       
       this.invaderSheet = InvaderSpriteSheet.createSheet();
-      WaveOne.createWave(this.invaders, this.invaderSheet, stage)
+      this.nextWave()
     },
 
     leaveLevel() {
       if (this.nextWaveCheck(this.invaders) && !this.inPostScreen){
         this.waveNumber++
-        if (this.waveNumber < 4){
+        if (this.waveNumber <= this.totalLevels){
           this.postScreen = true
           this.inPostScreen = true
           
@@ -256,12 +258,19 @@ export default {
     },
 
     nextWave() {
-      if (this.waveNumber === 2 ){
+      if (this.waveNumber === 1 ){
+        WaveOne.createWave(this.invaders, this.invaderSheet, stage)
+      }
+      else if (this.waveNumber === 2 ){
         WaveTwo.createWave(this.invaders, this.invaderSheet, stage)
       }
       else if (this.waveNumber === 3)
       {
         WaveThree.createWave(this.invaders, this.invaderSheet, stage)
+      }
+      else if (this.waveNumber === 4)
+      {
+        WaveFour.createWave(this.invaders, this.invaderSheet, stage)
       }
     },
 

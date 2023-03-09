@@ -1,6 +1,7 @@
 import Invader from '../constructors/Invader'
 
 function move(invader, stage, invaders) {
+    console.log('in 4')
     if (invader.currentAnimation !== "dying"){
         createjs.Tween.get(invader, {override: true, loop: true })
         .to({ y: invader.y + 130 }, 1000)
