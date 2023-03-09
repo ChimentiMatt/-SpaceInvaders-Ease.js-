@@ -1,6 +1,6 @@
 import invader from '../assets/invader.png'
 
-function createSheet(loader) {
+function createSheet() {
     let spriteSheet = new createjs.SpriteSheet({
         images: [invader],
         framerate: 2,

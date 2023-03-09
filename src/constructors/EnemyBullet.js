@@ -1,6 +1,6 @@
 class EnemyBullet {
     constructor(spriteSheet){
-        this.bullet = new createjs.Sprite(spriteSheet, "default");
+        this.sprite = new createjs.Sprite(spriteSheet, "default");
         this.x;
         this.y
     }
@@ -25,21 +25,21 @@ class EnemyBullet {
             let currentInvader = invaders[aliveInvaders[randomIndex]]
             
             // current location being set
-            this.bullet.x =  currentInvader.x;
-            this.bullet.y = currentInvader.y;
+            this.sprite.x =  currentInvader.x;
+            this.sprite.y = currentInvader.y;
             
             // for future reference
             this.x = currentInvader.x
             this.y = currentInvader.y;
 
-            stage.addChild(this.bullet)
+            stage.addChild(this.sprite)
         }
         
     }
 
     removeIfAtEnd = function () {
         // if off screen return true
-        if (this.bullet.y >= 450){
+        if (this.sprite.y >= 450){
           return true
         }
     }
@@ -52,11 +52,11 @@ class EnemyBullet {
         durationVariance = 2000
         // y: playerLocation.y + 4  + 150
 
-        createjs.Tween.get(this.bullet)
+        createjs.Tween.get(this.sprite)
         .to( { y: this.y + 500}, durationVariance)
         .call(() => {
-            stage.removeChild(this.bullet);
-            createjs.Tween.removeTweens(this.bullet)
+            stage.removeChild(this.sprite);
+            createjs.Tween.removeTweens(this.sprite)
         })
 
     }

@@ -1,6 +1,6 @@
 import health from '../assets/health.png'
 
-function createSheet(loader) {
+function createSheet() {
     let spriteSheet = new createjs.SpriteSheet({
         images: [health],
         framerate: 2,

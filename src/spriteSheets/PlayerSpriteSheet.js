@@ -1,6 +1,6 @@
 import playerImg from '../assets/player.png'
 
-function createSheet(players, loader, img) {
+function createSheet(players) {
     let spriteSheet = new createjs.SpriteSheet({
         images: [playerImg],
         // images: [loader.getResult("player")],

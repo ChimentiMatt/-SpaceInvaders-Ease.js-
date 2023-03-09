@@ -1,13 +1,13 @@
 class Shield {
     constructor(spriteSheet){
-        this.shield = new createjs.Sprite(spriteSheet, "on");
-        let on = false;
+        this.sprite = new createjs.Sprite(spriteSheet, "on");
+        // let on = false;
     }
   
     addToArray = function(player, stage, shields) {
-        this.shield.x = player.x + .5;
-        this.shield.y = player.y - 10;
-        shields.push(this.shield)
+        this.sprite.x = player.x + .5;
+        this.sprite.y = player.y - 10;
+        shields.push(this.sprite)
         stage.addChild(shields[0])
     }
 }

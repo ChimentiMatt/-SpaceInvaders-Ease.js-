@@ -1,6 +1,6 @@
 import shield from '../assets/shield.png'
 
-function createSheet(loader) {
+function createSheet() {
     let spriteSheet = new createjs.SpriteSheet({
         images: [shield],
         framerate: 2,

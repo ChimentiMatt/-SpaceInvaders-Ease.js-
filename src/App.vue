@@ -9,33 +9,25 @@ import InvaderSpriteSheet from './spriteSheets/InvaderSpriteSheet.js';
 import EnemyBulletSheet from './spriteSheets/EnemyBulletSheet.js'
 import DashIconSheet from './spriteSheets/DashIconSheet.js'
 import CreateContactExplosion from './spriteSheets/CreateContactExplosion';
-
 import CreateInvaders from './components/CreateInvaders.js'
 
 import Player from './constructors/Player.js';
 import Beam from './constructors/Beam.js';
 import Shield from './constructors/Shield.js';
 import HealthBar from './constructors/HealthBar.js';
-import Invader from './constructors/Invader.js';
 import EnemyBullet from './constructors/EnemyBullet.js'
 import Explosion from './constructors/Explosion.js'
 import DashIcon from './constructors/DashIcon.js'
+import Invader from './constructors/Invader.js';
 
 import WaveOne from './components/WaveOne.js';
 import WaveTwo from './components/WaveTwo.js';
 import WaveThree from './components/WaveThree.js';
 
-import InvaderImg from "./assets/invader.png";
-import PlayerImg from "./assets/player.png";
-import BeamImg from "./assets/beam.png";
-import HealthBarImg from "./assets/health.png";
-import ShieldImg from "./assets/shield.png";
-import EnemyBulletImg from "./assets/enemyBullet.png"
-import ContactExplosionImg from "./assets/contactExplosion.png";
-import DashIconImg from "./assets/dashIcon.png"
+import beamSound from "./assets/beamSound.mp3"
+import backgroundMusic from "./assets/neonGaming.mp3"
+// music from pixabay, free to use by "dopestuff"
 
-
-import EnemyBulletTestImg from "./assets/enemyBulletTest.png"
 </script>
 
 <template>  
@@ -88,11 +80,14 @@ import EnemyBulletTestImg from "./assets/enemyBulletTest.png"
 </template>
 
 <script>
-  var loader;
   var stage; 
   var beams = [];
   var enemyBullets = [];
-  var players = [];
+  var players = [];  
+  var bMusic = document.createElement("audio");
+  bMusic.src = backgroundMusic
+  bMusic.volume = .9;
+  bMusic.loop = true;
 
 export default {
   name: 'App',
@@ -143,15 +138,15 @@ export default {
     init() {
       this.startScreen = false;
       stage = new createjs.Stage("demoCanvas");
+      bMusic.play()
+
+      this.createSpriteSheets()
+      this.reduceTime(this.timer)
+      CreateInvaders.createInvaders(stage, this.invadersSprites, this.invaders)
 
       addEventListener('keydown', (event) => {
         this.onPress(event)
       })
-
-      this.createSpriteSheets()
-      this.reduceTime(this.timer)
-      
-      CreateInvaders.createInvaders(loader, stage, this.invadersSprites, this.invaders)
 
       createjs.Ticker.timingMode = createjs.Ticker.RAF;
       createjs.Ticker.addEventListener("tick", stage);
@@ -179,25 +174,25 @@ export default {
     },
 
     createSpriteSheets() {
-      this.playerSheet = PlayerSpriteSheet.createSheet(players, loader, stage);
+      this.playerSheet = PlayerSpriteSheet.createSheet(players, stage);
       this.player = new Player(this.playerSheet);
       this.player.addToArray(players, stage);
-      this.beamSheet = BeamSpriteSheet.createSheet(loader);
-      this.shieldSheet = ShieldSpriteSheet.createSheet(loader);
+      this.beamSheet = BeamSpriteSheet.createSheet();
+      this.shieldSheet = ShieldSpriteSheet.createSheet();
       this.shield = new Shield(this.shieldSheet);
-      this.shield.addToArray(players[0], stage, this.shields);
+      this.shield.addToArray(this.player.sprite, stage, this.shields);
       this.shields[0].visible = false;
-      this.healthBarSheet = HealthBarSpriteSheet.createSheet(loader);
+      this.healthBarSheet = HealthBarSpriteSheet.createSheet();
       this.healthBar = new HealthBar(this.healthBarSheet);
       this.healthBar.addToArray(players, stage, this.healthBars)
-      this.enemyBulletSheet = EnemyBulletSheet.createSheet(loader);
-      this.explosionSheet = CreateContactExplosion.createSheet(loader);
+      this.enemyBulletSheet = EnemyBulletSheet.createSheet();
+      this.explosionSheet = CreateContactExplosion.createSheet();
       
-      this.dashIconSheet = DashIconSheet.createSheet(loader);
+      this.dashIconSheet = DashIconSheet.createSheet();
       this.dashIcon = new DashIcon();
       this.dashIcon.addToArray(players, stage, this.dashIconSheet, this.dashIcons)
       
-      this.invaderSheet = InvaderSpriteSheet.createSheet(loader);
+      this.invaderSheet = InvaderSpriteSheet.createSheet();
       WaveOne.createWave(this.invaders, this.invaderSheet, stage)
     },
 
@@ -349,9 +344,9 @@ export default {
       let x, y;
       let results, index;
       for(let i = 0; i < beams.length; i++){
-        x = beams[i].beam.x
-        y = beams[i].beam.y
-        results = beams[i].detectCollision(beams, this.invaders, stage, loader);
+        x = beams[i].sprite.x
+        y = beams[i].sprite.y
+        results = beams[i].detectCollision(beams, this.invaders, stage);
       
         if (results.collision){
 
@@ -364,23 +359,24 @@ export default {
           // issue removing before fall logic      
           // this.invaders.splice(index, 1)
 
-          this.explosion = new Explosion();
-          this.explosion.addToArray(players, stage, this.explosionSheet,  this.explosions, x, y)
+          this.explosion = new Explosion(this.explosionSheet);
+          this.explosion.addToArray(players, stage, this.explosions, x, y)
         }
       }
     },
 
     playerBulletCollisionDetection() {
-      if (!players[0].invincible){
+      console.log(this.player.invincible)
+      if (!this.player.invincible){
 
         for (let i = 0; i < enemyBullets.length; i++){
           if (enemyBullets.length > 0){
 
             // if between player y: top and bottom: top && bottom
-            if (enemyBullets[i].bullet.y >= players[0].y - 0 && enemyBullets[i].bullet.y <= players[0].y + 16){
+            if (enemyBullets[i].sprite.y >= this.player.sprite.y - 0 && enemyBullets[i].sprite.y <= this.player.sprite.y + 16){
 
               // if between player x: left and right
-              if (enemyBullets[i].bullet.x >= players[0].x - 10 && enemyBullets[i].bullet.x <= players[0].x + 10){
+              if (enemyBullets[i].sprite.x >= this.player.sprite.x - 10 && enemyBullets[i].sprite.x <= this.player.sprite.x + 10){
                 this.healthBar.takeDamage(this.player.invincible)
 
                 // dom state variable needs to be out of external component
@@ -397,16 +393,16 @@ export default {
     },
 
     fallCollision() {
-      if (!players[0].invincible){
+      if (!this.player.sprite.invincible){
         
         for (let i = 0; i < this.invaders.length; i++){
      
           if (this.invaders[i].currentAnimation !== "default"){
             
             // check if between y quadrates of player and falling invader
-            if (players[0].y <= this.invaders[i].y + 16 && players[0].y >= this.invaders[i].y - 16 ){
+            if (this.player.sprite.y <= this.invaders[i].y + 16 && this.player.sprite.y >= this.invaders[i].y - 16 ){
               // check if between x quadrates of player and falling invader
-              if (players[0].x >= this.invaders[i].x - 16 && players[0].x <= this.invaders[i].x + 16 ){
+              if (this.player.sprite.x >= this.invaders[i].x - 16 && this.player.sprite.x <= this.invaders[i].x + 16 ){
                 console.log('fall hit')
                 this.healthBar.takeDamage(this.player.invincible)
 
@@ -426,10 +422,10 @@ export default {
       // console.log(this.player.invincible)
       if (!this.player.rolling && !this.player.invincible){
         this.shields[0].visible = true
-        players[0].invincible = true
+        this.player.invincible = true
 
         setTimeout(() => {
-          players[0].invincible = false;
+          this.player.invincible = false;
           this.shields[0].visible = false
         }, 2000)
       }
@@ -455,8 +451,8 @@ export default {
           // this.clearInvaders();
           // WaveTwo.createWave(this.invaders, this.invaderSheet, stage);
  
-          if (players[0].y > 350){
-            players[0].y -= 10
+          if (this.player.sprite.y > 350){
+            this.player.sprite.y -= 10
             this.healthBar.sprite.y -= 10
             this.shields[0].y -= 10
             this.dashIcons[0].y -= 10
@@ -465,8 +461,8 @@ export default {
           }
         }
         else if (event.code === 'ArrowDown' || mobileKey === "ArrowDown"){
-          if (players[0].y < stage.canvas.height - 50){
-            players[0].y += 10
+          if (this.player.sprite.y < stage.canvas.height - 50){
+            this.player.sprite.y += 10
             this.healthBar.sprite.y += 10
             this.shields[0].y += 10
             this.dashIcons[0].y += 10
@@ -475,8 +471,8 @@ export default {
           }
         }
         else if (event.code === 'ArrowLeft' || mobileKey === "ArrowLeft"){
-          if (players[0].x > 0){
-            players[0].x -= 20
+          if (this.player.sprite.x > 0){
+            this.player.sprite.x -= 20
             this.healthBar.sprite.x -= 20
             this.shields[0].x -= 20
             this.dashIcons[0].x -= 20
@@ -485,8 +481,8 @@ export default {
           }
         }
         else if (event.code === 'ArrowRight' || mobileKey === "ArrowRight"){
-          if (players[0].x < stage.canvas.width - 32){
-            players[0].x += 20
+          if (this.player.sprite.x < stage.canvas.width - 32){
+            this.player.sprite.x += 20
             this.healthBar.sprite.x += 20
             this.shields[0].x += 20
             this.dashIcons[0].x += 20
@@ -496,22 +492,27 @@ export default {
         }
 
         if (event.code === 'Space' || mobileKey === "Space"){
+          var soundEffect = new Audio(beamSound)
+          soundEffect.play()
+          soundEffect.volume = .3
+          soundEffect.onended = function(){
+          this.remove();
+        }  
 
           this.beam = new Beam(this.beamSheet);
-          this.beam.addToArray(players[0], stage, this.beamSheet)
+          this.beam.addToArray(this.player.sprite, stage, this.beamSheet)
           beams.push(this.beam)
+          stage.addChild(this.beam.sprite)
 
-          stage.addChild(this.beam.beam)
-
-          this.beam.moveBeams(players[0])
+          this.beam.moveBeams(this.player.sprite)
         }
         if (event.key === 'a' || mobileKey === "a"){
-          if (players[0].x > 100){
+          if (this.player.sprite.x > 100){
             this.player.roll("left", this.healthBars, this.shields, this.dashIcons);
           }
         }
         if (event.key === 'd' || mobileKey === "d"){
-          if (players[0].x < stage.canvas.width - 16 - 100){
+          if (this.player.sprite.x < stage.canvas.width - 16 - 100){
             this.player.roll("right", this.healthBars, this.shields, this.dashIcons);
           }
         }

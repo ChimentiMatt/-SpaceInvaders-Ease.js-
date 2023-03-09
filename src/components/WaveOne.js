@@ -45,9 +45,8 @@ function createWave (invaders, spriteSheet, stage) {
       
         invader = new Invader(spriteSheet);
 
-        invader.invader.x = invaderX;
-        invader.invader.y = -invaderY;
-
+        invader.sprite.x = invaderX;
+        invader.sprite.y = -invaderY;
 
         invaderX -= 30;
 
@@ -61,10 +60,10 @@ function createWave (invaders, spriteSheet, stage) {
             invaderY += 55
         }
         if (i === 23){
-            invader.invader.x = stage.canvas.width - 50;
+            invader.sprite.x = stage.canvas.width - 50;
             invaderY += 55
         }
-        invaders.push(invader.invader)
+        invaders.push(invader.sprite)
     }
  
     paintWave(stage, invaders)

@@ -1,16 +1,16 @@
 class Explosion {
-    constructor(){
+    constructor(spriteSheet){
+        this.spite = new createjs.Sprite(spriteSheet, "contactExplosion");
     }
   
-    addToArray = function(players, stage, spriteSheet, explosions, x, y) {
-        let explosion = new createjs.Sprite(spriteSheet, "contactExplosion");
-        explosion.x = x ;
-        explosion.y = y;
+    addToArray = function(players, stage,  explosions, x, y) {
+        this.spite.x = x ;
+        this.spite.y = y;
 
-        stage.addChild(explosion)
+        stage.addChild(this.spite)
 
         setTimeout(() => {
-            stage.removeChild(explosion)
+            stage.removeChild(this.spite)
         }, 200)
     }
 }

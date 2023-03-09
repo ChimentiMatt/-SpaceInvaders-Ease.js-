@@ -1,12 +1,12 @@
 class Beam {
     constructor(spriteSheet){
-      this.beam = new createjs.Sprite(spriteSheet, "default")
+      this.sprite = new createjs.Sprite(spriteSheet, "default")
       this.madeContact = false
     }
   
     addToArray = function(player, stage, spriteSheet) {
-      this.beam.x = player.x;
-      this.beam.y = player.y - 17;
+      this.sprite.x = player.x;
+      this.sprite.y = player.y - 17;
     }
 
     test = function(){
@@ -16,20 +16,20 @@ class Beam {
     moveBeams = function (player) {
 
       // Only Tween on first fire
-      if (this.beam.y === player.y - 17){ 
-          createjs.Tween.get(this.beam)
+      if (this.sprite.y === player.y - 17){ 
+          createjs.Tween.get(this.sprite)
           .to({ y: -16 }, 1500)
       }
     }
 
     removeIfOffScreen = function () {
       // if off screen return true
-      if (this.beam.y < 10 ){
+      if (this.sprite.y < 10 ){
         return true
       }
     }
 
-    detectCollision = function (beams, enemies, stage, loader) { 
+    detectCollision = function (beams, enemies, stage) { 
       // console.log(enemies.length)
   
       // loop over invaders
@@ -39,18 +39,18 @@ class Beam {
         if (enemies[i].currentAnimation !== 'dead'){
           
           // if beam y is between invader sprite
-          if (this.beam.y <= enemies[i].y + 8 && this.beam.y >= enemies[i].y  ) {
+          if (this.sprite.y <= enemies[i].y + 8 && this.sprite.y >= enemies[i].y  ) {
             
             // if beam has not yet made contact
-            if (this.beam.currentAnimation !== 'contact'){
+            if (this.sprite.currentAnimation !== 'contact'){
               
               // if beam x is between invader sprite
-              if (this.beam.x >= enemies[i].x -16 && this.beam.x <= enemies[i].x + 16  ){
+              if (this.sprite.x >= enemies[i].x -16 && this.sprite.x <= enemies[i].x + 16  ){
 
 
                 if (!this.madeContact){
                   this.madeContact = true
-                  this.beam.visible = false
+                  this.sprite.visible = false
 
                   // this.deathFall(enemies[i], stage, enemies)
                   // stage.removeChild(this.beam);

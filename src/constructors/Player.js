@@ -1,6 +1,6 @@
 class Player {
     constructor(spriteSheet){
-      this.player = new createjs.Sprite(spriteSheet, "default");
+      this.sprite = new createjs.Sprite(spriteSheet, "default");
       this.invincible = false;
       this.rolling = false;
       this.rollCount = 1;
@@ -8,9 +8,9 @@ class Player {
     }
   
     addToArray = function(players, stage) {
-      this.player.x = stage.canvas.width / 2 - 16;
-      this.player.y = 450;
-      players.push(this.player)
+      this.sprite.x = stage.canvas.width / 2 - 16;
+      this.sprite.y = 450;
+      players.push(this.sprite)
       stage.addChild(players[0])
     }
 
@@ -19,7 +19,7 @@ class Player {
         this.invincible = true
         this.rollCount--
         this.rolling = true;
-        this.player.gotoAndPlay(direction)
+        this.sprite.gotoAndPlay(direction)
   
         let value = 0
   
@@ -41,11 +41,11 @@ class Player {
         createjs.Tween.get(dashIcons[2], {override: true})
         .to({ x: dashIcons[2].x + value }, 500)
   
-        createjs.Tween.get(this.player, {override: true})
-        .to({ x: this.player.x + value }, 500)
+        createjs.Tween.get(this.sprite, {override: true})
+        .to({ x: this.sprite.x + value }, 500)
         .call(() => {
           this.rolling = false
-          this.player.gotoAndPlay("default")
+          this.sprite.gotoAndPlay("default")
           this.invincible = false
         })
   
