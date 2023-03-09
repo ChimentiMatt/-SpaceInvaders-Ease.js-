@@ -72,6 +72,19 @@ import EnemyBulletTestImg from "./assets/enemyBulletTest.png"
     <p>a and d to roll</p> 
   </div>
 
+  <!-- temporary until I make a high quality version -->
+  <div id="mobile-controls">
+    <button @click="onPress(null, 'ArrowLeft')">left</button>
+    <button @click="onPress(null, 'ArrowUp')" id="up">up</button>
+    <button @click="onPress(null, 'ArrowRight')">right</button>
+  </div>
+
+  <div id="mobile-controls">
+    <button @click="onPress(null, 'a')">roll left</button>
+    <button @click="onPress(null, 'd')">roll right</button>
+    <button @click="onPress(null, 'Space')" id="shoot">shoot</button>
+  </div>
+
 </template>
 
 <script>
@@ -429,11 +442,15 @@ export default {
       }
     },
 
-    onPress(event) {
+    onPress(event, mobileKey = null) {
+
+      // if using mobile controls ignore event and make it not break 
+      if (event === null){event = {code: ''}}
+
       // don't allow movement during "roll" which is the invincible dash left or right
       if ( this.player.rolling === false){
 
-        if (event.code === 'ArrowUp'){
+        if (event.code === 'ArrowUp' || mobileKey === "ArrowUp"){
           // for debugging
           // this.clearInvaders();
           // WaveTwo.createWave(this.invaders, this.invaderSheet, stage);
@@ -447,7 +464,7 @@ export default {
             this.dashIcons[2].y -= 10
           }
         }
-        else if (event.code === 'ArrowDown'){
+        else if (event.code === 'ArrowDown' || mobileKey === "ArrowDown"){
           if (players[0].y < stage.canvas.height - 50){
             players[0].y += 10
             this.healthBar.sprite.y += 10
@@ -457,7 +474,7 @@ export default {
             this.dashIcons[2].y += 10
           }
         }
-        else if (event.code === 'ArrowLeft'){
+        else if (event.code === 'ArrowLeft' || mobileKey === "ArrowLeft"){
           if (players[0].x > 0){
             players[0].x -= 20
             this.healthBar.sprite.x -= 20
@@ -467,7 +484,7 @@ export default {
             this.dashIcons[2].x -= 20
           }
         }
-        else if (event.code === 'ArrowRight'){
+        else if (event.code === 'ArrowRight' || mobileKey === "ArrowRight"){
           if (players[0].x < stage.canvas.width - 32){
             players[0].x += 20
             this.healthBar.sprite.x += 20
@@ -478,7 +495,7 @@ export default {
           }
         }
 
-        if (event.code === 'Space'){
+        if (event.code === 'Space' || mobileKey === "Space"){
 
           this.beam = new Beam(this.beamSheet);
           this.beam.addToArray(players[0], stage, this.beamSheet)
@@ -488,12 +505,12 @@ export default {
 
           this.beam.moveBeams(players[0])
         }
-        if (event.key === 'a'){
+        if (event.key === 'a' || mobileKey === "a"){
           if (players[0].x > 100){
             this.player.roll("left", this.healthBars, this.shields, this.dashIcons);
           }
         }
-        if (event.key === 'd'){
+        if (event.key === 'd' || mobileKey === "d"){
           if (players[0].x < stage.canvas.width - 16 - 100){
             this.player.roll("right", this.healthBars, this.shields, this.dashIcons);
           }
