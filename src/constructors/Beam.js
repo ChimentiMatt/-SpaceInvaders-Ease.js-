@@ -1,3 +1,5 @@
+import beamSound from "../assets/sounds/beamSound.mp3"
+
 class Beam {
     constructor(spriteSheet){
       this.sprite = new createjs.Sprite(spriteSheet, "default")
@@ -14,12 +16,21 @@ class Beam {
     }
 
     moveBeams = function (player) {
-
+      this.playSoundEffect()
       // Only Tween on first fire
       if (this.sprite.y === player.y - 17){ 
           createjs.Tween.get(this.sprite)
           .to({ y: -16 }, 1500)
       }
+    }
+
+    playSoundEffect = function() {
+      var soundEffect = new Audio(beamSound)
+      soundEffect.play()
+      soundEffect.volume = .15
+      soundEffect.onended = function(){
+        this.remove();
+      }  
     }
 
     removeIfOffScreen = function () {
@@ -29,7 +40,7 @@ class Beam {
       }
     }
 
-    detectCollision = function (beams, enemies, stage) { 
+    detectCollision = function (beams, enemies) { 
       // console.log(enemies.length)
   
       // loop over invaders

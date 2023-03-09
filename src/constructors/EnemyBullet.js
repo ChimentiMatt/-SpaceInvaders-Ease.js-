@@ -44,7 +44,7 @@ class EnemyBullet {
         }
     }
 
-    direction = function(players, enemyBullets, invaders, stage) {
+    direction = function(players, stage) {
         let playerLocation = {x: players[0].x, y: players[0].y}
         let xVariance = Math.floor(Math.random() * (stage.canvas.width - 0) + 0)
         let durationVariance = Math.floor(Math.random() * (3000 - 2000) + 2000)

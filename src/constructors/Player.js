@@ -1,3 +1,6 @@
+import dashSound from "../assets/sounds/dashSound.mp3"
+import notificationSound from "../assets/sounds/notificationSound.mp3"
+
 class Player {
     constructor(spriteSheet){
       this.sprite = new createjs.Sprite(spriteSheet, "default");
@@ -16,6 +19,7 @@ class Player {
 
     roll = function(direction, healthBars, shields, dashIcons) {
       if (this.rollCount > 0){
+        this.playRollSoundEffect()
         this.invincible = true
         this.rollCount--
         this.rolling = true;
@@ -53,27 +57,49 @@ class Player {
       }
     }
 
+    playRollSoundEffect = function(){
+      var soundEffect = new Audio(dashSound)
+      soundEffect.play()
+      soundEffect.volume = .6
+      soundEffect.onended = function(){
+        this.remove();
+      }  
+    }
+
+    playNotificationSoundEffect = function(){
+      var soundEffect = new Audio(notificationSound)
+      soundEffect.play()
+      soundEffect.volume = .99
+      soundEffect.onended = function(){
+        this.remove();
+      }  
+    }
+
     refillRolls = function () {
       if (this.rollCount === -1){
         setTimeout(() => {
           this.rollCount++
+          this.playNotificationSoundEffect()
         }, 3000)
       }
       if (this.rollCount === 0){
         setTimeout(() => {
           this.rollCount++
+          this.playNotificationSoundEffect()
         }, 3000)
       }
       if (this.rollCount === 1 ){
         setTimeout(() => {
           console.log(1)
           this.rollCount++
+          this.playNotificationSoundEffect()
         }, 3000)
       }
       if (this.rollCount === 2 ){
         setTimeout(() => {
           console.log(2)
           this.rollCount++
+          this.playNotificationSoundEffect()
         }, 3000)
       }
       

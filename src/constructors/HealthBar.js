@@ -1,3 +1,5 @@
+import damageSound from "../assets/sounds/damageSound.mp3"
+
 class HealthBar {
     constructor(spriteSheet){
         this.sprite = new createjs.Sprite(spriteSheet, "health10");
@@ -13,6 +15,7 @@ class HealthBar {
 
     takeDamage = function(invincible) {
       if (!invincible){
+        this.playSoundEffect()
         switch(this.healthPoints){
           case 10:
             this.sprite.gotoAndPlay("health9");
@@ -58,6 +61,15 @@ class HealthBar {
             // this.healthBars[0].gotoAndPlay("health10");
           }
         }
+      }
+
+      playSoundEffect = function(){
+        var soundEffect = new Audio(damageSound)
+        soundEffect.play()
+        soundEffect.volume = .7
+        soundEffect.onended = function(){
+          this.remove();
+        }  
       }
 
       heal = function() {

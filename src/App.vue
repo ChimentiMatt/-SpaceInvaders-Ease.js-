@@ -1,6 +1,4 @@
 <script setup>
-
-
 import PlayerSpriteSheet from './spriteSheets/PlayerSpriteSheet.js';
 import BeamSpriteSheet from './spriteSheets/BeamSpriteSheet.js';
 import ShieldSpriteSheet from './spriteSheets/ShieldSpriteSheet.js';
@@ -24,12 +22,10 @@ import WaveOne from './components/WaveOne.js';
 import WaveTwo from './components/WaveTwo.js';
 import WaveThree from './components/WaveThree.js';
 
-import beamSound from "./assets/beamSound.mp3"
-import backgroundMusic from "./assets/neonGaming.mp3"
+import backgroundMusic from "./assets/sounds/neonGaming.mp3"
 // music from pixabay, free to use by "dopestuff"
 
 </script>
-
 <template>  
   <div id='body'>
     <div v-if="startScreen || gameOver" id="intro-outro-screen">
@@ -81,12 +77,9 @@ import backgroundMusic from "./assets/neonGaming.mp3"
 
 <script>
   var stage; 
-  var beams = [];
-  var enemyBullets = [];
-  var players = [];  
   var bMusic = document.createElement("audio");
   bMusic.src = backgroundMusic
-  bMusic.volume = .9;
+  bMusic.volume = .5;
   bMusic.loop = true;
 
 export default {
@@ -94,16 +87,20 @@ export default {
   data () {
     return {
       titleScreen: true,
-      player: '',
+      players: [],
       shields: [],
+      beams: [],
+      enemyBullets: [],
       healthBars: [],
+      invaders: [],
+      explosions: [],
+      dashIcons: [],
+      player: '',
       heathBar: '',
       invadersSprites: '',
-      invaders: [],
       invader: '',
       beam: '',
       shield: '',
-      explosions: [],
       explosion: '',
       enemyBullet: '',
       playerSheet: '',
@@ -113,19 +110,16 @@ export default {
       enemyBulletSheet: '',
       explosionSheet: '',
       dashIconSheet: '',
-      dashIcons: [],
       dashIcon: '',
       waveNumber: 1,
-      gameOver: false,
       score: 0,
       timer: 99,
+      domHealthVisual: 10,
+      domRollCount: 1,
+      gameOver: false,
       postScreen: false,
       inPostScreen: false,
       startScreen: true,
-      
-
-      domHealthVisual: 10,
-      domRollCount: 1,
     }
   },
 
@@ -174,9 +168,9 @@ export default {
     },
 
     createSpriteSheets() {
-      this.playerSheet = PlayerSpriteSheet.createSheet(players, stage);
+      this.playerSheet = PlayerSpriteSheet.createSheet(this.players, stage);
       this.player = new Player(this.playerSheet);
-      this.player.addToArray(players, stage);
+      this.player.addToArray(this.players, stage);
       this.beamSheet = BeamSpriteSheet.createSheet();
       this.shieldSheet = ShieldSpriteSheet.createSheet();
       this.shield = new Shield(this.shieldSheet);
@@ -184,13 +178,13 @@ export default {
       this.shields[0].visible = false;
       this.healthBarSheet = HealthBarSpriteSheet.createSheet();
       this.healthBar = new HealthBar(this.healthBarSheet);
-      this.healthBar.addToArray(players, stage, this.healthBars)
+      this.healthBar.addToArray(this.players, stage, this.healthBars)
       this.enemyBulletSheet = EnemyBulletSheet.createSheet();
       this.explosionSheet = CreateContactExplosion.createSheet();
       
       this.dashIconSheet = DashIconSheet.createSheet();
       this.dashIcon = new DashIcon();
-      this.dashIcon.addToArray(players, stage, this.dashIconSheet, this.dashIcons)
+      this.dashIcon.addToArray(this.players, stage, this.dashIconSheet, this.dashIcons)
       
       this.invaderSheet = InvaderSpriteSheet.createSheet();
       WaveOne.createWave(this.invaders, this.invaderSheet, stage)
@@ -221,7 +215,7 @@ export default {
         
         // remove from array invaders
         this.invaders = []
-        enemyBullets = []
+        this.enemyBullets = []
     },
 
     viewPostScreen(choice) {
@@ -273,10 +267,10 @@ export default {
   
       if (number > 85){
         this.enemyBullet = new EnemyBullet(this.enemyBulletSheet)
-        enemyBullets.push(this.enemyBullet)
+        this.enemyBullets.push(this.enemyBullet)
         this.enemyBullet.addToStage(stage, this.invaders)
 
-        this.enemyBullet.direction(players, this.enemyBullets, this.invaders, stage);
+        this.enemyBullet.direction(this.players, stage);
       }
      
     },
@@ -287,16 +281,16 @@ export default {
       const removeIndex = []
       
       // removes sprites that are no longer on canvas for beams
-      if (beams.length > 0){
+      if (this.beams.length > 0){
     
-        for (let i = 0; i < beams.length; i++){
-          isOffScreen = beams[i].removeIfOffScreen()
+        for (let i = 0; i < this.beams.length; i++){
+          isOffScreen = this.beams[i].removeIfOffScreen()
 
           if (!isOffScreen){
-            stillInScreen.push(beams[i]);
+            stillInScreen.push(this.beams[i]);
           }
           else {
-            removeIndex.push(beams[i])
+            removeIndex.push(this.beams[i])
             this.score--
           }
           isOffScreen = false;
@@ -305,27 +299,27 @@ export default {
         // remove from stage
         for (let i = 0; i < removeIndex.length; i++){
           stage.removeChild(removeIndex[i]);
-          beams = stillInScreen;
+          this.beams = stillInScreen;
         }
       }
     },
 
     removeOldInvaderBullets () {
-      if (enemyBullets.length > 0){
+      if (this.enemyBullets.length > 0){
         let isAtEnd = false;
         const stillInScreen = []
         const removeIndex = []
         // removes sprites that are no longer on canvas for beams
-        if (enemyBullets.length > 0){
+        if (this.enemyBullets.length > 0){
       
-          for (let i = 0; i < enemyBullets.length; i++){
-            isAtEnd = enemyBullets[i].removeIfAtEnd()
+          for (let i = 0; i < this.enemyBullets.length; i++){
+            isAtEnd = this.enemyBullets[i].removeIfAtEnd()
 
             if (!isAtEnd){
-              stillInScreen.push(enemyBullets[i]);
+              stillInScreen.push(this.enemyBullets[i]);
             }
             else {
-              removeIndex.push(enemyBullets[i])
+              removeIndex.push(this.enemyBullets[i])
             }
             isAtEnd = false;
           }
@@ -333,7 +327,7 @@ export default {
           // remove from stage
           for (let i = 0; i < removeIndex.length; i++){
             stage.removeChild(removeIndex[i]);  
-            enemyBullets = stillInScreen;
+            this.enemyBullets = stillInScreen;
           }
         }
       }
@@ -343,40 +337,39 @@ export default {
     beamsCollisionDetection() {
       let x, y;
       let results, index;
-      for(let i = 0; i < beams.length; i++){
-        x = beams[i].sprite.x
-        y = beams[i].sprite.y
-        results = beams[i].detectCollision(beams, this.invaders, stage);
+      for(let i = 0; i < this.beams.length; i++){
+        x = this.beams[i].sprite.x
+        y = this.beams[i].sprite.y
+        results = this.beams[i].detectCollision(this.beams, this.invaders);
       
         if (results.collision){
 
           index = results.index
-          beams[i].deathFall(this.invaders[index], stage)
+          this.beams[i].deathFall(this.invaders[index], stage)
           
-          stage.removeChild(beams[i]);
-          beams.splice(i, 1)
+          stage.removeChild(this.beams[i]);
+          this.beams.splice(i, 1)
 
           // issue removing before fall logic      
           // this.invaders.splice(index, 1)
 
           this.explosion = new Explosion(this.explosionSheet);
-          this.explosion.addToArray(players, stage, this.explosions, x, y)
+          this.explosion.addToStage(stage, x, y)
         }
       }
     },
 
     playerBulletCollisionDetection() {
-      console.log(this.player.invincible)
       if (!this.player.invincible){
 
-        for (let i = 0; i < enemyBullets.length; i++){
-          if (enemyBullets.length > 0){
+        for (let i = 0; i < this.enemyBullets.length; i++){
+          if (this.enemyBullets.length > 0){
 
             // if between player y: top and bottom: top && bottom
-            if (enemyBullets[i].sprite.y >= this.player.sprite.y - 0 && enemyBullets[i].sprite.y <= this.player.sprite.y + 16){
+            if (this.enemyBullets[i].sprite.y >= this.player.sprite.y - 0 && this.enemyBullets[i].sprite.y <= this.player.sprite.y + 16){
 
               // if between player x: left and right
-              if (enemyBullets[i].sprite.x >= this.player.sprite.x - 10 && enemyBullets[i].sprite.x <= this.player.sprite.x + 10){
+              if (this.enemyBullets[i].sprite.x >= this.player.sprite.x - 10 && this.enemyBullets[i].sprite.x <= this.player.sprite.x + 10){
                 this.healthBar.takeDamage(this.player.invincible)
 
                 // dom state variable needs to be out of external component
@@ -403,7 +396,6 @@ export default {
             if (this.player.sprite.y <= this.invaders[i].y + 16 && this.player.sprite.y >= this.invaders[i].y - 16 ){
               // check if between x quadrates of player and falling invader
               if (this.player.sprite.x >= this.invaders[i].x - 16 && this.player.sprite.x <= this.invaders[i].x + 16 ){
-                console.log('fall hit')
                 this.healthBar.takeDamage(this.player.invincible)
 
                 // dom state variable needs to be out of external component
@@ -419,21 +411,19 @@ export default {
     },
   
     invinciblePlayer() {
-      // console.log(this.player.invincible)
       if (!this.player.rolling && !this.player.invincible){
-        this.shields[0].visible = true
+        this.shield.sprite.visible = true
         this.player.invincible = true
 
         setTimeout(() => {
           this.player.invincible = false;
-          this.shields[0].visible = false
+          this.shield.sprite.visible = false
         }, 2000)
       }
     },
 
     gameOverCheck() {
       if (this.healthBar.healthPoints < 1){
-        console.log('now')
         this.gameOver = true;
       }
     },
@@ -454,7 +444,7 @@ export default {
           if (this.player.sprite.y > 350){
             this.player.sprite.y -= 10
             this.healthBar.sprite.y -= 10
-            this.shields[0].y -= 10
+            this.shield.sprite.y -= 10
             this.dashIcons[0].y -= 10
             this.dashIcons[1].y -= 10
             this.dashIcons[2].y -= 10
@@ -464,7 +454,7 @@ export default {
           if (this.player.sprite.y < stage.canvas.height - 50){
             this.player.sprite.y += 10
             this.healthBar.sprite.y += 10
-            this.shields[0].y += 10
+            this.shield.sprite.y += 10
             this.dashIcons[0].y += 10
             this.dashIcons[1].y += 10
             this.dashIcons[2].y += 10
@@ -474,7 +464,7 @@ export default {
           if (this.player.sprite.x > 0){
             this.player.sprite.x -= 20
             this.healthBar.sprite.x -= 20
-            this.shields[0].x -= 20
+            this.shield.sprite.x -= 20
             this.dashIcons[0].x -= 20
             this.dashIcons[1].x -= 20
             this.dashIcons[2].x -= 20
@@ -484,7 +474,7 @@ export default {
           if (this.player.sprite.x < stage.canvas.width - 32){
             this.player.sprite.x += 20
             this.healthBar.sprite.x += 20
-            this.shields[0].x += 20
+            this.shield.sprite.x += 20
             this.dashIcons[0].x += 20
             this.dashIcons[1].x += 20
             this.dashIcons[2].x += 20
@@ -492,16 +482,9 @@ export default {
         }
 
         if (event.code === 'Space' || mobileKey === "Space"){
-          var soundEffect = new Audio(beamSound)
-          soundEffect.play()
-          soundEffect.volume = .3
-          soundEffect.onended = function(){
-          this.remove();
-        }  
-
           this.beam = new Beam(this.beamSheet);
           this.beam.addToArray(this.player.sprite, stage, this.beamSheet)
-          beams.push(this.beam)
+          this.beams.push(this.beam)
           stage.addChild(this.beam.sprite)
 
           this.beam.moveBeams(this.player.sprite)
