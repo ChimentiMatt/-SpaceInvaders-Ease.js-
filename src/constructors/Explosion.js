@@ -6,12 +6,14 @@ class Explosion {
         this.spite = new createjs.Sprite(spriteSheet, "contactExplosion");
     }
   
-    addToStage = function(stage, x, y) {
+    addToStage = function(stage, x, y, soundOn) {
         this.spite.x = x ;
         this.spite.y = y;
 
         stage.addChild(this.spite);
-        this.playSoundEffect();
+        if (soundOn){
+            this.playSoundEffect();
+        }
 
         setTimeout(() => {
             stage.removeChild(this.spite)

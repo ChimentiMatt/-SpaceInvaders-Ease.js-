@@ -13,9 +13,11 @@ class HealthBar {
         stage.addChild(healthBars[0])
     }
 
-    takeDamage = function(invincible) {
+    takeDamage = function(invincible, soundOn) {
       if (!invincible){
-        this.playSoundEffect()
+        if (soundOn){
+          this.playSoundEffect()
+        }
         switch(this.healthPoints){
           case 10:
             this.sprite.gotoAndPlay("health9");
@@ -73,7 +75,6 @@ class HealthBar {
       }
 
       heal = function() {
-
         switch(this.healthPoints){
           case 10:
             this.sprite.gotoAndPlay("health10");

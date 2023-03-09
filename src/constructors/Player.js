@@ -17,9 +17,11 @@ class Player {
       stage.addChild(players[0])
     }
 
-    roll = function(direction, healthBars, shields, dashIcons) {
+    roll = function(direction, healthBars, shields, dashIcons, soundOn) {
       if (this.rollCount > 0){
-        this.playRollSoundEffect()
+        if (soundOn){
+          this.playRollSoundEffect()
+        }
         this.invincible = true
         this.rollCount--
         this.rolling = true;
@@ -53,7 +55,7 @@ class Player {
           this.invincible = false
         })
   
-        this.refillRolls();
+        this.refillRolls(soundOn);
       }
     }
 
@@ -66,40 +68,42 @@ class Player {
       }  
     }
 
-    playNotificationSoundEffect = function(){
-      var soundEffect = new Audio(notificationSound)
-      soundEffect.play()
-      soundEffect.volume = .99
-      soundEffect.onended = function(){
-        this.remove();
-      }  
+    playNotificationSoundEffect = function(soundOn){
+      if (soundOn){
+        var soundEffect = new Audio(notificationSound)
+        soundEffect.play()
+        soundEffect.volume = .99
+        soundEffect.onended = function(){
+          this.remove();
+        }  
+      }
     }
 
-    refillRolls = function () {
+    refillRolls = function (soundOn) {
       if (this.rollCount === -1){
         setTimeout(() => {
           this.rollCount++
-          this.playNotificationSoundEffect()
+          this.playNotificationSoundEffect(soundOn)
         }, 3000)
       }
       if (this.rollCount === 0){
         setTimeout(() => {
           this.rollCount++
-          this.playNotificationSoundEffect()
+          this.playNotificationSoundEffect(soundOn)
         }, 3000)
       }
       if (this.rollCount === 1 ){
         setTimeout(() => {
           console.log(1)
           this.rollCount++
-          this.playNotificationSoundEffect()
+          this.playNotificationSoundEffect(soundOn)
         }, 3000)
       }
       if (this.rollCount === 2 ){
         setTimeout(() => {
           console.log(2)
           this.rollCount++
-          this.playNotificationSoundEffect()
+          this.playNotificationSoundEffect(soundOn)
         }, 3000)
       }
       

@@ -22,8 +22,8 @@ import WaveOne from './components/WaveOne.js';
 import WaveTwo from './components/WaveTwo.js';
 import WaveThree from './components/WaveThree.js';
 
-import backgroundMusic from "./assets/sounds/neonGaming.mp3"
 // music from pixabay, free to use by "dopestuff"
+import backgroundMusic from "./assets/sounds/neonGaming.mp3"
 
 </script>
 <template>  
@@ -120,19 +120,23 @@ export default {
       postScreen: false,
       inPostScreen: false,
       startScreen: true,
+      soundOn: true,
     }
   },
 
   methods: {
-
-    resetGame() {
-     window.location.reload();
-    },
-
     init() {
       this.startScreen = false;
       stage = new createjs.Stage("demoCanvas");
-      bMusic.play()
+
+      // if mobile do not allow sounds as it causes bugs currently
+      if (this.detectIfMobile()){
+        this.soundOn = false
+      }
+
+      if (this.soundOn){
+        bMusic.play()
+      }
 
       this.createSpriteSheets()
       this.reduceTime(this.timer)
@@ -268,7 +272,7 @@ export default {
       if (number > 85){
         this.enemyBullet = new EnemyBullet(this.enemyBulletSheet)
         this.enemyBullets.push(this.enemyBullet)
-        this.enemyBullet.addToStage(stage, this.invaders)
+        this.enemyBullet.addToStage(stage, this.invaders, this.soundOn)
 
         this.enemyBullet.direction(this.players, stage);
       }
@@ -354,7 +358,7 @@ export default {
           // this.invaders.splice(index, 1)
 
           this.explosion = new Explosion(this.explosionSheet);
-          this.explosion.addToStage(stage, x, y)
+          this.explosion.addToStage(stage, x, y, this.soundOn)
         }
       }
     },
@@ -370,7 +374,7 @@ export default {
 
               // if between player x: left and right
               if (this.enemyBullets[i].sprite.x >= this.player.sprite.x - 10 && this.enemyBullets[i].sprite.x <= this.player.sprite.x + 10){
-                this.healthBar.takeDamage(this.player.invincible)
+                this.healthBar.takeDamage(this.player.invincible, this.soundOn)
 
                 // dom state variable needs to be out of external component
                 if (!this.player.invincible){
@@ -396,7 +400,7 @@ export default {
             if (this.player.sprite.y <= this.invaders[i].y + 16 && this.player.sprite.y >= this.invaders[i].y - 16 ){
               // check if between x quadrates of player and falling invader
               if (this.player.sprite.x >= this.invaders[i].x - 16 && this.player.sprite.x <= this.invaders[i].x + 16 ){
-                this.healthBar.takeDamage(this.player.invincible)
+                this.healthBar.takeDamage(this.player.invincible, this.soundOn)
 
                 // dom state variable needs to be out of external component
                 if (!this.player.invincible){
@@ -487,16 +491,16 @@ export default {
           this.beams.push(this.beam)
           stage.addChild(this.beam.sprite)
 
-          this.beam.moveBeams(this.player.sprite)
+          this.beam.moveBeams(this.player.sprite, this.soundOn)
         }
         if (event.key === 'a' || mobileKey === "a"){
           if (this.player.sprite.x > 100){
-            this.player.roll("left", this.healthBars, this.shields, this.dashIcons);
+            this.player.roll("left", this.healthBars, this.shields, this.dashIcons, this.soundOn);
           }
         }
         if (event.key === 'd' || mobileKey === "d"){
           if (this.player.sprite.x < stage.canvas.width - 16 - 100){
-            this.player.roll("right", this.healthBars, this.shields, this.dashIcons);
+            this.player.roll("right", this.healthBars, this.shields, this.dashIcons,  this.soundOn);
           }
         }
       }
@@ -506,7 +510,7 @@ export default {
       this.invaders = []
     },
 
-    nextWaveCheck () {
+    nextWaveCheck() {
       for (let i = 0; i < this.invaders.length; i++){
         if (this.invaders[i].currentAnimation !== "dead"){
             return false;
@@ -517,21 +521,40 @@ export default {
 
       return true;
     },
-
-
     
-    reduceTime (){
+    reduceTime(){
       setInterval(() => {
         this.timer--
       }, 1000)
     },
+
+    detectIfMobile(){
+      let details = navigator.userAgent;
+      
+      /* Creating a regular expression 
+      containing some mobile devices keywords 
+      to search it in details string*/
+      let regexp = /android|iphone|kindle|ipad/i;
+        
+      /* Using test() method to search regexp in details
+      it returns boolean value*/
+      let isMobileDevice = regexp.test(details);
+        
+      if (isMobileDevice) {
+          return true;
+      } else {
+          return false;
+      }
+    },
+
+    resetGame() {
+     window.location.reload();
+    }
+
   },
     
-  mounted() {
-                  
+  mounted() {            
   }
-
-
 }
 
 </script>

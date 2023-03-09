@@ -15,8 +15,10 @@ class Beam {
       console.log('test')
     }
 
-    moveBeams = function (player) {
-      this.playSoundEffect()
+    moveBeams = function (player, soundOn) {
+      if (soundOn){
+        this.playSoundEffect()
+      }
       // Only Tween on first fire
       if (this.sprite.y === player.y - 17){ 
           createjs.Tween.get(this.sprite)
