@@ -1,3 +1,5 @@
+import Invader from '../constructors/Invader'
+
 function move(invader, stage, invaders) {
     console.log('wave 3')
     if (invader.currentAnimation !== "dying"){
@@ -32,11 +34,11 @@ function createWave (invaders, spriteSheet, stage) {
 
     //23
     for (let i = 0; i < 23; i++){
-        invader = new createjs.Sprite(spriteSheet, "default");
+        invader = new Invader(spriteSheet);
 
-        invader.x = invaderX;
-        invader.y = -invaderY;
-        invaders.push(invader)
+        invader.sprite.x = invaderX;
+        invader.sprite.y = -invaderY;
+        invaders.push(invader.sprite)
 
         invaderX -= 30;
 

@@ -7,7 +7,7 @@ import InvaderSpriteSheet from './spriteSheets/InvaderSpriteSheet.js';
 import EnemyBulletSheet from './spriteSheets/EnemyBulletSheet.js'
 import DashIconSheet from './spriteSheets/DashIconSheet.js'
 import CreateContactExplosion from './spriteSheets/CreateContactExplosion';
-import CreateInvaders from './components/CreateInvaders.js'
+import CreateInvaders from './invaders/CreateInvaders.js'
 
 import Player from './constructors/Player.js';
 import Beam from './constructors/Beam.js';
@@ -18,9 +18,9 @@ import Explosion from './constructors/Explosion.js'
 import DashIcon from './constructors/DashIcon.js'
 import Invader from './constructors/Invader.js';
 
-import WaveOne from './components/WaveOne.js';
-import WaveTwo from './components/WaveTwo.js';
-import WaveThree from './components/WaveThree.js';
+import WaveOne from './invaders/WaveOne.js';
+import WaveTwo from './invaders/WaveTwo.js';
+import WaveThree from './invaders/WaveThree.js';
 
 // music from pixabay, free to use by "dopestuff"
 import backgroundMusic from "./assets/sounds/neonGaming.mp3"

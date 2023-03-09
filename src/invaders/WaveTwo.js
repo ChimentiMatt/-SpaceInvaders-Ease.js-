@@ -1,4 +1,4 @@
-
+import Invader from '../constructors/Invader'
 
 function move(invader, stage, invaders) {
     createjs.Tween.get(invader, {override: true})
@@ -19,24 +19,24 @@ function createWave (invaders, spriteSheet, stage) {
     let invaderY = -10;
 
     for (let i = 0; i < 26; i++){
-        invader = new createjs.Sprite(spriteSheet, "default");
+        invader = new Invader(spriteSheet);
 
-        invader.x = invaderX;
-        invader.y = -invaderY;
-        invaders.push(invader)
-
+        invader.sprite.x = invaderX;
+        invader.sprite.y = -invaderY;
+        
         invaderX += 100;
-
+        
         if (i === 8){
             invaderX = 100;
             invaderY -= 55
         }
-
+        
         if (i === 16){
             invaderX = 40;
             invaderY -= 55
         }
-
+        invaders.push(invader.sprite)
+        
     }
     
     paintWave(stage, invaders)
