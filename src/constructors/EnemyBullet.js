@@ -36,10 +36,7 @@ class EnemyBullet {
             
                 stage.addChild(this.sprite)
             }
-
-
-        }
-        
+        }  
     }
 
     removeIfAtEnd = function () {
