@@ -3,8 +3,27 @@ import EnemyBullet from './EnemyBullet'
 class InvaderParent {
     constructor(spriteSheet){
         this.sprite = new createjs.Sprite(spriteSheet, "default");
+        this.startBtn = false
     }
 }
+
+class StartBtnInvader extends InvaderParent {
+    addToArrayAndStage(startBtnInvader, invaders, stage) {
+        this.sprite.x = stage.canvas.width / 2 - 16
+        this.sprite.y = 100
+        invaders.push(startBtnInvader)
+        stage.addChild(startBtnInvader.sprite)
+    }
+
+    fire(){
+
+    }
+    fireBomb() {
+
+    }
+
+}
+
 
 class Invader extends InvaderParent {
     fire(invaders, index, enemyBullets, enemyBulletSheet, players, stage, soundOn) {
@@ -43,7 +62,7 @@ class InvaderWhite extends InvaderParent {
         let number = Math.floor(Math.random() * (1000 + 0) + 0)
         let bullet;
   
-        if (number > 997){
+        if (number > 998){
             bullet = new EnemyBullet.Bomb(enemyBulletSheet)
             enemyBullets.push(bullet)
             bullet.addToStage(stage, invaders, index)
@@ -53,6 +72,4 @@ class InvaderWhite extends InvaderParent {
     }
 }
 
-
-
-export default {Invader, InvaderWhite} ;
+export default {StartBtnInvader, Invader, InvaderWhite} ;

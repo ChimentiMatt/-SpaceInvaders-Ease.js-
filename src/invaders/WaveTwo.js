@@ -1,7 +1,6 @@
 import InvaderParent from '../constructors/Invader'
 
 function move(invader, stage, invaders) {
-    console.log(invader)
     if (invader.currentAnimation !== "dying"){
         createjs.Tween.get(invader, {override: true, loop: true })
         .to({ y: invader.y + 130 }, 1000)
@@ -106,7 +105,6 @@ function moveInvaders (invaders, stage) {
     for (let i = 0; i < invaders.length; i++){
         if (invaders[i].sprite.currentAnimation !== "dying"){
             if (i !== 23){
-                console.log('here')
                 move(invaders[i].sprite, stage, invaders);
             }
             else{

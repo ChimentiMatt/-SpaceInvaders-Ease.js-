@@ -19,7 +19,7 @@ import HealthBar from './constructors/HealthBar.js';
 import EnemyBullet from './constructors/EnemyBullet.js'
 import Explosion from './constructors/Explosion.js'
 import DashIcon from './constructors/DashIcon.js'
-import Invader from './constructors/Invader.js';
+import InvaderParent from './constructors/Invader.js';
 
 import WaveOne from './invaders/WaveOne.js';
 import WaveTwo from './invaders/WaveTwo.js';
@@ -32,20 +32,19 @@ import backgroundMusic from "./assets/sounds/neonGaming.mp3"
 </script>
 <template>  
   <div id='body'>
-    <div v-if="startScreen || gameOver" id="intro-outro-screen">
-      <h1 v-if="!gameOver">Invaders</h1>
+    <h1 id="title">Invaders</h1>
+    <div v-if="gameOver" id="intro-outro-screen">
       <p v-if="gameOver">Score: {{score}}</p>
-      <button v-if="!gameOver" @click="init">Start</button>
-      <button v-if="gameOver" @click="resetGame">Play again?</button>
+      <button v-if="gameOver" @click="resetGame">play again?</button>
     </div>
 
     <div v-if="postScreen" id="post-stage-screen">
-      <p>Upgrade Dash</p>
-      <p v-if="domRollCount < 3">current {{ domRollCount }} max 3</p>
+      <p>Upgrade Max Dash</p>
+      <p v-if="domRollCount < 3">{{ domRollCount }} / 3</p>
       <button  @click="viewPostScreen('dash')">Dash</button>
 
       <br/>
-      <p>Heal 2 Damage </p>
+      <p>Heal 2 Health </p>
       <p>{{domHealthVisual}} / 10</p>
       <button  @click="viewPostScreen('heal')">heal</button>
     </div>
@@ -56,12 +55,6 @@ import backgroundMusic from "./assets/sounds/neonGaming.mp3"
       <p>time: {{ timer }}</p>
     </div>
     
-  </div>
-
-  <div id="temp-controls">
-    <p>Arrows to move </p> 
-    <p>Space bar to shoot</p> 
-    <p>a and d to roll</p> 
   </div>
 
   <!-- temporary until I make a high quality version -->
@@ -92,7 +85,9 @@ export default {
   data () {
     return {
       titleScreen: true,
-      waveNumber: 1,
+      startBtnInvader: '',
+      startText: [],
+      waveNumber: 0,
       totalLevels: 3, 
       players: [],
       shields: [],
@@ -151,13 +146,14 @@ export default {
         this.soundOn = false;
       }
 
-      if (this.soundOn){
-        bMusic.play()
-      }
-
       this.createSpriteSheets();
+      this.createStartText();
+
+      this.startBtnInvader = new InvaderParent.StartBtnInvader(this.invaderSheet);
+      this.startBtnInvader.addToArrayAndStage(this.startBtnInvader, this.invaders, stage)
+
       this.nextWave()
-      this.reduceTime(this.timer);
+
       CreateInvaders.createInvaders(stage, this.invadersSprites, this.invaders)
 
       addEventListener('keydown', (event) => {
@@ -171,11 +167,20 @@ export default {
       createjs.Ticker.timingMode = createjs.Ticker.RAF;
       createjs.Ticker.addEventListener("tick", stage);
       createjs.Ticker.addEventListener("tick", this.tick);
+  
 
+ 
       stage.update()
     },
 
+    startBtn() {
+      this.startScreen = false
+      this.nextWave()
+      this.reduceTime(this.timer);
+    },
+
     tick(event){
+
       document.querySelector('#demoCanvas').style.opacity = 1
 
       this.playerBulletCollisionDetection()
@@ -219,8 +224,22 @@ export default {
       this.invaderWhiteSheet = InvaderWhiteSpriteSheet.createSheet();
     },
 
+    createStartText() {
+      let text1 = new createjs.Text("Space-bar to shoot", "36px Arial", "#FFF");
+      text1.x = 50;
+      text1.y = 150;
+      let text2 = new createjs.Text("Arrows to move ", "36px Arial", "#FFF");
+      text2.x = 50;
+      text2.y = 200;
+      let text3 = new createjs.Text("A and D to roll", "36px Arial", "#FFF");
+      text3.x = 50;
+      text3.y = 250;
+      this.startText.push(text1, text2, text3)
+      stage.addChild(this.startText[0], this.startText[1], this.startText[2])
+    },
+
     leaveLevel() {
-      if (this.nextWaveCheck(this.invaders) && !this.inPostScreen){
+      if (this.nextWaveCheck(this.invaders) && !this.inPostScreen ){
         this.waveNumber++
         if (this.waveNumber <= this.totalLevels){
           this.postScreen = true;
@@ -250,6 +269,8 @@ export default {
     viewPostScreen(choice) {
       this.inPostScreen = false
       this.postScreen = false
+
+  
       
       if (choice === "dash"){
         this.player.rollCount++;
@@ -383,8 +404,26 @@ export default {
 
           this.explosion = new Explosion(this.explosionSheet);
           this.explosion.addToStage(stage, x, y, this.soundOn)
+
+          this.firstCollisionStartGame()
         }
       }
+    },
+    
+    firstCollisionStartGame(){
+      // used to get out of the start menu as you shoot first invader
+      if (this.titleScreen){
+            this.waveNumber++
+            this.invaders = []
+            this.startBtn()
+            this.titleScreen = false
+            stage.removeChild(this.startText[0], this.startText[1], this.startText[2])
+
+            if (this.soundOn){
+              bMusic.play()
+            }
+
+          }
     },
 
     playerBulletCollisionDetection() {
@@ -481,10 +520,10 @@ export default {
         if (event.code === 'Space' || mobileKey === "Space"){
           this.pressedSpace = 1;
         }
-        if (event.key === 'a' || mobileKey === "a"){
+        if (event.key === 'a' || event.key === 'A' || mobileKey === "a"){
           this.pressedA = 1;
         }
-        if (event.key === 'd' || mobileKey === "d"){
+        if (event.key === 'd' || event.key === 'D' || mobileKey === "d"){
           this.pressedD = 1;
         }
 
@@ -517,10 +556,10 @@ export default {
       else if (event.code === 'Space' || mobileKey === "Space"){
         this.pressedSpace = 0;
       }
-      else if (event.key === 'a' || mobileKey === "a"){
+      else if (event.key === 'a' || event.key === 'A' || mobileKey === "a"){
         this.pressedA = 0;
       }
-      else if (event.key === 'd' || mobileKey === "d"){
+      else if (event.key === 'd' || event.key === 'D' || mobileKey === "d"){
         this.pressedD = 0;
       }
     },
@@ -646,10 +685,14 @@ export default {
     },
 
     nextWaveCheck() {
+      if (this.startScreen){
+        return false;
+      }
       for (let i = 0; i < this.invaders.length; i++){
         if (this.invaders[i].sprite.currentAnimation !== "dead"){
             return false;
         }
+
       }
 
       this.clearInvaders()
@@ -689,6 +732,7 @@ export default {
   },
     
   mounted() {            
+    this.init();
   }
 }
 
