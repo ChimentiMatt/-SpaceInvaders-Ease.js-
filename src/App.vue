@@ -7,6 +7,7 @@ import InvaderSpriteSheet from './spriteSheets/InvaderSpriteSheet.js';
 import InvaderWhiteSpriteSheet from './spriteSheets/InvaderWhiteSpriteSheet'
 
 import EnemyBulletSheet from './spriteSheets/EnemyBulletSheet.js'
+import EnemyBombSheet from './spriteSheets/EnemyBombSheet.js'
 import DashIconSheet from './spriteSheets/DashIconSheet.js'
 import CreateContactExplosion from './spriteSheets/CreateContactExplosion';
 import CreateInvaders from './invaders/CreateInvaders.js'
@@ -114,6 +115,7 @@ export default {
       shieldSheet: '',
       healthBarSheet: '',
       enemyBulletSheet: '',
+      enemyBombSheet: '',
       explosionSheet: '',
       dashIconSheet: '',
       dashIcon: '',
@@ -153,8 +155,9 @@ export default {
         bMusic.play()
       }
 
-      this.createSpriteSheets()
-      this.reduceTime(this.timer)
+      this.createSpriteSheets();
+      this.nextWave()
+      this.reduceTime(this.timer);
       CreateInvaders.createInvaders(stage, this.invadersSprites, this.invaders)
 
       addEventListener('keydown', (event) => {
@@ -203,31 +206,31 @@ export default {
       this.shields[0].visible = false;
       this.healthBarSheet = HealthBarSpriteSheet.createSheet();
       this.healthBar = new HealthBar(this.healthBarSheet);
-      this.healthBar.addToArray(this.players, stage, this.healthBars)
+      this.healthBar.addToArray(this.players, stage, this.healthBars);
       this.enemyBulletSheet = EnemyBulletSheet.createSheet();
+      this.enemyBombSheet = EnemyBombSheet.createSheet();
       this.explosionSheet = CreateContactExplosion.createSheet();
       
       this.dashIconSheet = DashIconSheet.createSheet();
       this.dashIcon = new DashIcon();
-      this.dashIcon.addToArray(this.players, stage, this.dashIconSheet, this.dashIcons)
+      this.dashIcon.addToArray(this.players, stage, this.dashIconSheet, this.dashIcons);
       
       this.invaderSheet = InvaderSpriteSheet.createSheet();
       this.invaderWhiteSheet = InvaderWhiteSpriteSheet.createSheet();
-      this.nextWave()
     },
 
     leaveLevel() {
       if (this.nextWaveCheck(this.invaders) && !this.inPostScreen){
         this.waveNumber++
         if (this.waveNumber <= this.totalLevels){
-          this.postScreen = true
-          this.inPostScreen = true
+          this.postScreen = true;
+          this.inPostScreen = true;
           
         }
         else{
           // game over screen
-          this.postScreen = false
-          this.gameOver = true
+          this.postScreen = false;
+          this.gameOver = true;
         }
         this.clearLevel()
       }
@@ -356,7 +359,9 @@ export default {
     enemyFire() {
       for (let i = 0; i < this.invaders.length; i++){
         this.invaders[i].fire(this.invaders, i, this.enemyBullets, this.enemyBulletSheet, this.players, stage, this.soundOn)
+        this.invaders[i].fireBomb(this.invaders, i, this.enemyBullets, this.enemyBombSheet, this.players, stage, this.soundOn)
       }
+
     },
     
     beamsCollisionDetection() {

@@ -1,15 +1,11 @@
-import enemyBulletTest from '../assets/enemyBulletTest.png'
+import enemyBullet from '../assets/enemyBullet.png'
 
 function createSheet() {
     let spriteSheet = new createjs.SpriteSheet({
-        images: [enemyBulletTest],
+        images: [enemyBullet],
         framerate: 2,
         "frames": [
           [0, 0, 5, 5],
-          // [0, 0, 16, 16],
-          // [0, 16, 16, 16],
-          // [16, 0, 16, 16],
-          // [16, 16, 16, 16]
         ],
         animations: {
           // "default" : { "frames": [0, 1, 2]},

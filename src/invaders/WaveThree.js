@@ -1,5 +1,5 @@
-import Invader from '../constructors/Invader'
-import InvaderWhite from '../constructors/Invader'
+import InvaderParent from '../constructors/Invader'
+
 
 function move(invader, stage, invaders) {
     createjs.Tween.get(invader, {override: true})
@@ -38,7 +38,7 @@ function createWave (invaders, spriteSheet, invaderWhiteSpriteSheet, stage) {
     let invaderY = -10;
 
     for (let i = 0; i < 13; i++){
-        invader = new Invader(spriteSheet);
+        invader = new InvaderParent.Invader(spriteSheet);
 
         invader.sprite.x = invaderX;
         invader.sprite.y = -invaderY;

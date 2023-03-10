@@ -1,5 +1,4 @@
-import Invader from '../constructors/Invader'
-import InvaderWhite from '../constructors/Invader'
+import InvaderParent from '../constructors/Invader'
 
 function move(invader, stage, invaders) {
     console.log(invader)
@@ -18,14 +17,14 @@ function createWave (invaders, spriteSheet, invaderWhiteSpriteSheet, stage) {
     let invader;
     let invaderX = 300;
     let invaderY = -10;
-
+ 
     //23
     for (let i = 0; i < 20; i++){
         if ( i < 10){
-            invader = new Invader(spriteSheet);
+            invader = new InvaderParent.Invader(spriteSheet);
         }
         else{
-            invader = new InvaderWhite(invaderWhiteSpriteSheet);
+            invader = new InvaderParent.InvaderWhite(invaderWhiteSpriteSheet);
         }
 
         invader.sprite.x = invaderX;
