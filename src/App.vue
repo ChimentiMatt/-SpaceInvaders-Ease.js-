@@ -137,7 +137,7 @@ export default {
       pressedD: 0,
       mobileInput: false,
 
-      fireDelay: false
+      fireDelay: false,
     }
   },
 
@@ -636,7 +636,7 @@ export default {
   
           this.beam.moveBeams(this.player.sprite, this.soundOn)
 
-          setTimeout(() => { this.fireDelay = false}, 200)
+          setTimeout(() => { this.fireDelay = false}, this.player.attackSpeed)
         }
       }
     },
