@@ -43,7 +43,7 @@ class InvaderWhite extends InvaderParent {
         let number = Math.floor(Math.random() * (1000 + 0) + 0)
         let bullet;
   
-        if (number > 998){
+        if (number > 997){
             bullet = new EnemyBullet.Bomb(enemyBulletSheet)
             enemyBullets.push(bullet)
             bullet.addToStage(stage, invaders, index)

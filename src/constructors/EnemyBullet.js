@@ -71,7 +71,7 @@ class Bomb extends EnemyBullet{
     
     direction = function(players, stage) {
 
-        let yVariance = Math.floor(Math.random() * (440 - 330 + 1) + 330)
+        let yVariance = Math.floor(Math.random() * (445 - 330 + 1) + 330)
 
         createjs.Tween.get(this.sprite)
         .to({ y: yVariance }, 1500)
@@ -79,7 +79,7 @@ class Bomb extends EnemyBullet{
 
             this.sprite.gotoAndPlay("exploding")
             createjs.Tween.get(this.sprite)
-            .to({}, 1500)
+            .to({}, 5000)
             .call(() => {
                 this.sprite.visible = false;
                 stage.removeChild(this.sprite);
