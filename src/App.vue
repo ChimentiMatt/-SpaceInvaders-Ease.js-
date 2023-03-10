@@ -380,8 +380,6 @@ export default {
           stage.removeChild(this.beams[i]);
           this.beams.splice(i, 1)
 
-          // issue removing before fall logic      
-          // this.invaders.splice(index, 1)
 
           this.explosion = new Explosion(this.explosionSheet);
           this.explosion.addToStage(stage, x, y, this.soundOn)
@@ -393,13 +391,13 @@ export default {
       if (!this.player.invincible){
 
         for (let i = 0; i < this.enemyBullets.length; i++){
-          if (this.enemyBullets.length > 0){
+          if (this.enemyBullets.length > 0 && this.enemyBullets[i].sprite.visible !== false){
 
             // if between player y: top and bottom: top && bottom
-            if (this.enemyBullets[i].sprite.y >= this.player.sprite.y - 0 && this.enemyBullets[i].sprite.y <= this.player.sprite.y + 16){
+            if (this.enemyBullets[i].sprite.y >= this.player.sprite.y - 16 && this.enemyBullets[i].sprite.y <= this.player.sprite.y + 16){
 
               // if between player x: left and right
-              if (this.enemyBullets[i].sprite.x >= this.player.sprite.x - 10 && this.enemyBullets[i].sprite.x <= this.player.sprite.x + 10){
+              if (this.enemyBullets[i].sprite.x >= this.player.sprite.x - 16 && this.enemyBullets[i].sprite.x <= this.player.sprite.x + 16){
                 this.healthBar.takeDamage(this.player.invincible, this.soundOn)
 
                 // dom state variable needs to be out of external component

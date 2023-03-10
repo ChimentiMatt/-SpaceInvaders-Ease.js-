@@ -41,7 +41,7 @@ function createWave (invaders, spriteSheet, invaderWhiteSpriteSheet, stage) {
     let invaderX = stage.canvas.width - 50;
     let invaderY = -10;
 
-    //23
+
     for (let i = 0; i < 24; i++){
         if (i < 11){
             invader = new InvaderParent.Invader(spriteSheet);

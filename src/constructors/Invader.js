@@ -12,7 +12,7 @@ class Invader extends InvaderParent {
         let bullet;
 
         if (number > 98){
-            bullet = new EnemyBullet(enemyBulletSheet)
+            bullet = new EnemyBullet.Bullet(enemyBulletSheet)
             enemyBullets.push(bullet)
             bullet.addToStage(stage, invaders, index)
   
@@ -27,16 +27,24 @@ class Invader extends InvaderParent {
 
 class InvaderWhite extends InvaderParent {
     fire(invaders, index, enemyBullets, enemyBulletSheet, players, stage, soundOn) {
-        return
+        let number = Math.floor(Math.random() * (100 + 0) + 0)
+        let bullet;
+
+        if (number > 98){
+            bullet = new EnemyBullet.Bullet(enemyBulletSheet)
+            enemyBullets.push(bullet)
+            bullet.addToStage(stage, invaders, index)
+  
+            bullet.direction(players, stage);
+        }
     }
 
     fireBomb(invaders, index, enemyBullets, enemyBulletSheet, players, stage, soundOn){
-        console.log("white")
         let number = Math.floor(Math.random() * (1000 + 0) + 0)
         let bullet;
   
-        if (number > 995){
-            bullet = new EnemyBullet(enemyBulletSheet)
+        if (number > 998){
+            bullet = new EnemyBullet.Bomb(enemyBulletSheet)
             enemyBullets.push(bullet)
             bullet.addToStage(stage, invaders, index)
   
