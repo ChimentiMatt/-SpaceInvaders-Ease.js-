@@ -46,7 +46,6 @@ class Bullet extends EnemyBullet{
             stage.removeChild(this.sprite);
             createjs.Tween.removeTweens(this.sprite)
         })
-
     }  
 }
 
@@ -79,14 +78,15 @@ class Homing extends EnemyBullet{
     
     direction = function(players, stage, enemyBullets) {
         let playerLocation = {x: players[0].x, y: players[0].y}
-
+        
         createjs.Tween.get(this.sprite)
-        .to( { y: playerLocation.y, x: playerLocation.x}, 2000)
+        .to( { y: playerLocation.y, x: playerLocation.x }, 2000)
         .call(() => {
             this.sprite.visible = false;
             stage.removeChild(this.sprite);
             createjs.Tween.removeTweens(this.sprite)
-    })
+
+        })
     }
 }
 

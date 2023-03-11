@@ -3,7 +3,7 @@ import EnemyBullet from './EnemyBullet'
 class InvaderParent {
     constructor(spriteSheet){
         this.sprite = new createjs.Sprite(spriteSheet, "default");
-        this.startBtn = false
+        this.startBtn = false;
     }
 }
 
@@ -85,14 +85,23 @@ class InvaderWhite extends InvaderParent {
 
 class InvaderPink extends InvaderParent {
     fire(invaders, index, enemyBullets, enemyBulletSheet, players, stage, soundOn) {
-        return;
+        // let number = Math.floor(Math.random() * (1000 + 0) + 0)
+        // let bullet;
+
+        // if (number > 998){
+        //     bullet = new EnemyBullet.Bullet(enemyBulletSheet)
+        //     enemyBullets.push(bullet)
+        //     bullet.addToStage(stage, invaders, index)
+  
+        //     bullet.direction(players, stage);
+        // }
     }
 
     fireBomb(invaders, index, enemyBullets, enemyBulletSheet, players, stage, soundOn){
         return;
     }
 
-    homingBullet(invaders, index, enemyBullets, enemyBulletSheet, players, stage, soundO){
+    homingBullet(invaders, index, enemyBullets, enemyBulletSheet, players, stage, soundOn){
         let number = Math.floor(Math.random() * (1000 + 0) + 0)
         let bullet;
 
@@ -103,6 +112,17 @@ class InvaderPink extends InvaderParent {
   
             bullet.direction(players, stage);
         }
+
+        // let number = Math.floor(Math.random() * (1000 + 0) + 0)
+        // let bullet;
+
+        // if (number > 900){
+        //     bullet = new EnemyBullet.Homing(enemyBulletSheet)
+        //     enemyBullets.push(bullet)
+        //     bullet.addToStage(stage, invaders, index)
+  
+        //     bullet.direction(players, stage);
+        // }
     }
 }
 

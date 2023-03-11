@@ -43,13 +43,9 @@ function createWave (invaders, spriteSheet, invaderWhiteSpriteSheet, invaderPink
 
 
     for (let i = 0; i < 24; i++){
-        // if (i < 11){
-        //     invader = new InvaderParent.Invader(spriteSheet);
-        // }
-        // else{
-        //     invader = new InvaderParent.InvaderWhite(invaderWhiteSpriteSheet);
-        // }
-        
+        // for testing
+        // invader = new InvaderParent.InvaderPink(invaderPinkSpriteSheet);
+
         invader = new InvaderParent.Invader(spriteSheet);
         invader.sprite.x = invaderX;
         invader.sprite.y = -invaderY;

@@ -182,6 +182,7 @@ export default {
     },
 
     tick(event){
+      // console.log(this.enemyBullets.length)
 
       document.querySelector('#demoCanvas').style.opacity = 1
 
@@ -387,9 +388,12 @@ export default {
 
     enemyFire() {
       for (let i = 0; i < this.invaders.length; i++){
-        this.invaders[i].fire(this.invaders, i, this.enemyBullets, this.enemyBulletSheet, this.players, stage, this.soundOn);
-        this.invaders[i].fireBomb(this.invaders, i, this.enemyBullets, this.enemyBombSheet, this.players, stage, this.soundOn);
-        this.invaders[i].homingBullet(this.invaders, i, this.enemyBullets, this.enemyHomingBulletSheet, this.players, stage, this.soundOn);
+        if (this.invaders[i].sprite.currentAnimation !== "dead" && this.invaders[i].sprite.currentAnimation !== "dying"){
+          console.log(this.invaders[i].sprite.currentAnimation)
+          this.invaders[i].fire(this.invaders, i, this.enemyBullets, this.enemyBulletSheet, this.players, stage, this.soundOn);
+          this.invaders[i].fireBomb(this.invaders, i, this.enemyBullets, this.enemyBombSheet, this.players, stage, this.soundOn);
+          this.invaders[i].homingBullet(this.invaders, i, this.enemyBullets, this.enemyHomingBulletSheet, this.players, stage, this.soundOn);
+        }
       }
     },
     
@@ -440,7 +444,7 @@ export default {
         for (let i = 0; i < this.enemyBullets.length; i++){
 
           if (this.enemyBullets.length > 0 && this.enemyBullets[i].sprite.visible !== false){
-
+            
             // if between player y: top and bottom: top && bottom
             if (this.enemyBullets[i].sprite.y >= this.player.sprite.y - 16 && this.enemyBullets[i].sprite.y <= this.player.sprite.y + 16){
 
@@ -588,7 +592,6 @@ export default {
         if (this.player.sprite.x < stage.canvas.width - 32){
           let value = 5
           if (this.mobileInput) value = 35;
-        
           this.player.sprite.x += value;
           this.healthBar.sprite.x += value;
           this.shield.sprite.x += value;
@@ -604,7 +607,6 @@ export default {
         if (this.player.sprite.x > 0){
           let value = 5
           if (this.mobileInput) value = 35;
-
           this.player.sprite.x -= value;
           this.healthBar.sprite.x -= value;
           this.shield.sprite.x -= value;
@@ -620,7 +622,6 @@ export default {
         if (this.player.sprite.y > 350){
           let value = 5
           if (this.mobileInput) value = 35;
-
           this.player.sprite.y -= value;
           this.healthBar.sprite.y -= value;
           this.shield.sprite.y -= value;
@@ -636,7 +637,6 @@ export default {
         if (this.player.sprite.y < stage.canvas.height - 50){
           let value = 5
           if (this.mobileInput) value = 35;
-
           this.player.sprite.y += value;
           this.healthBar.sprite.y += value;
           this.shield.sprite.y += value;
