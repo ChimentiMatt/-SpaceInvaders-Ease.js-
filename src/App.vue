@@ -4,19 +4,19 @@ import BeamSpriteSheet from './spriteSheets/BeamSpriteSheet.js';
 import ShieldSpriteSheet from './spriteSheets/ShieldSpriteSheet.js';
 import HealthBarSpriteSheet from './spriteSheets/HealthBarSpriteSheet.js';
 import InvaderSpriteSheet from './spriteSheets/InvaderSpriteSheet.js';
-import InvaderWhiteSpriteSheet from './spriteSheets/InvaderWhiteSpriteSheet'
+import InvaderWhiteSpriteSheet from './spriteSheets/InvaderWhiteSpriteSheet';
+import InvaderPinkSpriteSheet from './spriteSheets/InvaderPinkSpriteSheet';
+import EnemyBulletSheet from './spriteSheets/EnemyBulletSheet.js';
+import EnemyBombSheet from './spriteSheets/EnemyBombSheet.js';
+import EnemyHomingBulletSheet from './spriteSheets/EnemyHomingBulletSheet.js'
 
-import EnemyBulletSheet from './spriteSheets/EnemyBulletSheet.js'
-import EnemyBombSheet from './spriteSheets/EnemyBombSheet.js'
-import DashIconSheet from './spriteSheets/DashIconSheet.js'
+import DashIconSheet from './spriteSheets/DashIconSheet.js';
 import CreateContactExplosion from './spriteSheets/CreateContactExplosion';
-import CreateInvaders from './invaders/CreateInvaders.js'
-
+import CreateInvaders from './invaders/CreateInvaders.js';
 import Player from './constructors/Player.js';
 import Beam from './constructors/Beam.js';
 import Shield from './constructors/Shield.js';
 import HealthBar from './constructors/HealthBar.js';
-import EnemyBullet from './constructors/EnemyBullet.js'
 import Explosion from './constructors/Explosion.js'
 import DashIcon from './constructors/DashIcon.js'
 import InvaderParent from './constructors/Invader.js';
@@ -87,6 +87,7 @@ export default {
       titleScreen: true,
       startBtnInvader: '',
       startText: [],
+      // start at 0
       waveNumber: 0,
       totalLevels: 3, 
       players: [],
@@ -111,6 +112,7 @@ export default {
       healthBarSheet: '',
       enemyBulletSheet: '',
       enemyBombSheet: '',
+      enemyHomingBulletSheet: '',
       explosionSheet: '',
       dashIconSheet: '',
       dashIcon: '',
@@ -213,7 +215,9 @@ export default {
       this.healthBar = new HealthBar(this.healthBarSheet);
       this.healthBar.addToArray(this.players, stage, this.healthBars);
       this.enemyBulletSheet = EnemyBulletSheet.createSheet();
+      this.enemyHomingBulletSheet = EnemyHomingBulletSheet.createSheet();
       this.enemyBombSheet = EnemyBombSheet.createSheet();
+
       this.explosionSheet = CreateContactExplosion.createSheet();
       
       this.dashIconSheet = DashIconSheet.createSheet();
@@ -222,6 +226,7 @@ export default {
       
       this.invaderSheet = InvaderSpriteSheet.createSheet();
       this.invaderWhiteSheet = InvaderWhiteSpriteSheet.createSheet();
+      this.invaderPinkSheet = InvaderPinkSpriteSheet.createSheet();
     },
 
     createStartText() {
@@ -303,18 +308,18 @@ export default {
 
     nextWave() {
       if (this.waveNumber === 1 ){
-        WaveOne.createWave(this.invaders, this.invaderSheet, this.invaderWhiteSheet, stage)
+        WaveOne.createWave(this.invaders, this.invaderSheet, this.invaderWhiteSheet, this.invaderPinkSheet, stage)
       }
       else if (this.waveNumber === 2 ){
-        WaveTwo.createWave(this.invaders, this.invaderSheet, this.invaderWhiteSheet, stage)
+        WaveTwo.createWave(this.invaders, this.invaderSheet, this.invaderWhiteSheet, this.invaderPinkSheet, stage)
       }
       else if (this.waveNumber === 3)
       {
-        WaveThree.createWave(this.invaders, this.invaderSheet, this.invaderWhiteSheet, stage)
+        WaveThree.createWave(this.invaders, this.invaderSheet, this.invaderWhiteSheet, this.invaderPinkSheet, stage)
       }
       else if (this.waveNumber === 4)
       {
-        WaveFour.createWave(this.invaders, this.invaderSheet, this.invaderWhiteSheet, stage)
+        WaveFour.createWave(this.invaders, this.invaderSheet, this.invaderWhiteSheet, this.invaderPinkSheet, stage)
       }
     },
 
@@ -347,29 +352,32 @@ export default {
       }
     },
 
+
     removeOldInvaderBullets () {
+      // console.log(this.enemyBullets[0])
       if (this.enemyBullets.length > 0){
-        let isAtEnd = false;
+
         const stillInScreen = []
         const removeIndex = []
+        // console.log(this.enemyBullets.length)
+
         // removes sprites that are no longer on canvas for beams
         if (this.enemyBullets.length > 0){
       
           for (let i = 0; i < this.enemyBullets.length; i++){
-            isAtEnd = this.enemyBullets[i].removeIfAtEnd()
 
-            if (!isAtEnd){
-              stillInScreen.push(this.enemyBullets[i]);
+            if (!this.enemyBullets[i].sprite.visible){
+              removeIndex.push(i)
             }
-            else {
-              removeIndex.push(this.enemyBullets[i])
+            else{
+              stillInScreen.push(this.enemyBullets[i])
             }
-            isAtEnd = false;
           }
 
           // remove from stage
           for (let i = 0; i < removeIndex.length; i++){
-            stage.removeChild(removeIndex[i]);  
+
+            stage.removeChild(removeIndex[i].sprite);  
             this.enemyBullets = stillInScreen;
           }
         }
@@ -379,10 +387,10 @@ export default {
 
     enemyFire() {
       for (let i = 0; i < this.invaders.length; i++){
-        this.invaders[i].fire(this.invaders, i, this.enemyBullets, this.enemyBulletSheet, this.players, stage, this.soundOn)
-        this.invaders[i].fireBomb(this.invaders, i, this.enemyBullets, this.enemyBombSheet, this.players, stage, this.soundOn)
+        this.invaders[i].fire(this.invaders, i, this.enemyBullets, this.enemyBulletSheet, this.players, stage, this.soundOn);
+        this.invaders[i].fireBomb(this.invaders, i, this.enemyBullets, this.enemyBombSheet, this.players, stage, this.soundOn);
+        this.invaders[i].homingBullet(this.invaders, i, this.enemyBullets, this.enemyHomingBulletSheet, this.players, stage, this.soundOn);
       }
-
     },
     
     beamsCollisionDetection() {
@@ -428,8 +436,9 @@ export default {
 
     playerBulletCollisionDetection() {
       if (!this.player.invincible){
-
+        
         for (let i = 0; i < this.enemyBullets.length; i++){
+
           if (this.enemyBullets.length > 0 && this.enemyBullets[i].sprite.visible !== false){
 
             // if between player y: top and bottom: top && bottom

@@ -16,12 +16,14 @@ class StartBtnInvader extends InvaderParent {
     }
 
     fire(){
-
+        return;
     }
     fireBomb() {
-
+        return
     }
-
+    homingBullet(){
+        return;
+    }
 }
 
 
@@ -40,16 +42,20 @@ class Invader extends InvaderParent {
     }
     
     fireBomb(invaders, index, enemyBullets, enemyBulletSheet, players, stage, soundOn){
-        return
+        return;
+    }
+
+    homingBullet(invaders, index, enemyBullets, enemyBulletSheet, players, stage, soundOn){
+        return;
     }
 }
 
 class InvaderWhite extends InvaderParent {
     fire(invaders, index, enemyBullets, enemyBulletSheet, players, stage, soundOn) {
-        let number = Math.floor(Math.random() * (100 + 0) + 0)
+        let number = Math.floor(Math.random() * (1000 + 0) + 0)
         let bullet;
 
-        if (number > 98){
+        if (number > 998){
             bullet = new EnemyBullet.Bullet(enemyBulletSheet)
             enemyBullets.push(bullet)
             bullet.addToStage(stage, invaders, index)
@@ -70,6 +76,34 @@ class InvaderWhite extends InvaderParent {
             bullet.direction(players, stage);
         }
     }
+
+    homingBullet(){
+        return;
+    }
 }
 
-export default {StartBtnInvader, Invader, InvaderWhite} ;
+
+class InvaderPink extends InvaderParent {
+    fire(invaders, index, enemyBullets, enemyBulletSheet, players, stage, soundOn) {
+        return;
+    }
+
+    fireBomb(invaders, index, enemyBullets, enemyBulletSheet, players, stage, soundOn){
+        return;
+    }
+
+    homingBullet(invaders, index, enemyBullets, enemyBulletSheet, players, stage, soundO){
+        let number = Math.floor(Math.random() * (1000 + 0) + 0)
+        let bullet;
+
+        if (number > 990){
+            bullet = new EnemyBullet.Homing(enemyBulletSheet)
+            enemyBullets.push(bullet)
+            bullet.addToStage(stage, invaders, index)
+  
+            bullet.direction(players, stage);
+        }
+    }
+}
+
+export default {StartBtnInvader, Invader, InvaderWhite, InvaderPink} ;

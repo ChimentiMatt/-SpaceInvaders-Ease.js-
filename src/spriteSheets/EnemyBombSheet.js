@@ -3,7 +3,7 @@ import enemyBomb from '../assets/enemyBomb.png'
 function createSheet() {
     let spriteSheet = new createjs.SpriteSheet({
         images: [enemyBomb],
-        framerate: 3,
+        framerate: 4,
         "frames": [
           [0, 0, 16, 16],
           [16, 0, 16, 16],
@@ -15,8 +15,8 @@ function createSheet() {
         ],
         animations: {
           "default" : { "frames": [1]},
-          "exploding" : {  "frames": [2,  3, 4, 5, 6 ], next: "exploded"},
-          "exploded" : { "frames": [5, 6]},
+          "exploding" : {  "frames": [2, 3, 4, 5, 6 ], next: "exploded"},
+          // "exploded" : { "frames": [5, 6]},
         }
       });
 

@@ -18,11 +18,7 @@ class EnemyBullet {
         if (aliveInvaders.length !== 0){
             let max = aliveInvaders.length -1
             let min = 0
-            
-            let randomIndex = Math.floor(Math.random() * (max - min) + min)
-            
-            // let currentInvader = invaders[aliveInvaders[randomIndex]].sprite
-     
+        
             let currentInvader = invaders[index].sprite;
             if (currentInvader.currentAnimation === "default"){
             
@@ -35,22 +31,13 @@ class EnemyBullet {
         }  
     }
 
-    removeIfAtEnd = function () {
-        // if off screen return true
-        if (this.sprite.y >= 450){
-          return true
-        }
-    }
 }
 
 class Bullet extends EnemyBullet{
     direction = function(players, stage) {
-        let playerLocation = {x: players[0].x, y: players[0].y}
-        let xVariance = Math.floor(Math.random() * (stage.canvas.width - 0) + 0)
         let durationVariance = Math.floor(Math.random() * (3000 - 2000) + 2000)
 
         durationVariance = 2000
-        y: playerLocation.y + 4  + 150
 
         createjs.Tween.get(this.sprite)
         .to( { y: this.sprite.y + this.distance}, this.duration)
@@ -58,19 +45,17 @@ class Bullet extends EnemyBullet{
             this.sprite.visible = false;
             stage.removeChild(this.sprite);
             createjs.Tween.removeTweens(this.sprite)
-            // console.log(this.sprite)
         })
 
     }  
 }
 
 class Bomb extends EnemyBullet{
-    constructor(spriteSheet, duration){
+    constructor(spriteSheet){
         super(spriteSheet)
     }
     
     direction = function(players, stage) {
-
         let yVariance = Math.floor(Math.random() * (445 - 330 + 1) + 330)
 
         createjs.Tween.get(this.sprite)
@@ -90,4 +75,20 @@ class Bomb extends EnemyBullet{
     }  
 }
 
-export default {Bullet, Bomb} ;
+class Homing extends EnemyBullet{
+    
+    direction = function(players, stage, enemyBullets) {
+        let playerLocation = {x: players[0].x, y: players[0].y}
+
+        createjs.Tween.get(this.sprite)
+        .to( { y: playerLocation.y, x: playerLocation.x}, 2000)
+        .call(() => {
+            this.sprite.visible = false;
+            stage.removeChild(this.sprite);
+            createjs.Tween.removeTweens(this.sprite)
+    })
+    }
+}
+
+
+export default {Bullet, Bomb, Homing} ;

@@ -31,8 +31,8 @@ class Player {
         
         let value = 0
   
-        if (direction === "left") value = -100
-        else value = 100
+        if (direction === "left") value = -150
+        else value = 150
   
         createjs.Tween.get(healthBars[0], {override: true})
         .to({ x: healthBars[0].x + value }, 500)

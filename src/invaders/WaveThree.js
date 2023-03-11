@@ -31,14 +31,14 @@ function secondMovement(stage,invader) {
     })   
 }
 
-function createWave (invaders, spriteSheet, invaderWhiteSpriteSheet, stage) {
+function createWave (invaders, spriteSheet, invaderWhiteSpriteSheet, invaderPinkSpriteSheet, stage) {
     let invader;
     let invaderX =  150;
 
     let invaderY = -10;
 
     for (let i = 0; i < 13; i++){
-        invader = new InvaderParent.Invader(spriteSheet);
+        invader = new InvaderParent.InvaderPink(invaderPinkSpriteSheet);
 
         invader.sprite.x = invaderX;
         invader.sprite.y = -invaderY;
