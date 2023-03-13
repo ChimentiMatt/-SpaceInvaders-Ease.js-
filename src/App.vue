@@ -41,8 +41,8 @@ import backgroundMusic from "./assets/sounds/neonGaming.mp3"
     <div v-if="postScreen" id="post-stage-screen">
       <h1>Score: {{ score }}</h1>
 
-      <p>Time remaining: + {{ timer }}</p>
-      <p>Missed Shots: - {{ missedShots }}</p>
+      <p>Time Remaining: + {{ timer }}</p>
+      <p>Missed Hit: - {{ missedShots }}</p>
       <p>Invaders Killed: + {{ invadersKilled }} </p>
  
       <p id="separator">----------------------</p>
