@@ -43,23 +43,25 @@ class Beam {
     }
 
     detectCollision = function (beams, enemies) { 
-      // console.log(enemies.length)
-  
+      let spriteWidth;
+      let spriteHeight;
+
       // loop over invaders
       for (let i = 0; i < enemies.length; i++){
         
         // stop if invader is dead
         if (enemies[i].sprite.currentAnimation !== 'dead'){
+          spriteWidth = this.getSpriteWidth(enemies[i].type)
+          spriteHeight = this.getSpriteHeight(enemies[i].type)
           
           // if beam y is between invader sprite
-          if (this.sprite.y <= enemies[i].sprite.y + 8 && this.sprite.y >= enemies[i].sprite.y  ) {
+          if (this.sprite.y <= enemies[i].sprite.y + spriteHeight && this.sprite.y >= enemies[i].sprite.y - spriteHeight  ) {
             
             // if beam has not yet made contact
             if (this.sprite.currentAnimation !== 'contact'){
               
               // if beam x is between invader sprite
-              if (this.sprite.x >= enemies[i].sprite.x -16 && this.sprite.x <= enemies[i].sprite.x + 16  ){
-
+              if (this.sprite.x >= enemies[i].sprite.x -8 && this.sprite.x <= enemies[i].sprite.x + spriteWidth  ){
 
                 if (!this.madeContact){
                   this.madeContact = true
@@ -75,8 +77,19 @@ class Beam {
       return { collision: false, index: 0 }
     }
 
+    getSpriteWidth = function (invaderType) {
+      if (invaderType === 'blob'){
+        console.log(invaderType)
+        return 32
+      }
+      return 16
+    }
+
+    getSpriteHeight = function (invaderType) {
+        return 16
+    }
+
     deathFall = function (enemy, stage) {
-      console.log(enemy)
       let deathDirection, secondDeathDirection;
 
       // if already dead IE double tap effect

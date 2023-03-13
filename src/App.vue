@@ -6,6 +6,7 @@ import HealthBarSpriteSheet from './spriteSheets/HealthBarSpriteSheet.js';
 import InvaderSpriteSheet from './spriteSheets/InvaderSpriteSheet.js';
 import InvaderWhiteSpriteSheet from './spriteSheets/InvaderWhiteSpriteSheet';
 import InvaderPinkSpriteSheet from './spriteSheets/InvaderPinkSpriteSheet';
+import InvaderBlobSpriteSheet from './spriteSheets/InvaderBlobSpriteSheet';
 import EnemyBulletSheet from './spriteSheets/EnemyBulletSheet.js';
 import EnemyBombSheet from './spriteSheets/EnemyBombSheet.js';
 import EnemyHomingBulletSheet from './spriteSheets/EnemyHomingBulletSheet.js'
@@ -162,7 +163,7 @@ export default {
       this.createSpriteSheets();
       this.createStartText();
 
-      this.startBtnInvader = new InvaderParent.StartBtnInvader(this.invaderSheet);
+      this.startBtnInvader = new InvaderParent.StartBtnInvader(this.invaderSheet, 'green');
       this.startBtnInvader.addToArrayAndStage(this.startBtnInvader, this.invaders, stage)
 
       this.nextWave()
@@ -238,6 +239,7 @@ export default {
       this.invaderSheet = InvaderSpriteSheet.createSheet();
       this.invaderWhiteSheet = InvaderWhiteSpriteSheet.createSheet();
       this.invaderPinkSheet = InvaderPinkSpriteSheet.createSheet();
+      this.invaderBlobSheet = InvaderBlobSpriteSheet.createSheet();
     },
 
     createStartText() {
@@ -321,18 +323,18 @@ export default {
 
     nextWave() {
       if (this.waveNumber === 1 ){
-        WaveOne.createWave(this.invaders, this.invaderSheet, this.invaderWhiteSheet, this.invaderPinkSheet, stage)
+        WaveOne.createWave(this.invaders, this.invaderSheet, this.invaderWhiteSheet, this.invaderPinkSheet, this.invaderBlobSheet, stage)
       }
       else if (this.waveNumber === 2 ){
-        WaveTwo.createWave(this.invaders, this.invaderSheet, this.invaderWhiteSheet, this.invaderPinkSheet, stage)
+        WaveTwo.createWave(this.invaders, this.invaderSheet, this.invaderWhiteSheet, this.invaderPinkSheet, this.invaderBlobSheet, stage)
       }
       else if (this.waveNumber === 3)
       {
-        WaveThree.createWave(this.invaders, this.invaderSheet, this.invaderWhiteSheet, this.invaderPinkSheet, stage)
+        WaveThree.createWave(this.invaders, this.invaderSheet, this.invaderWhiteSheet, this.invaderPinkSheet, this.invaderBlobSheet, stage)
       }
       else if (this.waveNumber === 4)
       {
-        WaveFour.createWave(this.invaders, this.invaderSheet, this.invaderWhiteSheet, this.invaderPinkSheet, stage)
+        WaveFour.createWave(this.invaders, this.invaderSheet, this.invaderWhiteSheet, this.invaderPinkSheet, this.invaderBlobSheet, stage)
       }
     },
 
@@ -478,8 +480,7 @@ export default {
         for (let i = 0; i < this.enemyBullets.length; i++){
 
           if (this.enemyBullets.length > 0 && this.enemyBullets[i].sprite.visible !== false){
-
-            this.returnInvaderType(this.enemyBullets[i])
+            
             
             // if between player y: top and bottom: top && bottom
             if (this.enemyBullets[i].sprite.y >= this.player.sprite.y - 16 && this.enemyBullets[i].sprite.y <= this.player.sprite.y + 16){
@@ -499,11 +500,6 @@ export default {
           }
         }
       }
-    },
-
-    returnInvaderType(propInvader) {
-      // if (propInvader)
-      console.log(propInvader)
     },
 
     fallCollision() {

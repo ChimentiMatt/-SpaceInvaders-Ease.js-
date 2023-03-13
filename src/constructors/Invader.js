@@ -1,9 +1,10 @@
 import EnemyBullet from './EnemyBullet'
 
 class InvaderParent {
-    constructor(spriteSheet){
+    constructor(spriteSheet, type){
         this.sprite = new createjs.Sprite(spriteSheet, "default");
         this.startBtn = false;
+        this.type = type;
     }
 }
 
@@ -106,4 +107,18 @@ class InvaderPink extends InvaderParent {
     }
 }
 
-export default {StartBtnInvader, Invader, InvaderWhite, InvaderPink} ;
+class InvaderBlob extends InvaderParent {
+    fire(invaders, index, enemyBullets, enemyBulletSheet, players, stage, soundOn) {
+        return;
+    }
+
+    fireBomb(invaders, index, enemyBullets, enemyBulletSheet, players, stage, soundOn){
+        return;
+    }
+
+    homingBullet(invaders, index, enemyBullets, enemyBulletSheet, players, stage, soundOn){
+
+    }
+}
+
+export default {StartBtnInvader, Invader, InvaderWhite, InvaderPink, InvaderBlob} ;

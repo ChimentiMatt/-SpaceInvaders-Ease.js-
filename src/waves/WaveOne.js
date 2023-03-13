@@ -36,17 +36,20 @@ function secondMovement(stage,invader) {
     })   
 }
 
-function createWave (invaders, spriteSheet, invaderWhiteSpriteSheet, invaderPinkSpriteSheet, stage) {
+function createWave (invaders, InvadersGreenSpriteSheet, invaderWhiteSpriteSheet, invaderPinkSpriteSheet, invaderBlobSpriteSheet,  stage) {
     let invader = '';
     let invaderX = stage.canvas.width - 50;
     let invaderY = -10;
 
-
+    // 24
     for (let i = 0; i < 24; i++){
-        // for testing
-        // invader = new InvaderParent.InvaderPink(invaderPinkSpriteSheet);
 
-        invader = new InvaderParent.Invader(spriteSheet);
+        if (i < 23){
+            invader = new InvaderParent.InvaderBlob(InvadersGreenSpriteSheet, 'green');
+        }
+        else{
+            invader = new InvaderParent.InvaderBlob(invaderBlobSpriteSheet, 'blob');
+        }
         invader.sprite.x = invaderX;
         invader.sprite.y = -invaderY;
 
@@ -67,6 +70,7 @@ function createWave (invaders, spriteSheet, invaderWhiteSpriteSheet, invaderPink
             invader.sprite.x = stage.canvas.width - 50;
             invaderY += 55
         }
+        
         invaders.push(invader);
     }
  

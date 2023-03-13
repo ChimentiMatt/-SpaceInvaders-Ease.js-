@@ -21,7 +21,7 @@ function secondMovement(stage,invader) {
     } 
 }
 
-function createWave (invaders, spriteSheet, invaderWhiteSpriteSheet, invaderPinkSpriteSheet, stage) {
+function createWave (invaders, InvadersGreenSpriteSheet, invaderWhiteSpriteSheet, invaderPinkSpriteSheet, invaderBlobSpriteSheet, stage) {
     let invader;
     let invaderX = 210 ;
     let invaderY = -30;
@@ -33,14 +33,14 @@ function createWave (invaders, spriteSheet, invaderWhiteSpriteSheet, invaderPink
 
         
         if (counter === 1){
-            invader = new InvaderParent.Invader(spriteSheet);
+            invader = new InvaderParent.Invader(InvadersGreenSpriteSheet, 'green');
         }
         else if (counter === 2){
-            invader = new InvaderParent.InvaderWhite(invaderWhiteSpriteSheet);   
+            invader = new InvaderParent.InvaderWhite(invaderWhiteSpriteSheet, 'white');   
         }
         else{
             counter = 0;
-            invader = new InvaderParent.InvaderPink(invaderPinkSpriteSheet);   
+            invader = new InvaderParent.InvaderPink(invaderPinkSpriteSheet, 'pink');   
         }
 
         if (i === 11){

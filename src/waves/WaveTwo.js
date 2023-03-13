@@ -12,7 +12,7 @@ function move(invader, stage, invaders) {
 }
 
 
-function createWave (invaders, spriteSheet, invaderWhiteSpriteSheet, invaderPinkSpriteSheet, stage) {
+function createWave (invaders, InvadersGreenSpriteSheet, invaderWhiteSpriteSheet, invaderPinkSpriteSheet, invaderBlobSpriteSheet, stage) {
     let invader;
     let invaderX = 300;
     let invaderY = -10;
@@ -20,7 +20,7 @@ function createWave (invaders, spriteSheet, invaderWhiteSpriteSheet, invaderPink
     //23
     for (let i = 0; i < 20; i++){
 
-        invader = new InvaderParent.InvaderWhite(invaderWhiteSpriteSheet);
+        invader = new InvaderParent.InvaderWhite(invaderWhiteSpriteSheet, 'white');
 
         invader.sprite.x = invaderX;
         invader.sprite.y = -invaderY;
