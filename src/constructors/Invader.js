@@ -68,7 +68,7 @@ class InvaderWhite extends InvaderParent {
         let number = Math.floor(Math.random() * (1000 + 0) + 0)
         let bullet;
   
-        if (number > 998){
+        if (number > 997){
             bullet = new EnemyBullet.Bomb(enemyBulletSheet)
             enemyBullets.push(bullet)
             bullet.addToStage(stage, invaders, index)
@@ -85,16 +85,7 @@ class InvaderWhite extends InvaderParent {
 
 class InvaderPink extends InvaderParent {
     fire(invaders, index, enemyBullets, enemyBulletSheet, players, stage, soundOn) {
-        // let number = Math.floor(Math.random() * (1000 + 0) + 0)
-        // let bullet;
-
-        // if (number > 998){
-        //     bullet = new EnemyBullet.Bullet(enemyBulletSheet)
-        //     enemyBullets.push(bullet)
-        //     bullet.addToStage(stage, invaders, index)
-  
-        //     bullet.direction(players, stage);
-        // }
+        return;
     }
 
     fireBomb(invaders, index, enemyBullets, enemyBulletSheet, players, stage, soundOn){
@@ -105,24 +96,13 @@ class InvaderPink extends InvaderParent {
         let number = Math.floor(Math.random() * (1000 + 0) + 0)
         let bullet;
 
-        if (number > 990){
+        if (number > 980){
             bullet = new EnemyBullet.Homing(enemyBulletSheet)
             enemyBullets.push(bullet)
             bullet.addToStage(stage, invaders, index)
   
             bullet.direction(players, stage);
         }
-
-        // let number = Math.floor(Math.random() * (1000 + 0) + 0)
-        // let bullet;
-
-        // if (number > 900){
-        //     bullet = new EnemyBullet.Homing(enemyBulletSheet)
-        //     enemyBullets.push(bullet)
-        //     bullet.addToStage(stage, invaders, index)
-  
-        //     bullet.direction(players, stage);
-        // }
     }
 }
 

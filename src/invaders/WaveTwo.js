@@ -5,8 +5,8 @@ function move(invader, stage, invaders) {
         createjs.Tween.get(invader, {override: true, loop: true })
         .to({ y: invader.y + 130 }, 1000)
         .to({ x: invader.y + 100, y: invader.x - 280 }, 1000)
-        .to({ x: invader.x, y: invader.y  }, 1000)
-        .to({ x: invader.y + 500, y: invader.x - 280 }, 1000)
+        .to({ x: invader.x - 305, y: invader.y  }, 1000)
+        .to({ x: invader.y + 700, y: invader.x - 280 }, 1000)
         .to({ x: invader.x, y: invader.y  }, 1000)
     }
 }
@@ -19,12 +19,8 @@ function createWave (invaders, spriteSheet, invaderWhiteSpriteSheet, invaderPink
  
     //23
     for (let i = 0; i < 20; i++){
-        if ( i < 10){
-            invader = new InvaderParent.Invader(spriteSheet);
-        }
-        else{
-            invader = new InvaderParent.InvaderWhite(invaderWhiteSpriteSheet);
-        }
+
+        invader = new InvaderParent.InvaderWhite(invaderWhiteSpriteSheet);
 
         invader.sprite.x = invaderX;
         invader.sprite.y = -invaderY;
