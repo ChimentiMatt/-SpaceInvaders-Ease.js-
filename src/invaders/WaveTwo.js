@@ -4,10 +4,10 @@ function move(invader, stage, invaders) {
     if (invader.currentAnimation !== "dying"){
         createjs.Tween.get(invader, {override: true, loop: true })
         .to({ y: invader.y + 130 }, 1000)
-        .to({ x: invader.y + 100, y: invader.x - 280 }, 1000)
-        .to({ x: invader.x - 305, y: invader.y  }, 1000)
-        .to({ x: invader.y + 700, y: invader.x - 280 }, 1000)
-        .to({ x: invader.x, y: invader.y  }, 1000)
+        .to({ x: invader.y + 100, y: invader.x - 280 }, 1500)
+        .to({ x: invader.x - 305, y: invader.y  }, 1500)
+        .to({ x: invader.y + 700, y: invader.x - 280 }, 2000)
+        .to({ x: invader.x, y: invader.y  }, 1500)
     }
 }
 

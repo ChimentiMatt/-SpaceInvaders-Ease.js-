@@ -624,7 +624,7 @@ export default {
     moveRight() {
       if (this.pressedRight === 1){
         if (this.player.sprite.x < stage.canvas.width - 32){
-          let value = 5
+          let value = 3.5
           if (this.mobileInput) value = 35;
           this.player.sprite.x += value;
           this.healthBar.sprite.x += value;
@@ -639,7 +639,7 @@ export default {
     moveLeft() {
       if (this.pressedLeft === 1){
         if (this.player.sprite.x > 0){
-          let value = 5
+          let value = 3.5
           if (this.mobileInput) value = 35;
           this.player.sprite.x -= value;
           this.healthBar.sprite.x -= value;
@@ -654,7 +654,7 @@ export default {
     moveUp() {
       if (this.pressedUp === 1){
         if (this.player.sprite.y > 350){
-          let value = 5
+          let value = 3.5
           if (this.mobileInput) value = 35;
           this.player.sprite.y -= value;
           this.healthBar.sprite.y -= value;
@@ -669,7 +669,7 @@ export default {
     moveDown() {
       if (this.pressedDown === 1){
         if (this.player.sprite.y < stage.canvas.height - 50){
-          let value = 5
+          let value = 3.5
           if (this.mobileInput) value = 35;
           this.player.sprite.y += value;
           this.healthBar.sprite.y += value;
