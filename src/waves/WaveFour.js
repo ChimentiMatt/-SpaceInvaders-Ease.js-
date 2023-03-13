@@ -4,20 +4,20 @@ import InvaderParent from '../constructors/Invader'
 function move(invader, stage, invaders) {
     if (invader.currentAnimation !== "dying"){
         createjs.Tween.get(invader, {override: true, loop: true })
-        .to({ x: invader.x + 200}, 1000)
-        .to({ x: invader.x}, 1000)
-        .to({ x: invader.x - 200}, 1000)
-        .to({ x: invader.x}, 1000)
+        .to({ x: invader.x + 200}, 2000)
+        .to({ x: invader.x}, 2000)
+        .to({ x: invader.x - 200}, 2000)
+        .to({ x: invader.x}, 2000)
     }
 }
 
 function secondMovement(stage,invader) {
     if (invader.currentAnimation !== "dying"){
         createjs.Tween.get(invader, {override: true, loop: true })
-        .to({ x: invader.x - 200}, 1000)
-        .to({ x: invader.x}, 1000)
-        .to({ x: invader.x + 200}, 1000)
-        .to({ x: invader.x}, 1000)
+        .to({ x: invader.x - 200}, 2000)
+        .to({ x: invader.x}, 2000)
+        .to({ x: invader.x + 200}, 2000)
+        .to({ x: invader.x}, 2000)
     } 
 }
 
