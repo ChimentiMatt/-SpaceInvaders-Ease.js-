@@ -12,7 +12,7 @@ import EnemyHomingBulletSheet from './spriteSheets/EnemyHomingBulletSheet.js'
 
 import DashIconSheet from './spriteSheets/DashIconSheet.js';
 import CreateContactExplosion from './spriteSheets/CreateContactExplosion';
-import CreateInvaders from './invaders/CreateInvaders.js';
+import CreateInvaders from './spriteSheets/CreateInvaders.js';
 import Player from './constructors/Player.js';
 import Beam from './constructors/Beam.js';
 import Shield from './constructors/Shield.js';
@@ -21,10 +21,10 @@ import Explosion from './constructors/Explosion.js'
 import DashIcon from './constructors/DashIcon.js'
 import InvaderParent from './constructors/Invader.js';
 
-import WaveOne from './invaders/WaveOne.js';
-import WaveTwo from './invaders/WaveTwo.js';
-import WaveThree from './invaders/WaveThree.js';
-import WaveFour from './invaders/WaveFour.js';
+import WaveOne from './waves/WaveOne.js';
+import WaveTwo from './waves/WaveTwo.js';
+import WaveThree from './waves/WaveThree.js';
+import WaveFour from './waves/WaveFour.js';
 
 // music from pixabay, free to use by "dopestuff"
 import backgroundMusic from "./assets/sounds/neonGaming.mp3"
@@ -478,6 +478,8 @@ export default {
         for (let i = 0; i < this.enemyBullets.length; i++){
 
           if (this.enemyBullets.length > 0 && this.enemyBullets[i].sprite.visible !== false){
+
+            this.returnInvaderType(this.enemyBullets[i])
             
             // if between player y: top and bottom: top && bottom
             if (this.enemyBullets[i].sprite.y >= this.player.sprite.y - 16 && this.enemyBullets[i].sprite.y <= this.player.sprite.y + 16){
@@ -497,6 +499,11 @@ export default {
           }
         }
       }
+    },
+
+    returnInvaderType(propInvader) {
+      // if (propInvader)
+      console.log(propInvader)
     },
 
     fallCollision() {
