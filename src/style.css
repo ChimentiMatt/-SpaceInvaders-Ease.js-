@@ -84,7 +84,7 @@
 #post-stage-screen{
   margin-top: 11.5rem;
   position: absolute;
-  z-index: 2;
+  z-index: 3;
   border: 1px solid black;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -101,16 +101,27 @@
   /* display: none; */
 }
 
+
+
 #post-stage-screen button{
   margin-top: 1rem;
+  position: relative;
+  bottom: .4rem;
+  left: .5rem;
+}
+
+#separator{
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 #hud{
   position: absolute;
-  margin-left: 1400px;
-  z-index: 3;
+  margin-left: 1300px;
+  z-index: 2;
   top: 12rem;
 }
+
 
 button {
   border: none;
@@ -168,7 +179,7 @@ button:hover{
 
   #post-stage-screen {
     width: 300px;
-    font-size: 1rem;
+    font-size: .5rem;
     height: 167px;
     padding-top: 0;
   }
@@ -182,10 +193,17 @@ button:hover{
     display: flex;
   }
 
+  #separator{
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+  }
+
 
   #post-stage-screen button{
     margin-top: 0;
-    padding: .2rem .1rem .2rem .1rem ;
+    top: .03rem;
+    font-size: .5rem;
+    padding: .1rem .5rem .1rem .5rem ;
   }
 }
 

@@ -39,20 +39,28 @@ import backgroundMusic from "./assets/sounds/neonGaming.mp3"
     </div>
 
     <div v-if="postScreen" id="post-stage-screen">
-      <p>Upgrade Max Dash</p>
-      <p v-if="domRollCount < 3">{{ domRollCount }} / 3</p>
-      <button  @click="postScreenSelection('dash')">Dash</button>
+      <h1>Score: {{ score }}</h1>
 
-      <br/>
+      <p>Time remaining: + {{ timer }}</p>
+      <p>Missed Shots: - {{ missedShots }}</p>
+      <p>Invaders Killed: + {{ invadersKilled }} </p>
+ 
+      <p id="separator">----------------------</p>
+
+      <p >Upgrade Max Dash</p>
+      <p v-if="domRollCount < 3">{{ domRollCount }} / 3 <button  @click="postScreenSelection('dash')">+</button></p>
+      
+
       <p>Heal 2 Health </p>
-      <p>{{domHealthVisual}} / 10</p>
-      <button  @click="postScreenSelection('heal')">heal</button>
+      <p>{{domHealthVisual}} / 10 <button  @click="postScreenSelection('heal')">+</button></p>
     </div>
       
     <canvas id="demoCanvas" width="900" height="500"></canvas>
     <div id="hud">
+      <p>level: {{ waveNumber }}</p>
       <p>score: {{ score }}</p>
       <p>time: {{ timer }}</p>
+      <!-- <p>missed shots: {{ missedShots }}</p> -->
     </div>
     
   </div>
@@ -89,7 +97,7 @@ export default {
       startText: [],
       // start at 0
       waveNumber: 0,
-      totalLevels: 3, 
+      totalLevels: 4, 
       players: [],
       shields: [],
       beams: [],
@@ -117,6 +125,8 @@ export default {
       dashIconSheet: '',
       dashIcon: '',
       score: 0,
+      missedShots: 0,
+      invadersKilled: 0,
       timer: 99,
       domHealthVisual: 10,
       domRollCount: 1,
@@ -250,7 +260,8 @@ export default {
         if (this.waveNumber <= this.totalLevels){
           this.postScreen = true;
           this.inPostScreen = true;
-          this.handleCountdown('true');
+          this.handleCountdown('stop');
+          this.postWaveUpdateScore()
         }
         else{
           // game over screen
@@ -276,7 +287,8 @@ export default {
       this.inPostScreen = false
       this.postScreen = false
       this.handleCountdown('start')
-  
+      this.missedShots = 0
+      this.invadersKilled = 0
       
       if (choice === "dash"){
         this.player.rollCount++;
@@ -294,13 +306,13 @@ export default {
         }
       }
         
-      this.postWaveUpdateScore();
       this.updateTimerForNewWave();
       this.nextWave();
     },
 
     postWaveUpdateScore() {
       this.score += this.timer
+      this.score -= this.missedShots
     },
 
     updateTimerForNewWave() {
@@ -340,7 +352,11 @@ export default {
           }
           else {
             removeIndex.push(this.beams[i])
-            this.score--
+
+            if (!this.titleScreen && !this.postScreen){
+              this.missedShots++
+              this.missedShotText(i)
+            }
           }
           isOffScreen = false;
         }
@@ -353,6 +369,13 @@ export default {
       }
     },
 
+    missedShotText(i) {
+      let text = new createjs.Text("-1", "10px Arial", "#FF0000");
+      text.x = this.beams[i].sprite.x 
+      text.y = 10
+      stage.addChild(text)
+      setTimeout(() => {stage.removeChild(text)}, 500)
+    },
 
     removeOldInvaderBullets () {
       // console.log(this.enemyBullets[0])
@@ -408,6 +431,9 @@ export default {
 
           index = results.index
           this.beams[i].deathFall(this.invaders[index].sprite, stage)
+          this.score += 1
+          this.invadersKilled++
+          this.connectedShotText(i)
           
           stage.removeChild(this.beams[i]);
           this.beams.splice(i, 1)
@@ -419,6 +445,15 @@ export default {
           this.firstCollisionStartGame()
         }
       }
+    },
+
+    connectedShotText(i) {
+      // let text = new createjs.Text("+1", "10px Arial", "#6ac5fe");
+      let text = new createjs.Text("+1", "10px Arial", "#00ff00");
+      text.x = this.beams[i].sprite.x 
+      text.y = this.beams[i].sprite.y 
+      stage.addChild(text)
+      setTimeout(() => {stage.removeChild(text)}, 500)
     },
     
     firstCollisionStartGame(){

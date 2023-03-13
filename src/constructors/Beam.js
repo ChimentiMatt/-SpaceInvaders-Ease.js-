@@ -76,6 +76,7 @@ class Beam {
     }
 
     deathFall = function (enemy, stage) {
+      console.log(enemy)
       let deathDirection, secondDeathDirection;
 
       // if already dead IE double tap effect
