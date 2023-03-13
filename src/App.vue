@@ -41,12 +41,12 @@ import backgroundMusic from "./assets/sounds/neonGaming.mp3"
     <div v-if="postScreen" id="post-stage-screen">
       <p>Upgrade Max Dash</p>
       <p v-if="domRollCount < 3">{{ domRollCount }} / 3</p>
-      <button  @click="viewPostScreen('dash')">Dash</button>
+      <button  @click="postScreenSelection('dash')">Dash</button>
 
       <br/>
       <p>Heal 2 Health </p>
       <p>{{domHealthVisual}} / 10</p>
-      <button  @click="viewPostScreen('heal')">heal</button>
+      <button  @click="postScreenSelection('heal')">heal</button>
     </div>
       
     <canvas id="demoCanvas" width="900" height="500"></canvas>
@@ -135,6 +135,7 @@ export default {
       mobileInput: false,
 
       fireDelay: false,
+      myInterval: ''
     }
   },
 
@@ -169,8 +170,6 @@ export default {
       createjs.Ticker.timingMode = createjs.Ticker.RAF;
       createjs.Ticker.addEventListener("tick", stage);
       createjs.Ticker.addEventListener("tick", this.tick);
-  
-
  
       stage.update()
     },
@@ -178,7 +177,8 @@ export default {
     startBtn() {
       this.startScreen = false
       this.nextWave()
-      this.reduceTime(this.timer);
+
+      this.handleCountdown('start')
     },
 
     tick(event){
@@ -250,7 +250,7 @@ export default {
         if (this.waveNumber <= this.totalLevels){
           this.postScreen = true;
           this.inPostScreen = true;
-          
+          this.handleCountdown('true');
         }
         else{
           // game over screen
@@ -272,10 +272,10 @@ export default {
         this.enemyBullets = []
     },
 
-    viewPostScreen(choice) {
+    postScreenSelection(choice) {
       this.inPostScreen = false
       this.postScreen = false
-
+      this.handleCountdown('start')
   
       
       if (choice === "dash"){
@@ -389,7 +389,6 @@ export default {
     enemyFire() {
       for (let i = 0; i < this.invaders.length; i++){
         if (this.invaders[i].sprite.currentAnimation !== "dead" && this.invaders[i].sprite.currentAnimation !== "dying"){
-          console.log(this.invaders[i].sprite.currentAnimation)
           this.invaders[i].fire(this.invaders, i, this.enemyBullets, this.enemyBulletSheet, this.players, stage, this.soundOn);
           this.invaders[i].fireBomb(this.invaders, i, this.enemyBullets, this.enemyBombSheet, this.players, stage, this.soundOn);
           this.invaders[i].homingBullet(this.invaders, i, this.enemyBullets, this.enemyHomingBulletSheet, this.players, stage, this.soundOn);
@@ -708,11 +707,18 @@ export default {
 
       return true;
     },
-    
-    reduceTime(){
-      setInterval(() => {
-        this.timer--
-      }, 1000)
+
+    myTimer() {
+      this.timer--
+    },
+
+    handleCountdown(command) {
+      if (command === 'start'){
+        this.myInterval = setInterval(this.myTimer, 1000);
+      }
+      else{
+          clearInterval(this.myInterval);    
+      }
     },
 
     detectIfMobile(){
