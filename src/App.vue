@@ -103,7 +103,7 @@ export default {
       startBtnInvader: '',
       startText: [],
       // start at 0
-      waveNumber: 2,
+      waveNumber: 0,
       totalLevels: 5, 
       players: [],
       shields: [],
