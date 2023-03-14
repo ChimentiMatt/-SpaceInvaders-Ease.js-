@@ -33,10 +33,10 @@ class StartBtnInvader extends InvaderParent {
 
 class Invader extends InvaderParent {
     fire(invaders, index, enemyBullets, enemyBulletSheet, players, stage, soundOn) {
-        let number = Math.floor(Math.random() * (100 + 0) + 0)
+        let number = Math.floor(Math.random() * (1000 + 0) + 0)
         let bullet;
 
-        if (number > 98){
+        if (number > 995){
             bullet = new EnemyBullet.Bullet(enemyBulletSheet)
             enemyBullets.push(bullet)
             bullet.addToStage(stage, invaders, index)
@@ -67,7 +67,7 @@ class InvaderWhite extends InvaderParent {
         let number = Math.floor(Math.random() * (1000 + 0) + 0)
         let bullet;
   
-        if (number > 997){
+        if (number > 998){
             bullet = new EnemyBullet.Bomb(enemyBulletSheet)
             enemyBullets.push(bullet)
             bullet.addToStage(stage, invaders, index)

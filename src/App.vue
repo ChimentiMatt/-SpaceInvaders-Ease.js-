@@ -49,9 +49,15 @@ import backgroundMusic from "./assets/sounds/neonGaming.mp3"
  
       <p id="separator">----------------------</p>
 
-      <p >Upgrade Max Dash</p>
+      <p v-if="domRollCount < 3">Upgrade Max Dash</p>
       <p v-if="domRollCount < 3">{{ domRollCount }} / 3 <button  @click="postScreenSelection('dash')">+</button></p>
       
+      <p v-if="domAttackSpeed < 4">Increase Attack Speed</p>
+      <p v-if="domAttackSpeed < 4">{{ domAttackSpeed }} / 4 <button  @click="postScreenSelection('attack')">+</button></p>
+
+      <p v-if="domMoveSpeed < 4">Increase Move Speed</p>
+      <p v-if="domMoveSpeed < 4">{{ domMoveSpeed }} / 4 <button  @click="postScreenSelection('move')">+</button></p>
+
 
       <p>Heal 2 Health </p>
       <p>{{domHealthVisual}} / 10 <button  @click="postScreenSelection('heal')">+</button></p>
@@ -132,6 +138,8 @@ export default {
       timer: 99,
       domHealthVisual: 10,
       domRollCount: 1,
+      domAttackSpeed: 1,
+      domMoveSpeed: 1,
       gameOver: false,
       postScreen: false,
       inPostScreen: false,
@@ -302,6 +310,18 @@ export default {
       if (choice === "dash"){
         this.player.rollCount++;
         this.domRollCount++;
+      }
+      else if (choice === "attack"){
+        if (this.domAttackSpeed < 4){
+          this.player.attackSpeed -= 100;
+          this.domAttackSpeed++;
+        }
+      }
+      else if (choice === "move"){
+        if (this.domMoveSpeed < 4){
+          this.player.moveSpeed += .5;
+          this.domMoveSpeed++;
+        }
       }
       else if (choice === "heal"){
         if (this.healthBar.healthPoints === 9){
@@ -650,8 +670,9 @@ export default {
     moveRight() {
       if (this.pressedRight === 1){
         if (this.player.sprite.x < stage.canvas.width - 32){
-          let value = 3.5
-          if (this.mobileInput) value = 35;
+          let value = this.player.moveSpeed
+          if (this.mobileInput) value = 35 + this.player.moveSpeed;
+
           this.player.sprite.x += value;
           this.healthBar.sprite.x += value;
           this.shield.sprite.x += value;
@@ -665,8 +686,8 @@ export default {
     moveLeft() {
       if (this.pressedLeft === 1){
         if (this.player.sprite.x > 0){
-          let value = 3.5
-          if (this.mobileInput) value = 35;
+          let value = this.player.moveSpeed
+          if (this.mobileInput) value = 35 + this.player.moveSpeed;
           this.player.sprite.x -= value;
           this.healthBar.sprite.x -= value;
           this.shield.sprite.x -= value;
@@ -680,8 +701,8 @@ export default {
     moveUp() {
       if (this.pressedUp === 1){
         if (this.player.sprite.y > 350){
-          let value = 3.5
-          if (this.mobileInput) value = 35;
+          let value = this.player.moveSpeed
+          if (this.mobileInput) value = 35 + this.player.moveSpeed;
           this.player.sprite.y -= value;
           this.healthBar.sprite.y -= value;
           this.shield.sprite.y -= value;
@@ -695,8 +716,8 @@ export default {
     moveDown() {
       if (this.pressedDown === 1){
         if (this.player.sprite.y < stage.canvas.height - 50){
-          let value = 3.5
-          if (this.mobileInput) value = 35;
+          let value = this.player.moveSpeed
+          if (this.mobileInput) value = 35 + this.player.moveSpeed;
           this.player.sprite.y += value;
           this.healthBar.sprite.y += value;
           this.shield.sprite.y += value;

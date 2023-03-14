@@ -29,7 +29,7 @@ class Beam {
     playSoundEffect = function() {
       var soundEffect = new Audio(beamSound)
       soundEffect.play()
-      soundEffect.volume = .15
+      soundEffect.volume = .08
       soundEffect.onended = function(){
         this.remove();
       }  
