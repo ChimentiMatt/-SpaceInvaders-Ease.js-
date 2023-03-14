@@ -4,10 +4,10 @@ import InvaderParent from '../constructors/Invader'
 function move(invader, stage, invaders) {
     if (invader.currentAnimation !== "dying"){
         createjs.Tween.get(invader, {override: true, loop: true })
-        .to({ x: invader.x + 200}, 2000)
-        .to({ x: invader.x}, 2000)
-        .to({ x: invader.x - 200}, 2000)
-        .to({ x: invader.x}, 2000)
+        .to({ x: invader.x + 200}, 4000)
+        .to({ x: invader.x}, 4000)
+        .to({ x: invader.x - 200}, 4000)
+        .to({ x: invader.x}, 4000)
     }
 }
 
@@ -32,20 +32,26 @@ function createWave (invaders, InvadersGreenSpriteSheet, invaderWhiteSpriteSheet
         counter++
 
         
-        if (counter === 1){
-            invader = new InvaderParent.Invader(InvadersGreenSpriteSheet, 'green');
-        }
-        else if (counter === 2){
-            invader = new InvaderParent.InvaderWhite(invaderWhiteSpriteSheet, 'white');   
+        if (i < 10){
+
+            if (counter === 1){
+                invader = new InvaderParent.Invader(InvadersGreenSpriteSheet, 'green');
+            }
+            else if (counter === 2){
+                invader = new InvaderParent.InvaderPink(invaderPinkSpriteSheet, 'pink');   
+                counter = 0;
+            }
+
         }
         else{
-            counter = 0;
-            invader = new InvaderParent.InvaderPink(invaderPinkSpriteSheet, 'pink');   
-        }
+            invader = new InvaderParent.InvaderWhite(invaderWhiteSpriteSheet, 'white');   
+            if( i == 10){
+                invaderY -= 100;
+                invaderX = 210
+            }
 
+        }
         if (i === 11){
-            invaderX = 210;
-            invaderY -= 100;
         }
 
         
@@ -72,12 +78,12 @@ function paintWave (stage, invaders) {
 function moveInvaders (invaders, stage) {
     for (let i = 0; i < invaders.length; i++){
         if (invaders[i].currentAnimation !== "dying"){
-            if (i < 11){
-                move(invaders[i].sprite, stage, invaders);
-            }
-            else{
-                secondMovement(stage, invaders[i].sprite)
-            }
+            move(invaders[i].sprite, stage, invaders);
+            // if (i < 11){
+            // }
+            // else{
+            //     secondMovement(stage, invaders[i].sprite)
+            // }
         }
     }
 }

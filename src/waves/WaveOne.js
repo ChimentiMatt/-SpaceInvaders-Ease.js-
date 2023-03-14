@@ -3,16 +3,14 @@ import InvaderParent from '../constructors/Invader'
 
 function move(invader) {
         createjs.Tween.get(invader, {override: true})
-        .to({ y: invader.y + 150 }, 1000)
-        .to({ x: invader.x + -500 }, 2000)
-        .to({ y: invader.y + 200 }, 1000)
-        .to({ x: invader.x + 0 }, 2000)      
-        .to({ y: invader.y + 250 }, 1000)
-        .to({ x: invader.x + -500 }, 2000)      
-        .to({ y: invader.y + 300 }, 1000)
-        .to({ x: invader.x + 0 }, 2000)      
-        // .to({ y: invader.y + 350 }, 1000)
-        // .to({ x: invader.x + -500 }, 2000) 
+        .to({ y: invader.y + 150 }, 2000)
+        .to({ x: invader.x + -500 }, 4000)
+        .to({ y: invader.y + 200 }, 1500)
+        .to({ x: invader.x + 0 }, 4000)      
+        .to({ y: invader.y + 250 }, 1500)
+        .to({ x: invader.x + -500 }, 4000)      
+        .to({ y: invader.y + 300 }, 1500)
+        .to({ x: invader.x + 0 }, 4000)      
         .call(() => {
             if (invader.currentAnimation !== "dying"){
                 createjs.Tween.get(invader, { loop: true })
@@ -26,7 +24,7 @@ function move(invader) {
 
 function secondMovement(stage,invader) {
     createjs.Tween.get(invader, {override: true})
-    .to({ y: invader.y + 150 }, 1000)
+    .to({ y: invader.y + 150 }, 2000)
     .call(() => {
         if (invader.currentAnimation !== "dying"){
             createjs.Tween.get(invader, { loop: true })
@@ -45,7 +43,7 @@ function createWave (invaders, InvadersGreenSpriteSheet, invaderWhiteSpriteSheet
     for (let i = 0; i < 24; i++){
 
         if (i < 23){
-            invader = new InvaderParent.InvaderBlob(InvadersGreenSpriteSheet, 'green');
+            invader = new InvaderParent.Invader(InvadersGreenSpriteSheet, 'green');
         }
         else{
             invader = new InvaderParent.InvaderBlob(invaderBlobSpriteSheet, 'blob');
@@ -95,7 +93,7 @@ function moveInvaders (invaders, stage) {
             else{
                 setTimeout(() => {
                     secondMovement(stage, invaders[i].sprite)
-                }, 3000);
+                }, 4000);
             }
         }
     }

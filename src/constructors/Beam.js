@@ -6,7 +6,7 @@ class Beam {
       this.madeContact = false
     }
   
-    addToArray = function(player, stage, spriteSheet) {
+    setLocation = function(player, stage, spriteSheet) {
       this.sprite.x = player.x;
       this.sprite.y = player.y - 17;
     }
@@ -79,7 +79,6 @@ class Beam {
 
     getSpriteWidth = function (invaderType) {
       if (invaderType === 'blob'){
-        console.log(invaderType)
         return 32
       }
       return 16
@@ -123,8 +122,9 @@ class Beam {
         createjs.Tween.get(enemy)
         .to({ y: enemy.y + 500 , x: enemy.x + deathDirection, rotation : randomAngle}, 1500)
         .call(() => {
-          stage.removeChild(enemy);
           enemy.gotoAndPlay("dead")
+          stage.removeChild(enemy);
+          
           // createjs.Tween.removeTweens(enemy)
          })
       }

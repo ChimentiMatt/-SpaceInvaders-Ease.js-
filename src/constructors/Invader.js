@@ -97,7 +97,7 @@ class InvaderPink extends InvaderParent {
         let number = Math.floor(Math.random() * (1000 + 0) + 0)
         let bullet;
 
-        if (number > 980){
+        if (number > 985){
             bullet = new EnemyBullet.Homing(enemyBulletSheet)
             enemyBullets.push(bullet)
             bullet.addToStage(stage, invaders, index)

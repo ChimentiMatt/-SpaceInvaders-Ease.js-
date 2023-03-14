@@ -6,12 +6,12 @@ function move(invader, stage, invaders) {
     .to({ y: invader.y + 120 }, 1000)
     .call(() => {
         createjs.Tween.get(invader, { loop: true})
-        .to({ y: invader.y + 40, x: invader.x + 40}, 500, createjs.Ease.none)
-        .to({ y: invader.y - 40, x: invader.x - 40}, 1000, createjs.Ease.none)
-        .to({ y: invader.y - 0, x: invader.x + 0 }, 500, createjs.Ease.none)
-        .to({ y: invader.y + 40, x: invader.x - 40}, 500, createjs.Ease.none)
-        .to({ y: invader.y - 40, x: invader.x + 40}, 1000, createjs.Ease.none)
-        .to({ y: invader.y - 0, x: invader.x + 0 }, 500, createjs.Ease.none)
+        // .to({ y: invader.y + 40, x: invader.x + 40}, 500, createjs.Ease.none)
+        // .to({ y: invader.y - 40, x: invader.x - 40}, 1000, createjs.Ease.none)
+        // .to({ y: invader.y - 0, x: invader.x + 0 }, 500, createjs.Ease.none)
+        // .to({ y: invader.y + 40, x: invader.x - 40}, 500, createjs.Ease.none)
+        // .to({ y: invader.y - 40, x: invader.x + 40}, 1000, createjs.Ease.none)
+        // .to({ y: invader.y - 0, x: invader.x + 0 }, 500, createjs.Ease.none)
     })
 }
 
@@ -21,12 +21,12 @@ function secondMovement(stage,invader) {
     .call(() => {
         if (invader.currentAnimation !== "dying"){
             createjs.Tween.get(invader, { loop: true })
-            .to({ y: invader.y - 40, x: invader.x + 40 }, 500, createjs.Ease.none)
-            .to({ y: invader.y + 40, x: invader.x - 40}, 1000, createjs.Ease.none)
-            .to({ y: invader.y + 0, x: invader.x - 0 }, 500, createjs.Ease.none)
-            .to({ y: invader.y - 40, x: invader.x - 40 }, 500, createjs.Ease.none)
-            .to({ y: invader.y + 40, x: invader.x + 40}, 1000, createjs.Ease.none)
-            .to({ y: invader.y + 0, x: invader.x - 0 }, 500, createjs.Ease.none)
+            // .to({ y: invader.y - 40, x: invader.x + 40 }, 500, createjs.Ease.none)
+            // .to({ y: invader.y + 40, x: invader.x - 40}, 1000, createjs.Ease.none)
+            // .to({ y: invader.y + 0, x: invader.x - 0 }, 500, createjs.Ease.none)
+            // .to({ y: invader.y - 40, x: invader.x - 40 }, 500, createjs.Ease.none)
+            // .to({ y: invader.y + 40, x: invader.x + 40}, 1000, createjs.Ease.none)
+            // .to({ y: invader.y + 0, x: invader.x - 0 }, 500, createjs.Ease.none)
         }
     })   
 }

@@ -163,7 +163,7 @@ export default {
       this.createSpriteSheets();
       this.createStartText();
 
-      this.startBtnInvader = new InvaderParent.StartBtnInvader(this.invaderSheet, 'green');
+      this.startBtnInvader = new InvaderParent.StartBtnInvader(this.invaderBlobSheet, 'blob');
       this.startBtnInvader.addToArrayAndStage(this.startBtnInvader, this.invaders, stage)
 
       this.nextWave()
@@ -183,6 +183,8 @@ export default {
       createjs.Ticker.addEventListener("tick", this.tick);
  
       stage.update()
+
+      console.log(stage.children)
     },
 
     startBtn() {
@@ -193,7 +195,7 @@ export default {
     },
 
     tick(event){
-      // console.log(this.enemyBullets.length)
+      // console.log(stage.children.length)
 
       document.querySelector('#demoCanvas').style.opacity = 1
 
@@ -258,6 +260,7 @@ export default {
 
     leaveLevel() {
       if (this.nextWaveCheck(this.invaders) && !this.inPostScreen ){
+        console.log(this.beams.length)
         this.waveNumber++
         if (this.waveNumber <= this.totalLevels){
           this.postScreen = true;
@@ -270,19 +273,21 @@ export default {
           this.postScreen = false;
           this.gameOver = true;
         }
+
         this.clearLevel()
+
+
+
       }
     },
 
     clearLevel() {
-        // remove from stage invaders
-        for (let i = 0; i < this.invaders.length; i++){
-          stage.removeChild(this.invaders[i].sprite);
-        }
-        
-        // remove from array invaders
-        this.invaders = []
-        this.enemyBullets = []
+
+      this.invaders = []
+      this.enemyBullets = []
+      
+      // remaining children
+      console.log('remaining stage children' ,stage.children.length)
     },
 
     postScreenSelection(choice) {
@@ -354,6 +359,7 @@ export default {
           }
           else {
             removeIndex.push(this.beams[i])
+            // stage.removeChild(this.beams[i].sprite)
 
             if (!this.titleScreen && !this.postScreen){
               this.missedShots++
@@ -361,12 +367,14 @@ export default {
             }
           }
           isOffScreen = false;
+       
         }
 
         // remove from stage
         for (let i = 0; i < removeIndex.length; i++){
-          stage.removeChild(removeIndex[i]);
+          stage.removeChild(removeIndex[i].sprite);
           this.beams = stillInScreen;
+  
         }
       }
     },
@@ -427,7 +435,7 @@ export default {
       for(let i = 0; i < this.beams.length; i++){
         x = this.beams[i].sprite.x
         y = this.beams[i].sprite.y
-        results = this.beams[i].detectCollision(this.beams, this.invaders);
+        results = this.beams[i].detectCollision(this.beams, this.invaders, stage);
       
         if (results.collision){
 
@@ -438,11 +446,17 @@ export default {
           this.connectedShotText(i)
           
           stage.removeChild(this.beams[i]);
-          this.beams.splice(i, 1)
+          // this.beams.splice(i, 1)
 
+          // if (this.beams[i]){
+          //   stage.removeChild(this.beams[i].sprite)
+          // }
 
           this.explosion = new Explosion(this.explosionSheet);
           this.explosion.addToStage(stage, x, y, this.soundOn)
+          setTimeout(() => {
+            stage.removeChild(this.explosion)
+          }, 1500)
 
           this.firstCollisionStartGame()
         }
@@ -713,22 +727,18 @@ export default {
         if (!this.fireDelay){
           this.fireDelay = true;
           this.beam = new Beam(this.beamSheet);
-          this.beam.addToArray(this.player.sprite, stage, this.beamSheet)
+          this.beam.setLocation(this.player.sprite, stage, this.beamSheet)
           this.beams.push(this.beam)
           stage.addChild(this.beam.sprite)
   
           this.beam.moveBeams(this.player.sprite, this.soundOn)
 
           setTimeout(() => { this.fireDelay = false}, this.player.attackSpeed)
+          // setTimeout(() => { this.fireDelay = false}, 0)
         }
       }
     },
 
-
-    
-    clearInvaders() {
-      this.invaders = []
-    },
 
     nextWaveCheck() {
       if (this.startScreen){
@@ -740,8 +750,6 @@ export default {
         }
 
       }
-
-      this.clearInvaders()
 
       return true;
     },
