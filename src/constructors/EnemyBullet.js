@@ -3,6 +3,7 @@ class EnemyBullet {
         this.sprite = new createjs.Sprite(spriteSheet, "default");
         this.duration = 2000;
         this.distance = 500;
+        this.type = 'bullet';
     }
 
   
@@ -35,6 +36,7 @@ class EnemyBullet {
 
 class Bullet extends EnemyBullet{
     direction = function(players, stage) {
+        this.type = 'bullet';
         let durationVariance = Math.floor(Math.random() * (3000 - 2000) + 2000)
 
         durationVariance = 2000
@@ -55,6 +57,7 @@ class Bomb extends EnemyBullet{
     }
     
     direction = function(players, stage) {
+        this.type = 'bomb';
         let yVariance = Math.floor(Math.random() * (480 - 330 + 1) + 330)
 
         createjs.Tween.get(this.sprite)
@@ -77,6 +80,7 @@ class Bomb extends EnemyBullet{
 class Homing extends EnemyBullet{
     
     direction = function(players, stage, enemyBullets) {
+        this.type = 'homing';
         let playerLocation = {x: players[0].x, y: players[0].y}
         
         createjs.Tween.get(this.sprite)

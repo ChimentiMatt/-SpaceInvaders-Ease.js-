@@ -517,18 +517,23 @@ export default {
     },
 
     playerBulletCollisionDetection() {
+      let spriteOffset = 6
       if (!this.player.invincible){
         
         for (let i = 0; i < this.enemyBullets.length; i++){
 
           if (this.enemyBullets.length > 0 && this.enemyBullets[i].sprite.visible !== false){
-            
+
+            // bombs have bigger visuals so bigger hitboxes
+            if (this.enemyBullets[i].type === 'bomb'){
+              spriteOffset = 13
+            }
             
             // if between player y: top and bottom: top && bottom
-            if (this.enemyBullets[i].sprite.y >= this.player.sprite.y - 13 && this.enemyBullets[i].sprite.y <= this.player.sprite.y + 13){
+            if (this.enemyBullets[i].sprite.y >= this.player.sprite.y - spriteOffset && this.enemyBullets[i].sprite.y <= this.player.sprite.y + spriteOffset){
 
               // if between player x: left and right
-              if (this.enemyBullets[i].sprite.x >= this.player.sprite.x - 13 && this.enemyBullets[i].sprite.x <= this.player.sprite.x + 13){
+              if (this.enemyBullets[i].sprite.x >= this.player.sprite.x - spriteOffset && this.enemyBullets[i].sprite.x <= this.player.sprite.x + 15){
                 this.healthBar.takeDamage(this.player.invincible, this.soundOn)
 
                 // dom state variable needs to be out of external component
