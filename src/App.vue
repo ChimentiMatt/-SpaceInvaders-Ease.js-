@@ -58,8 +58,7 @@ import backgroundMusic from "./assets/sounds/neonGaming.mp3"
       <p v-if="domMoveSpeed < 4">Increase Move Speed</p>
       <p v-if="domMoveSpeed < 4">{{ domMoveSpeed }} / 4 <button  @click="postScreenSelection('move')">+</button></p>
 
-
-      <p>Heal 2 Health </p>
+      <p>Heal 2  </p>
       <p>{{domHealthVisual}} / 10 <button  @click="postScreenSelection('heal')">+</button></p>
     </div>
       
@@ -526,10 +525,10 @@ export default {
             
             
             // if between player y: top and bottom: top && bottom
-            if (this.enemyBullets[i].sprite.y >= this.player.sprite.y - 16 && this.enemyBullets[i].sprite.y <= this.player.sprite.y + 16){
+            if (this.enemyBullets[i].sprite.y >= this.player.sprite.y - 1 && this.enemyBullets[i].sprite.y <= this.player.sprite.y + 16){
 
               // if between player x: left and right
-              if (this.enemyBullets[i].sprite.x >= this.player.sprite.x - 16 && this.enemyBullets[i].sprite.x <= this.player.sprite.x + 16){
+              if (this.enemyBullets[i].sprite.x >= this.player.sprite.x - 2 && this.enemyBullets[i].sprite.x <= this.player.sprite.x + 13){
                 this.healthBar.takeDamage(this.player.invincible, this.soundOn)
 
                 // dom state variable needs to be out of external component
