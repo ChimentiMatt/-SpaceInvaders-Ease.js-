@@ -26,6 +26,7 @@ import WaveOne from './waves/WaveOne.js';
 import WaveTwo from './waves/WaveTwo.js';
 import WaveThree from './waves/WaveThree.js';
 import WaveFour from './waves/WaveFour.js';
+import WaveFive from './waves/WaveFive.js';
 
 // music from pixabay, free to use by "dopestuff"
 import backgroundMusic from "./assets/sounds/neonGaming.mp3"
@@ -98,7 +99,7 @@ export default {
       startText: [],
       // start at 0
       waveNumber: 0,
-      totalLevels: 4, 
+      totalLevels: 5, 
       players: [],
       shields: [],
       beams: [],
@@ -146,7 +147,8 @@ export default {
       mobileInput: false,
 
       fireDelay: false,
-      myInterval: ''
+      myInterval: '',
+      tickCounter: 0
     }
   },
 
@@ -341,6 +343,10 @@ export default {
       {
         WaveFour.createWave(this.invaders, this.invaderSheet, this.invaderWhiteSheet, this.invaderPinkSheet, this.invaderBlobSheet, stage)
       }
+      else if (this.waveNumber === 5)
+      {
+        WaveFive.createWave(this.invaders, this.invaderSheet, this.invaderWhiteSheet, this.invaderPinkSheet, this.invaderBlobSheet, stage)
+      }
     },
 
     removeOldPlayerBullets () {
@@ -420,13 +426,16 @@ export default {
     },
 
     enemyFire() {
+      this.tickCounter ++
       for (let i = 0; i < this.invaders.length; i++){
         if (this.invaders[i].sprite.currentAnimation !== "dead" && this.invaders[i].sprite.currentAnimation !== "dying"){
           this.invaders[i].fire(this.invaders, i, this.enemyBullets, this.enemyBulletSheet, this.players, stage, this.soundOn);
           this.invaders[i].fireBomb(this.invaders, i, this.enemyBullets, this.enemyBombSheet, this.players, stage, this.soundOn);
           this.invaders[i].homingBullet(this.invaders, i, this.enemyBullets, this.enemyHomingBulletSheet, this.players, stage, this.soundOn);
+          this.invaders[i].intervalShot(this.invaders, i, this.enemyBullets, this.enemyBulletSheet, this.players, stage, this.soundOn, this.tickCounter);
         }
       }
+      if (this.tickCounter > 40) this.tickCounter = 0
     },
     
     beamsCollisionDetection() {

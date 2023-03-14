@@ -55,7 +55,7 @@ class Bomb extends EnemyBullet{
     }
     
     direction = function(players, stage) {
-        let yVariance = Math.floor(Math.random() * (460 - 330 + 1) + 330)
+        let yVariance = Math.floor(Math.random() * (480 - 330 + 1) + 330)
 
         createjs.Tween.get(this.sprite)
         .to({ y: yVariance }, 1500)

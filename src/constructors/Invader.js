@@ -25,6 +25,9 @@ class StartBtnInvader extends InvaderParent {
     homingBullet(){
         return;
     }
+    intervalShot() {
+        return;
+    }
 }
 
 
@@ -45,24 +48,19 @@ class Invader extends InvaderParent {
     fireBomb(invaders, index, enemyBullets, enemyBulletSheet, players, stage, soundOn){
         return;
     }
-
     homingBullet(invaders, index, enemyBullets, enemyBulletSheet, players, stage, soundOn){
+        return;
+    }
+    intervalShot() {
+        return;
+    }    
+    intervalShot() {
         return;
     }
 }
 
 class InvaderWhite extends InvaderParent {
     fire(invaders, index, enemyBullets, enemyBulletSheet, players, stage, soundOn) {
-        let number = Math.floor(Math.random() * (1000 + 0) + 0)
-        let bullet;
-
-        if (number > 998){
-            bullet = new EnemyBullet.Bullet(enemyBulletSheet)
-            enemyBullets.push(bullet)
-            bullet.addToStage(stage, invaders, index)
-  
-            bullet.direction(players, stage);
-        }
     }
 
     fireBomb(invaders, index, enemyBullets, enemyBulletSheet, players, stage, soundOn){
@@ -77,8 +75,10 @@ class InvaderWhite extends InvaderParent {
             bullet.direction(players, stage);
         }
     }
-
     homingBullet(){
+        return;
+    }
+    intervalShot() {
         return;
     }
 }
@@ -105,6 +105,9 @@ class InvaderPink extends InvaderParent {
             bullet.direction(players, stage);
         }
     }
+    intervalShot() {
+        return;
+    }
 }
 
 class InvaderBlob extends InvaderParent {
@@ -117,7 +120,25 @@ class InvaderBlob extends InvaderParent {
     }
 
     homingBullet(invaders, index, enemyBullets, enemyBulletSheet, players, stage, soundOn){
+        return;
+    }
 
+    intervalShot(invaders, index, enemyBullets, enemyBulletSheet, players, stage, soundOn, tickCounter) {
+        let bullet;
+        if (invaders[index].sprite.y > 0){
+            
+            if (tickCounter > 40){   
+                console.log(true)
+                bullet = new EnemyBullet.Bullet(enemyBulletSheet)
+                enemyBullets.push(bullet)
+                bullet.addToStage(stage, invaders, index)
+      
+                bullet.direction(players, stage);
+            }
+
+        }
+
+ 
     }
 }
 
