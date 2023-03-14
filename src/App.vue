@@ -103,7 +103,7 @@ export default {
       startBtnInvader: '',
       startText: [],
       // start at 0
-      waveNumber: 0,
+      waveNumber: 2,
       totalLevels: 5, 
       players: [],
       shields: [],
@@ -525,10 +525,10 @@ export default {
             
             
             // if between player y: top and bottom: top && bottom
-            if (this.enemyBullets[i].sprite.y >= this.player.sprite.y - 1 && this.enemyBullets[i].sprite.y <= this.player.sprite.y + 16){
+            if (this.enemyBullets[i].sprite.y >= this.player.sprite.y - 13 && this.enemyBullets[i].sprite.y <= this.player.sprite.y + 13){
 
               // if between player x: left and right
-              if (this.enemyBullets[i].sprite.x >= this.player.sprite.x - 2 && this.enemyBullets[i].sprite.x <= this.player.sprite.x + 13){
+              if (this.enemyBullets[i].sprite.x >= this.player.sprite.x - 13 && this.enemyBullets[i].sprite.x <= this.player.sprite.x + 13){
                 this.healthBar.takeDamage(this.player.invincible, this.soundOn)
 
                 // dom state variable needs to be out of external component
