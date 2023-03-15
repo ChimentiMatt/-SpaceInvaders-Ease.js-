@@ -3,7 +3,7 @@ import InvaderParent from '../constructors/Invader'
 
 function move(invader) {
         createjs.Tween.get(invader, {override: true})
-        .to({ y: invader.y + 50 }, 2000)
+        .to({ y: invader.y + 200 }, 2000)
         .call(() => {
             if (invader.currentAnimation !== "dying"){
                 createjs.Tween.get(invader, { loop: true })
@@ -14,6 +14,17 @@ function move(invader) {
         })   
 }
 
+function secondMovement(stage,invader) {
+    createjs.Tween.get(invader, {override: true})
+    .to({ y: invader.y + 150 }, 2000)
+    .call(() => {
+        if (invader.currentAnimation !== "dying"){
+            createjs.Tween.get(invader, { loop: true })
+            .to({ x: invader.x - stage.canvas.width +100 }, 4000, createjs.Ease.none)
+            .to({ x: invader.x + 0}, 4000, createjs.Ease.none)
+        }
+    })   
+}
 
 function createWave (invaders, InvadersGreenSpriteSheet, invaderWhiteSpriteSheet, invaderPinkSpriteSheet, invaderBlobSpriteSheet,  stage) {
     let invader = '';
@@ -21,43 +32,26 @@ function createWave (invaders, InvadersGreenSpriteSheet, invaderWhiteSpriteSheet
     let invaderY = -30;
 
     // 24
-    for (let i = 0; i < 11; i++){
+    for (let i = 0; i < 16; i++){
 
 
         invader = new InvaderParent.InvaderBlob(invaderBlobSpriteSheet, 'blob');
 
+        invader.sprite.x = invaderX;
+        invader.sprite.y = invaderY;
 
         
         if (i < 7){
-            invader.sprite.x = invaderX;
-            invader.sprite.y = invaderY;
             invaderX += 100;
         }
         if ( i === 7){
-            invader = new InvaderParent.InvaderPink(invaderPinkSpriteSheet, 'pink');
-            invaderY = 50
-            invaderX = 158;
-            invader.sprite.y = invaderY
-            invader.sprite.x = invaderX;
+            invaderY -= 150
+            invaderX = 100;
         }
-        if ( i === 8){
-            invader = new InvaderParent.InvaderPink(invaderPinkSpriteSheet, 'pink');
-            invaderX += 200;
-            invader.sprite.y = invaderY
-            invader.sprite.x = invaderX;
-        }
-        if ( i === 9){
-            invader = new InvaderParent.InvaderPink(invaderPinkSpriteSheet, 'pink');
+        if ( i > 7){
             invaderX += 100;
-            invader.sprite.y = invaderY
-            invader.sprite.x = invaderX;
         }
-        if ( i === 10){
-            invader = new InvaderParent.InvaderPink(invaderPinkSpriteSheet, 'pink');
-            invaderX += 200;
-            invader.sprite.y = invaderY
-            invader.sprite.x = invaderX;
-        }
+
         
         invaders.push(invader);
     }
@@ -77,7 +71,14 @@ function paintWave (stage, invaders) {
 function moveInvaders (invaders, stage) {
     for (let i = 0; i < invaders.length; i++){
         if (invaders[i].sprite.currentAnimation !== "dying"){
-            move(invaders[i].sprite, stage, invaders);
+            if (i !== 23){
+                move(invaders[i].sprite, stage, invaders);
+            }
+            else{
+                setTimeout(() => {
+                    secondMovement(stage, invaders[i].sprite)
+                }, 4000);
+            }
         }
     }
 }
