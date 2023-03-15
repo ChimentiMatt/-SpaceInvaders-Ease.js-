@@ -102,8 +102,8 @@ class Beam {
         }
 
         createjs.Tween.get(enemy)
-        .to({ y: enemy.y - 50, x: enemy.x + deathDirection  }, 200)
-        .to({ x: enemy.x + secondDeathDirection, y: enemy.y + 500}, 1300)
+        .to({ y: enemy.y - 50, x: enemy.x + deathDirection  }, 400)
+        .to({ x: enemy.x + secondDeathDirection, y: enemy.y + 500}, 2300)
       }
       else{
         enemy.gotoAndPlay("dying")
@@ -112,15 +112,20 @@ class Beam {
         // for debugging
         // deathDirection = 0
 
-        let randomAngle = Math.floor(Math.random() * (90 - - 90) + 90)
+        let randomAngle = Math.floor(Math.random() * (70 - - 70) + 70)
         // for debugging
         // randomAngle = 0
     
         enemy.scaleX = 1.3;
         enemy.scaleY = 1.3;
+
+        // rotation happens with fall direction
+        if (deathDirection < 0){
+          randomAngle *= -1
+        }
         
         createjs.Tween.get(enemy)
-        .to({ y: enemy.y + 500 , x: enemy.x + deathDirection, rotation : randomAngle}, 1500)
+        .to({ y: enemy.y + 500 , x: enemy.x + deathDirection, rotation : randomAngle}, 2500)
         .call(() => {
           enemy.gotoAndPlay("dead")
           stage.removeChild(enemy);

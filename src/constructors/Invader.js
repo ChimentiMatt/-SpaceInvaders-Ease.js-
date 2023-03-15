@@ -128,7 +128,6 @@ class InvaderBlob extends InvaderParent {
         if (invaders[index].sprite.y > 0){
             
             if (tickCounter > 40){   
-                console.log(true)
                 bullet = new EnemyBullet.Bullet(enemyBulletSheet)
                 enemyBullets.push(bullet)
                 bullet.addToStage(stage, invaders, index)

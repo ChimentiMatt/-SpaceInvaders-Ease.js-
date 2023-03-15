@@ -193,7 +193,6 @@ export default {
  
       stage.update()
 
-      console.log(stage.children)
     },
 
     startBtn() {
@@ -551,15 +550,19 @@ export default {
 
     fallCollision() {
       if (!this.player.sprite.invincible){
+        let spriteWidth;
+        let spriteHeight;
         
         for (let i = 0; i < this.invaders.length; i++){
-     
           if (this.invaders[i].sprite.currentAnimation !== "default"){
+            spriteWidth = this.getSpriteWidth(this.invaders[i].type)
+            spriteHeight = this.getSpriteHeight(this.invaders[i].type)
             
             // check if between y quadrates of player and falling invader
-            if (this.player.sprite.y <= this.invaders[i].sprite.y + 16 && this.player.sprite.y >= this.invaders[i].sprite.y - 16 ){
+            if (this.player.sprite.y <= this.invaders[i].sprite.y + spriteHeight && this.player.sprite.y >= this.invaders[i].sprite.y - spriteHeight){
               // check if between x quadrates of player and falling invader
-              if (this.player.sprite.x >= this.invaders[i].sprite.x - 16 && this.player.sprite.x <= this.invaders[i].sprite.x + 16 ){
+              if (this.player.sprite.x >= this.invaders[i].sprite.x - 8  && this.player.sprite.x <= this.invaders[i].sprite.x + 8 + spriteWidth ){
+      
                 this.healthBar.takeDamage(this.player.invincible, this.soundOn)
 
                 // dom state variable needs to be out of external component
@@ -572,6 +575,18 @@ export default {
           }
         }
       }
+    },
+
+    
+    getSpriteWidth (invaderType) {
+      if (invaderType === 'blob'){
+        return 32
+      }
+      return 16
+    },
+
+    getSpriteHeight  (invaderType) {
+        return 16
     },
   
     invinciblePlayer() {
