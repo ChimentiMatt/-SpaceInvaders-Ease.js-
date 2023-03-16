@@ -28,6 +28,7 @@ import WaveThree from './waves/WaveThree.js';
 import WaveFour from './waves/WaveFour.js';
 import WaveFive from './waves/WaveFive.js';
 import WaveSix from './waves/WaveSix.js';
+import WaveSeven from './waves/WaveSeven.js';
 
 // music from pixabay, free to use by "dopestuff"
 import backgroundMusic from "./assets/sounds/neonGaming.mp3"
@@ -105,7 +106,7 @@ export default {
       startText: [],
       // start at 0
       waveNumber: 0,
-      totalLevels: 6, 
+      totalLevels: 7, 
       players: [],
       shields: [],
       beams: [],
@@ -369,6 +370,10 @@ export default {
       else if (this.waveNumber === 6)
       {
         WaveSix.createWave(this.invaders, this.invaderSheet, this.invaderWhiteSheet, this.invaderPinkSheet, this.invaderBlobSheet, stage)
+      }
+      else if (this.waveNumber === 7)
+      {
+        WaveSeven.createWave(this.invaders, this.invaderSheet, this.invaderWhiteSheet, this.invaderPinkSheet, this.invaderBlobSheet, stage)
       }
     },
 
