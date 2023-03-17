@@ -31,15 +31,10 @@ function createWave (invaders, InvadersGreenSpriteSheet, invaderWhiteSpriteSheet
     let invaderX = 250
     let invaderY = -30;
 
-    // 24
     for (let i = 0; i < 28; i++){
 
-
-        
         invader = new InvaderParent.InvaderWhite(invaderWhiteSpriteSheet, 'white');
 
-
-        
         if (i < 5){
             invaderX += 20;
         }
