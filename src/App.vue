@@ -1,4 +1,5 @@
 <script setup>
+import { gsap } from "gsap";
 import PlayerSpriteSheet from './spriteSheets/PlayerSpriteSheet.js';
 import BeamSpriteSheet from './spriteSheets/BeamSpriteSheet.js';
 import ShieldSpriteSheet from './spriteSheets/ShieldSpriteSheet.js';
@@ -37,12 +38,11 @@ import backgroundMusic from "./assets/sounds/neonGaming.mp3"
 </script>
 <template>  
   <div id='body'>
-    <h1 id="title">Invaders</h1>
+    <!-- <h1 id="title">Invaders</h1> -->
     <div v-if="gameOver" id="intro-outro-screen">
       <p v-if="gameOver">Score: {{score}}</p>
       <button v-if="gameOver" @click="resetGame">play again?</button>
     </div>
-
     <div v-if="postScreen" id="post-stage-screen">
       <h1>Score: {{ score }}</h1>
 
@@ -65,18 +65,45 @@ import backgroundMusic from "./assets/sounds/neonGaming.mp3"
       <p>{{domHealthVisual}} / 10 <button  @click="postScreenSelection('heal')">+</button></p>
     </div>
       
-    <canvas id="demoCanvas" width="900" height="500"></canvas>
-    <div id="hud">
-      <p>level: {{ waveNumber }}</p>
-      <p>score: {{ score }}</p>
-      <p>time: {{ timer }}</p>
-      <!-- <p>missed shots: {{ missedShots }}</p> -->
+    <div id="cabinet-top">
+      <div class="left-square"></div>
+      <h1>Invaders</h1>
+      <div class="right-square"></div>
     </div>
+
+    <div id="cabinet-square">
+      <div id="distortion-container">
+        <div id="distortion-screen">
+        </div>
+      </div>
+      
+      <div id="hud">
+        <div id="hud-inner">
+          <p>level: {{ waveNumber }}</p>
+          <p id="score">score: {{ score }}</p>
+          <p id="time">time: {{ timer }}</p>
+        </div>
+      </div>
+
+      <div id="middle-left-square"></div>
+      <canvas id="demoCanvas" width="900" height="500"></canvas>
+      <div id="middle-right-square"></div>
+    </div>
+
+    <div id="control-container">
+      <div id="control-left"></div>
+      <div id="control-area"> 
+
+      </div>
+      <div id="control-right"></div>
+    </div>
+
+    <div id="cabinet-bottom"></div>
     
   </div>
 
   <!-- temporary until I make a high quality version -->
-  <div id="mobile-controls">
+  <!-- <div id="mobile-controls">
     <button @click="keyPressed(null, 'a')">L roll</button>
     <button @click="keyPressed(null, 'd')">R roll</button>
     <button @click="keyPressed(null, 'ArrowUp')" id="up">up</button>
@@ -87,6 +114,12 @@ import backgroundMusic from "./assets/sounds/neonGaming.mp3"
     <button @click="keyPressed(null, 'ArrowLeft')">left</button>
     <button @click="keyPressed(null, 'ArrowRight')">right</button>
     <button @click="keyPressed(null, 'Space')" id="shoot">shoot</button>
+  </div> -->
+
+  <div id="no-mobile">
+    <p>Due to difficult touch controls, this game does not have a mobile version</p>
+    <br>
+    <p>if you are seeing this on desktop, please maximize the browswer</p>
   </div>
 
 </template>
@@ -256,13 +289,13 @@ export default {
     },
 
     createStartText() {
-      let text1 = new createjs.Text("Space-bar to shoot", "36px Arial", "#FFF");
+      let text1 = new createjs.Text("Space-bar to shoot", "36px Impact", "#85fc52");
       text1.x = 50;
       text1.y = 150;
-      let text2 = new createjs.Text("Arrows to move ", "36px Arial", "#FFF");
+      let text2 = new createjs.Text("Arrows to move ", "36px Impact", "#85fc52");
       text2.x = 50;
       text2.y = 200;
-      let text3 = new createjs.Text("A and D to roll", "36px Arial", "#FFF");
+      let text3 = new createjs.Text("A and D to roll", "36px Impact", "#85fc52");
       text3.x = 50;
       text3.y = 250;
       this.startText.push(text1, text2, text3)
@@ -421,7 +454,7 @@ export default {
     missedShotText(i) {
       let text = new createjs.Text("-1", "10px Arial", "#FF0000");
       text.x = this.beams[i].sprite.x 
-      text.y = 10
+      text.y = 20
       stage.addChild(text)
       setTimeout(() => {stage.removeChild(text)}, 500)
     },
@@ -856,12 +889,31 @@ export default {
 
     resetGame() {
      window.location.reload();
-    }
+    },
+
+    staticOnScreenEffect() {
+      let container = document.querySelector('#distortion-screen')
+
+      // create line in html with the class of line
+      for (let i = 0; i < 40; i++){
+        container.innerHTML += `<div id=line${i} class='line'"></div>`
+        console.log(i)
+      }
+
+      // animate using GSAP on a timeline loop
+      for (let i = 0; i < 40; i++){
+        var tl2 = gsap.timeline({repeat: -1});
+        tl2.to(`#line${i}`, {y: '1rem', duration: 2,  ease: 'none'})
+      }
+
+    },
+
 
   },
     
   mounted() {            
     this.init();
+    this.staticOnScreenEffect()
   }
 }
 
