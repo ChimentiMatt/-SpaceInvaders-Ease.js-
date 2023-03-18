@@ -912,7 +912,6 @@ export default {
 
       // 4k screens
       if (window.screen.height * window.devicePixelRatio > 2000 ){
-        document.body.style.marginTop = '20rem'
         document.body.style.scale = 1.2
       }
       // ultra wide
