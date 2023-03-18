@@ -281,12 +281,12 @@ button:hover{
 
 /* large screens */
 @media (min-width: 1930px) {
-  body{
+  /* body{
     position: relative;
     bottom: 10rem; 
     scale: .6;
     overflow-y: hidden;
-  }
+  } */
 }
 
 

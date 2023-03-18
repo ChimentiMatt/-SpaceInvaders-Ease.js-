@@ -905,15 +905,29 @@ export default {
         var tl2 = gsap.timeline({repeat: -1});
         tl2.to(`#line${i}`, {y: '1rem', duration: 2,  ease: 'none'})
       }
-
     },
 
+    resolutionAdjustments() {
+      // alert("Your screen resolution is: " + window.screen.width * window.devicePixelRatio + "x" + window.screen.height * window.devicePixelRatio);
+
+      // 4k screens
+      if (window.screen.height * window.devicePixelRatio > 2000 ){
+        document.body.style.marginTop = '20rem'
+        document.body.style.scale = 1.2
+      }
+      // ultra wide
+      // else if (window.screen.height * window.devicePixelRatio > 1439 ){
+      //   document.body.style.marginTop = '-7rem'
+      //   document.body.style.scale = .5
+      // }
+    }
 
   },
     
   mounted() {            
     this.init();
     this.staticOnScreenEffect()
+    this.resolutionAdjustments()
   }
 }
 
