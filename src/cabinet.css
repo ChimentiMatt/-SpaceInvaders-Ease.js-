@@ -2,7 +2,7 @@
     position: relative;
     top: .7rem;
     border: 10px solid rgb(17, 17, 17);
-    width: 1138px;
+    width: 1010px;
     height: 10rem;
     display: flex;
     justify-content: space-between;
@@ -27,7 +27,7 @@
     right: .6rem;
     border: 10px solid rgb(17, 17, 17);
     background-color: rgb(216, 216, 216);
-    width: 5rem;
+    width: 4rem;
     height: 11rem;
 }
 
@@ -37,7 +37,7 @@
     left: .6rem;
     border: 10px solid rgb(17, 17, 17);
     background-color: rgb(216, 216, 216);
-    width: 5rem;
+    width: 4rem;
     height: 11rem;
 }
 
@@ -52,22 +52,20 @@
 
 #middle-left-square{
     border-right: 10px solid rgb(17, 17, 17);
-    width: 5rem;
-    margin-right: 3rem;
+    width: 3.5rem;
+    margin-right: 1rem;
     background-color: rgb(216, 216, 216);
 }
 
 #middle-right-square{
     border-left: 10px solid rgb(17, 17, 17);
-    width: 5rem;
-    margin-left: 3rem;
+    width: 3.5rem;
+    margin-left: 1rem;
     background-color: rgb(216, 216, 216);
 }
 
-
 #control-container{
     display: flex;
-
 }
 
 #control-area{
@@ -75,18 +73,18 @@
     border-left: 100px solid transparent;
     border-right: 100px solid transparent;
     height: 0;
-    width: 1195px;
+    width: 1084px;
 }
 
 #control-left{
     position: relative;
     z-index: 2;
-    width: 90px;
+    width: 4rem;
     background-color: rgb(216, 216, 216);
     height: 118px;
     border: 10px solid rgb(17, 17, 17);
-    transform: skew(-45deg);
-    left: 8.1rem;
+    transform: skew(-41deg);
+    left: 7.2rem;
     bottom: .5rem;
 }
 
@@ -94,12 +92,12 @@
 #control-right{
     position: relative;
     z-index: 2;
-    width: 90px;
+    width: 4rem;
     background-color: rgb(216, 216, 216);
     height: 118px;
     border: 10px solid rgb(17, 17, 17);
-    transform: skew(45deg);
-    right: 8.1rem;;
+    transform: skew(41deg);
+    right: 7.2rem;;
     bottom: .5rem;
 }
 
@@ -109,8 +107,8 @@
     z-index: 1;
     bottom: 1.1rem;
     border: 10px solid rgb(17, 17, 17);
-    border-bottom: none;
-    width: 1230px;
+    /* border-bottom: none; */
+    width: 1084px;
     height: 12rem;
     display: flex;
     justify-content: space-between;
@@ -126,7 +124,7 @@
     position: absolute;
     z-index: 5;
     margin-top: 1.2rem;
-    margin-left: 8rem;
+    margin-left: 4.7rem;
     display: flex;
     justify-content: center;
     width: 720px;

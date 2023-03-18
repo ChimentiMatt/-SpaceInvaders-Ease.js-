@@ -100,27 +100,28 @@ import backgroundMusic from "./assets/sounds/neonGaming.mp3"
 
     <div id="cabinet-bottom"></div>
     
+  
+    
+    <!-- temporary until I make a high quality version -->
+    <div id="mobile-controls">
+      <button @click="keyPressed(null, 'a')">L roll</button>
+      <button @click="keyPressed(null, 'd')">R roll</button>
+      <button @click="keyPressed(null, 'ArrowUp')" id="up">up</button>
+      <button @click="keyPressed(null, 'ArrowDown')" >Down</button>
+    </div>
+    
+    <div id="mobile-controls">
+      <button @click="keyPressed(null, 'ArrowLeft')">left</button>
+      <button @click="keyPressed(null, 'ArrowRight')">right</button>
+      <button @click="keyPressed(null, 'Space')" id="shoot">shoot</button>
+    </div>
+    
   </div>
-
-  <!-- temporary until I make a high quality version -->
-  <!-- <div id="mobile-controls">
-    <button @click="keyPressed(null, 'a')">L roll</button>
-    <button @click="keyPressed(null, 'd')">R roll</button>
-    <button @click="keyPressed(null, 'ArrowUp')" id="up">up</button>
-    <button @click="keyPressed(null, 'ArrowDown')" >Down</button>
-  </div>
-
-  <div id="mobile-controls">
-    <button @click="keyPressed(null, 'ArrowLeft')">left</button>
-    <button @click="keyPressed(null, 'ArrowRight')">right</button>
-    <button @click="keyPressed(null, 'Space')" id="shoot">shoot</button>
-  </div> -->
-
-  <div id="no-mobile">
+  <!-- <div id="no-mobile">
     <p>Due to difficult touch controls, this game does not have a mobile version</p>
     <br>
     <p>if you are seeing this on desktop, please maximize the browswer</p>
-  </div>
+  </div> -->
 
 </template>
 
@@ -897,7 +898,6 @@ export default {
       // create line in html with the class of line
       for (let i = 0; i < 40; i++){
         container.innerHTML += `<div id=line${i} class='line'"></div>`
-        console.log(i)
       }
 
       // animate using GSAP on a timeline loop
