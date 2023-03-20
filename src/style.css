@@ -51,26 +51,31 @@
 }
 
 #demoCanvas{
-  margin-top: 1.2rem;
+  /* margin-top: 1.2rem; */
+  margin-top: 1.9rem;
   position: relative;
   z-index: 1;
   opacity: 0;
-  width: 720px;
-  height: 400px;
+  /* width: 720px; */
+  /* height: 400px; */
+  width: 648px;
+  height: 360px;
   background-color: black;
   border-radius: 12.5%;
+  border: 10px solid rgb(17, 17, 17);
 }
 
 #intro-outro-screen{
-  margin-top: 11rem;
+  margin-top: -10.1rem;
   position: absolute;
   z-index: 30;
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
   background-color: #484db9;
-  width: 720px;
-  height: 405px;
+  background-color: rgb(23, 23, 23);
+  width: 648px;
+  height: 366px;
   display: flex;
   border-radius: 12.5%;
   flex-direction: column;
@@ -87,22 +92,21 @@
 }
 
 #post-stage-screen{
-  margin-top: 11rem;
+  margin-top: -10.2rem;
   position: absolute;
   z-index: 6;
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
-  background-color: #484db9;
-
-  width: 720px;
-  height: 405px;
+  background-color: rgb(23, 23, 23);
+  width: 648px;
+  height: 364px;
   border-radius: 12.5%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-size: 1rem;
+  font-size: .8rem;
   color: #85fc52;
 }
 
@@ -118,12 +122,12 @@
   margin-bottom: .5rem;
 }
 
-/* rebuild this */
 #hud{
+  margin-top: 1.4rem;
   position: absolute;
   margin-left: auto;
   margin-right: auto;
-  width: 54rem;
+  width: 50rem;
 }
 
 #hud-inner{

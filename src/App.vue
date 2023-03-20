@@ -93,12 +93,24 @@ import backgroundMusic from "./assets/sounds/neonGaming.mp3"
     <div id="control-container">
       <div id="control-left"></div>
       <div id="control-area"> 
-
+        <div id="joystick-base">
+          <div id="joystick-pole"></div>
+          <div id="joystick-circle">
+            <div id="circle-shadow"></div>
+          </div>
+        </div>
+        <div id="css-btn1"></div>
+        <div id="css-btn2"></div>
+        <div id="css-btn3"></div>
       </div>
+
       <div id="control-right"></div>
     </div>
 
-    <div id="cabinet-bottom"></div>
+    <div id="cabinet-bottom">
+      <div id="cabinet-bottom-border-left"></div>
+      <div id="cabinet-bottom-border-right"></div>
+    </div>
     
   
     
@@ -912,7 +924,7 @@ export default {
 
       // 4k screens
       if (window.screen.height * window.devicePixelRatio > 2000 ){
-        document.body.style.scale = 1.2
+        // document.body.style.scale = 1.2
       }
       // ultra wide
       // else if (window.screen.height * window.devicePixelRatio > 1439 ){
