@@ -31,6 +31,7 @@ import WaveFive from './waves/WaveFive.js';
 import WaveSix from './waves/WaveSix.js';
 import WaveSeven from './waves/WaveSeven.js';
 import WaveEight from './waves/WaveEight.js';
+import WaveNine from './waves/WaveNine.js';
 
 // music from pixabay, free to use by "dopestuff"
 import backgroundMusic from "./assets/sounds/neonGaming.mp3"
@@ -46,9 +47,9 @@ import backgroundMusic from "./assets/sounds/neonGaming.mp3"
     <div v-if="postScreen" id="post-stage-screen">
       <h1>Score: {{ score }}</h1>
 
-      <p>Time Remaining: + {{ timer }}</p>
-      <p>Missed Hit: - {{ missedShots }}</p>
-      <p>Invaders Killed: + {{ invadersKilled }} </p>
+      <p>Time Remaining: + {{ timer }} x 2</p>
+      <p>Missed Hit: - {{ missedShots }} x 1</p>
+      <p>Invaders Killed: + {{ invadersKilled }} x 10 </p>
  
       <p id="separator">----------------------</p>
 
@@ -153,7 +154,7 @@ export default {
       startText: [],
       // start at 0
       waveNumber: 0,
-      totalLevels: 8, 
+      totalLevels: 9, 
       players: [],
       shields: [],
       beams: [],
@@ -387,7 +388,7 @@ export default {
     },
 
     postWaveUpdateScore() {
-      this.score += this.timer
+      this.score += this.timer * 2
       this.score -= this.missedShots
     },
 
@@ -425,6 +426,10 @@ export default {
       else if (this.waveNumber === 8)
       {
         WaveEight.createWave(this.invaders, this.invaderSheet, this.invaderWhiteSheet, this.invaderPinkSheet, this.invaderBlobSheet, stage)
+      }
+      else if (this.waveNumber === 9)
+      {
+        WaveNine.createWave(this.invaders, this.invaderSheet, this.invaderWhiteSheet, this.invaderPinkSheet, this.invaderBlobSheet, stage)
       }
     },
 
@@ -533,7 +538,7 @@ export default {
 
           index = results.index
           this.beams[i].deathFall(this.invaders[index].sprite, stage)
-          this.score += 1
+          this.score += 10
           this.invadersKilled++
           this.connectedShotText(i)
           
@@ -557,7 +562,7 @@ export default {
 
     connectedShotText(i) {
       // let text = new createjs.Text("+1", "10px Arial", "#6ac5fe");
-      let text = new createjs.Text("+1", "10px Arial", "#00ff00");
+      let text = new createjs.Text("+10", "10px Arial", "#00ff00");
       text.x = this.beams[i].sprite.x 
       text.y = this.beams[i].sprite.y 
       stage.addChild(text)

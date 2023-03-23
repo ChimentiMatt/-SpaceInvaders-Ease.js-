@@ -86,9 +86,9 @@
 }
 
 #intro-outro-screen button{
-  margin-top: 5rem;
+  /* margin-top: 5rem; */
   font-size: 2rem;
-  padding: .5rem 1rem .5rem 1rem ;
+  /* padding: .5rem 1rem .5rem 1rem ; */
 }
 
 #post-stage-screen{
@@ -111,10 +111,13 @@
 }
 
 #post-stage-screen button{
-  margin-top: .5rem;
+  /* margin-top: .5rem; */
   position: relative;
-  bottom: .4rem;
+  /* bottom: .4rem; */
   left: .5rem;
+  /* padding: 0; */
+  border: none;
+  background-color: rgb(23, 23, 23)  ;
 }
 
 #separator{
@@ -155,14 +158,14 @@
 button{
   /* display: flex; */
   border: none;
-  background-color: #85fc52;
-  color: black;
-  padding: .2rem .5rem .5rem .5rem ;
+  /* background-color: #85fc52; */
+  /* color: black; */
+  /* padding: .2rem .5rem .5rem .5rem ; */
 }
 
 button:hover{
   color: #85fc52;
-  background-color: black;
+  /* background-color: black; */
 }
 
 #up{
