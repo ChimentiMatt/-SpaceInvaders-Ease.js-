@@ -54,9 +54,6 @@ class Invader extends InvaderParent {
     intervalShot() {
         return;
     }    
-    intervalShot() {
-        return;
-    }
 }
 
 class InvaderWhite extends InvaderParent {

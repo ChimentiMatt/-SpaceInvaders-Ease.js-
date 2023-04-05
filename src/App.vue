@@ -66,11 +66,11 @@ import backgroundMusic from "./assets/sounds/neonGaming.mp3"
       <p>{{domHealthVisual}} / 10 <button  @click="postScreenSelection('heal')">+</button></p>
     </div>
       
-    <div id="cabinet-top">
+    <!-- <div id="cabinet-top">
       <div class="left-square"></div>
       <h1>Invaders</h1>
       <div class="right-square"></div>
-    </div>
+    </div> -->
 
     <div id="cabinet-square">
       <div id="distortion-container">
@@ -86,12 +86,12 @@ import backgroundMusic from "./assets/sounds/neonGaming.mp3"
         </div>
       </div>
 
-      <div id="middle-left-square"></div>
+      <!-- <div id="middle-left-square"></div> -->
       <canvas id="demoCanvas" width="900" height="500"></canvas>
-      <div id="middle-right-square"></div>
+      <!-- <div id="middle-right-square"></div> -->
     </div>
 
-    <div id="control-container">
+    <!-- <div id="control-container">
       <div id="control-left"></div>
       <div id="control-area"> 
         <div id="joystick-base">
@@ -106,12 +106,12 @@ import backgroundMusic from "./assets/sounds/neonGaming.mp3"
       </div>
 
       <div id="control-right"></div>
-    </div>
+    </div> -->
 
-    <div id="cabinet-bottom">
+    <!-- <div id="cabinet-bottom">
       <div id="cabinet-bottom-border-left"></div>
       <div id="cabinet-bottom-border-right"></div>
-    </div>
+    </div> -->
     
   
     
@@ -721,8 +721,6 @@ export default {
     },
 
     keyUp(event, mobileKey) {
-      
-      
       if (event.code === 'ArrowRight'  || mobileKey === "ArrowRight"){
         this.pressedRight = 0;
       }
@@ -913,12 +911,12 @@ export default {
       let container = document.querySelector('#distortion-screen')
 
       // create line in html with the class of line
-      for (let i = 0; i < 40; i++){
+      for (let i = 0; i < 50; i++){
         container.innerHTML += `<div id=line${i} class='line'"></div>`
       }
 
       // animate using GSAP on a timeline loop
-      for (let i = 0; i < 40; i++){
+      for (let i = 0; i < 50; i++){
         var tl2 = gsap.timeline({repeat: -1});
         tl2.to(`#line${i}`, {y: '1rem', duration: 2,  ease: 'none'})
       }
