@@ -8,9 +8,9 @@ class Player {
       this.rolling = false;
       this.rollCount = 1;
       this.maxRoll = 1;
-      // this.attackSpeed = 0;
       this.attackSpeed = 500;
       this.moveSpeed = 2;
+      // this.attackSpeed = 0;
     }
   
     addToArray = function(players, stage) {
