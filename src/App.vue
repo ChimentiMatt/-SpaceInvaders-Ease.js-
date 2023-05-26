@@ -39,103 +39,86 @@ import backgroundMusic from "./assets/sounds/neonGaming.mp3"
 </script>
 <template>  
   <div id='body'>
-    <!-- <h1 id="title">Invaders</h1> -->
-    <div v-if="gameOver" id="intro-outro-screen">
-      <p v-if="gameOver">Score: {{score}}</p>
-      <button v-if="gameOver" @click="resetGame">play again?</button>
-    </div>
-    <div v-if="postScreen" id="post-stage-screen">
-      <h1>Score: {{ score }}</h1>
+    <div id="home-screen" v-if="homeScreen">
+      <h1>Game Collection</h1>
+      <div id="home-cards-container">
 
-      <p>Time Remaining: + {{ timer }} x 2</p>
-      <p>Missed Hit: - {{ missedShots }} x 1</p>
-      <p>Invaders Killed: + {{ invadersKilled }} x 10 </p>
- 
-      <p id="separator">----------------------</p>
+        <div class="home-card" @click="() => chooseGame('invaders')">
+          <h1>Invaders</h1>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum voluptatibus quis dolorem aspernatur reiciendis, aut voluptate. Debitis exercitationem fugiat optio laboriosam, dolorem animi obcaecati laborum, vel quasi ex sint labore!</p>
+        </div>
+        
+        <div class="home-card" @click="() => chooseGame('invaders')">
+          <h1>Invaders</h1>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum voluptatibus quis dolorem aspernatur reiciendis, aut voluptate. Debitis exercitationem fugiat optio laboriosam, dolorem animi obcaecati laborum, vel quasi ex sint labore!</p>
 
-      <p v-if="domRollCount < 3">Upgrade Max Dash</p>
-      <p v-if="domRollCount < 3">{{ domRollCount }} / 3 <button  @click="postScreenSelection('dash')">+</button></p>
-      
-      <p v-if="domAttackSpeed < 4">Increase Attack Speed</p>
-      <p v-if="domAttackSpeed < 4">{{ domAttackSpeed }} / 4 <button  @click="postScreenSelection('attack')">+</button></p>
-
-      <p v-if="domMoveSpeed < 4">Increase Move Speed</p>
-      <p v-if="domMoveSpeed < 4">{{ domMoveSpeed }} / 4 <button  @click="postScreenSelection('move')">+</button></p>
-
-      <p>Heal 2  </p>
-      <p>{{domHealthVisual}} / 10 <button  @click="postScreenSelection('heal')">+</button></p>
-    </div>
-      
-    <!-- <div id="cabinet-top">
-      <div class="left-square"></div>
-      <h1>Invaders</h1>
-      <div class="right-square"></div>
-    </div> -->
-
-    <div id="cabinet-square">
-      <div id="distortion-container">
-        <div id="distortion-screen">
         </div>
       </div>
-      
-      <div id="hud">
-        <div id="hud-inner">
-          <p>level: {{ waveNumber }}</p>
-          <p id="score">score: {{ score }}</p>
-          <p id="time">time: {{ timer }}</p>
-        </div>
+    </div>
+    <div id="invaders">
+      <div v-if="gameOver" id="intro-outro-screen">
+        <p v-if="gameOver">Score: {{score}}</p>
+        <button v-if="gameOver" @click="resetGame">play again?</button>
+      </div>
+      <div v-if="postScreen" id="post-stage-screen">
+        <h1>Score: {{ score }}</h1>
+
+        <p>Time Remaining: + {{ timer }} x 2</p>
+        <p>Missed Hit: - {{ missedShots }} x 1</p>
+        <p>Invaders Killed: + {{ invadersKilled }} x 10 </p>
+  
+        <p id="separator">----------------------</p>
+
+        <p v-if="domRollCount < 3">Upgrade Max Dash</p>
+        <p v-if="domRollCount < 3">{{ domRollCount }} / 3 <button  @click="postScreenSelection('dash')">+</button></p>
+        
+        <p v-if="domAttackSpeed < 4">Increase Attack Speed</p>
+        <p v-if="domAttackSpeed < 4">{{ domAttackSpeed }} / 4 <button  @click="postScreenSelection('attack')">+</button></p>
+
+        <p v-if="domMoveSpeed < 4">Increase Move Speed</p>
+        <p v-if="domMoveSpeed < 4">{{ domMoveSpeed }} / 4 <button  @click="postScreenSelection('move')">+</button></p>
+
+        <p>Heal 2  </p>
+        <p>{{ domHealthVisual }} / 10 <button  @click="postScreenSelection('heal')">+</button></p>
       </div>
 
-      <!-- <div id="middle-left-square"></div> -->
-      <canvas id="demoCanvas" width="900" height="500"></canvas>
-      <!-- <div id="middle-right-square"></div> -->
-    </div>
 
-    <!-- <div id="control-container">
-      <div id="control-left"></div>
-      <div id="control-area"> 
-        <div id="joystick-base">
-          <div id="joystick-pole"></div>
-          <div id="joystick-circle">
-            <div id="circle-shadow"></div>
+      <div id="cabinet-square">
+        <div id="distortion-container">
+          <div id="distortion-screen">
           </div>
         </div>
-        <div id="css-btn1"></div>
-        <div id="css-btn2"></div>
-        <div id="css-btn3"></div>
+        
+        <div id="hud">
+          <div id="hud-inner">
+            <p>level: {{ waveNumber }}</p>
+            <p id="score">score: {{ score }}</p>
+            <p id="time">time: {{ timer }}</p>
+          </div>
+        </div>
+
+        <!-- <div id="middle-left-square"></div> -->
+        <canvas id="demoCanvas" width="900" height="500"></canvas>
+        <!-- <div id="middle-right-square"></div> -->
       </div>
-
-      <div id="control-right"></div>
-    </div> -->
-
-    <!-- <div id="cabinet-bottom">
-      <div id="cabinet-bottom-border-left"></div>
-      <div id="cabinet-bottom-border-right"></div>
-    </div> -->
     
-  
-    
-    <!-- temporary until I make a high quality version -->
-    <div id="mobile-controls">
-      <button @click="keyPressed(null, 'a')">L roll</button>
-      <button @click="keyPressed(null, 'd')">R roll</button>
-      <button @click="keyPressed(null, 'ArrowUp')" id="up">up</button>
-      <button @click="keyPressed(null, 'ArrowDown')" >Down</button>
+      
+      <!-- temporary until I make a high quality version -->
+      <div id="mobile-controls">
+        <button @click="keyPressed(null, 'a')">L roll</button>
+        <button @click="keyPressed(null, 'd')">R roll</button>
+        <button @click="keyPressed(null, 'ArrowUp')" id="up">up</button>
+        <button @click="keyPressed(null, 'ArrowDown')" >Down</button>
+      </div>
+      
+      <div id="mobile-controls">
+        <button @click="keyPressed(null, 'ArrowLeft')">left</button>
+        <button @click="keyPressed(null, 'ArrowRight')">right</button>
+        <button @click="keyPressed(null, 'Space')" id="shoot">shoot</button>
+      </div>
+      
     </div>
-    
-    <div id="mobile-controls">
-      <button @click="keyPressed(null, 'ArrowLeft')">left</button>
-      <button @click="keyPressed(null, 'ArrowRight')">right</button>
-      <button @click="keyPressed(null, 'Space')" id="shoot">shoot</button>
-    </div>
-    
   </div>
-  <!-- <div id="no-mobile">
-    <p>Due to difficult touch controls, this game does not have a mobile version</p>
-    <br>
-    <p>if you are seeing this on desktop, please maximize the browswer</p>
-  </div> -->
-
 </template>
 
 <script>
@@ -149,7 +132,9 @@ export default {
   name: 'App',
   data () {
     return {
+      homeScreen: true,
       titleScreen: true,
+      showgame: false,
       startBtnInvader: '',
       startText: [],
       // start at 0
@@ -210,6 +195,15 @@ export default {
   },
 
   methods: {
+
+    chooseGame(game) {
+      if (game === 'invaders') {
+        this.titleScreen = true;
+        this.homeScreen = false;
+        document.querySelector('#invaders').style.display = 'block'
+      }
+    },
+
     init() {
       this.startScreen = false;
       stage = new createjs.Stage("demoCanvas");
@@ -685,7 +679,7 @@ export default {
       }
 
       // don't allow movement during "roll" which is the invincible dash left or right
-      if ( this.player.rolling === false){
+      if ( this.player.rolling === false && !this.homeScreen){
 
         if (event.code === 'ArrowUp' || mobileKey === "ArrowUp"){
           this.pressedUp = 1;
