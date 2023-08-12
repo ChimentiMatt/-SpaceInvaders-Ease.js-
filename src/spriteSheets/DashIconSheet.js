@@ -1,19 +1,16 @@
-import dashIcon from '../assets/dashIcon.png'
+import dashIcon from "../assets/dashIcon.png";
 
 function createSheet() {
-    let spriteSheet = new createjs.SpriteSheet({
-        images: [dashIcon],
-        framerate: 2,
-        "frames": [
-            [0, 0, 16, 16],
-        ],
-        animations: {
-          "default" : { "frames": [0, 1, 2]},
-        }
-      });
+  let spriteSheet = new createjs.SpriteSheet({
+    images: [dashIcon],
+    framerate: 2,
+    frames: [[0, 0, 16, 16]],
+    animations: {
+      default: { frames: [0, 1, 2] },
+    },
+  });
 
-      return spriteSheet
+  return spriteSheet;
 }
 
-export default { createSheet } ;
-
+export default { createSheet };

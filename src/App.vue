@@ -37,7 +37,7 @@ import WaveNine from './waves/WaveNine.js';
 import backgroundMusic from "./assets/sounds/neonGaming.mp3"
 
 </script>
-<template>  
+<template>
   <div id='body'>
     <div id="home-screen" v-if="homeScreen">
       <h1>Game Collection</h1>
@@ -45,19 +45,23 @@ import backgroundMusic from "./assets/sounds/neonGaming.mp3"
 
         <div class="home-card" @click="() => chooseGame('invaders')">
           <h1>Invaders</h1>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum voluptatibus quis dolorem aspernatur reiciendis, aut voluptate. Debitis exercitationem fugiat optio laboriosam, dolorem animi obcaecati laborum, vel quasi ex sint labore!</p>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum voluptatibus quis dolorem aspernatur
+            reiciendis, aut voluptate. Debitis exercitationem fugiat optio laboriosam, dolorem animi obcaecati laborum,
+            vel quasi ex sint labore!</p>
         </div>
-        
-        <div class="home-card" @click="() => chooseGame('invaders')">
-          <h1>Invaders</h1>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum voluptatibus quis dolorem aspernatur reiciendis, aut voluptate. Debitis exercitationem fugiat optio laboriosam, dolorem animi obcaecati laborum, vel quasi ex sint labore!</p>
+
+        <div class="home-card" @click="() => chooseGame('goblin')">
+          <h1>Goblin Invasion</h1>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum voluptatibus quis dolorem aspernatur
+            reiciendis, aut voluptate. Debitis exercitationem fugiat optio laboriosam, dolorem animi obcaecati laborum,
+            vel quasi ex sint labore!</p>
 
         </div>
       </div>
     </div>
     <div id="invaders">
       <div v-if="gameOver" id="intro-outro-screen">
-        <p v-if="gameOver">Score: {{score}}</p>
+        <p v-if="gameOver">Score: {{ score }}</p>
         <button v-if="gameOver" @click="resetGame">play again?</button>
       </div>
       <div v-if="postScreen" id="post-stage-screen">
@@ -66,29 +70,25 @@ import backgroundMusic from "./assets/sounds/neonGaming.mp3"
         <p>Time Remaining: + {{ timer }} x 2</p>
         <p>Missed Hit: - {{ missedShots }} x 1</p>
         <p>Invaders Killed: + {{ invadersKilled }} x 10 </p>
-  
+
         <p id="separator">----------------------</p>
 
         <p v-if="domRollCount < 3">Upgrade Max Dash</p>
-        <p v-if="domRollCount < 3">{{ domRollCount }} / 3 <button  @click="postScreenSelection('dash')">+</button></p>
-        
+        <p v-if="domRollCount < 3">{{ domRollCount }} / 3 <button @click="postScreenSelection('dash')">+</button></p>
+
         <p v-if="domAttackSpeed < 4">Increase Attack Speed</p>
-        <p v-if="domAttackSpeed < 4">{{ domAttackSpeed }} / 4 <button  @click="postScreenSelection('attack')">+</button></p>
+        <p v-if="domAttackSpeed < 4">{{ domAttackSpeed }} / 4 <button @click="postScreenSelection('attack')">+</button>
+        </p>
 
         <p v-if="domMoveSpeed < 4">Increase Move Speed</p>
-        <p v-if="domMoveSpeed < 4">{{ domMoveSpeed }} / 4 <button  @click="postScreenSelection('move')">+</button></p>
+        <p v-if="domMoveSpeed < 4">{{ domMoveSpeed }} / 4 <button @click="postScreenSelection('move')">+</button></p>
 
-        <p>Heal 2  </p>
-        <p>{{ domHealthVisual }} / 10 <button  @click="postScreenSelection('heal')">+</button></p>
+        <p>Heal 2 </p>
+        <p>{{ domHealthVisual }} / 10 <button @click="postScreenSelection('heal')">+</button></p>
       </div>
 
 
       <div id="cabinet-square">
-        <div id="distortion-container">
-          <div id="distortion-screen">
-          </div>
-        </div>
-        
         <div id="hud">
           <div id="hud-inner">
             <p>level: {{ waveNumber }}</p>
@@ -96,41 +96,38 @@ import backgroundMusic from "./assets/sounds/neonGaming.mp3"
             <p id="time">time: {{ timer }}</p>
           </div>
         </div>
-
-        <!-- <div id="middle-left-square"></div> -->
         <canvas id="demoCanvas" width="900" height="500"></canvas>
-        <!-- <div id="middle-right-square"></div> -->
       </div>
-    
-      
+
+
       <!-- temporary until I make a high quality version -->
       <div id="mobile-controls">
         <button @click="keyPressed(null, 'a')">L roll</button>
         <button @click="keyPressed(null, 'd')">R roll</button>
         <button @click="keyPressed(null, 'ArrowUp')" id="up">up</button>
-        <button @click="keyPressed(null, 'ArrowDown')" >Down</button>
+        <button @click="keyPressed(null, 'ArrowDown')">Down</button>
       </div>
-      
+
       <div id="mobile-controls">
         <button @click="keyPressed(null, 'ArrowLeft')">left</button>
         <button @click="keyPressed(null, 'ArrowRight')">right</button>
         <button @click="keyPressed(null, 'Space')" id="shoot">shoot</button>
       </div>
-      
+
     </div>
   </div>
 </template>
 
 <script>
-  var stage; 
-  var bMusic = document.createElement("audio");
-  bMusic.src = backgroundMusic
-  bMusic.volume = .5;
-  bMusic.loop = true;
+var stage;
+var bMusic = document.createElement("audio");
+bMusic.src = backgroundMusic
+bMusic.volume = .5;
+bMusic.loop = true;
 
 export default {
   name: 'App',
-  data () {
+  data() {
     return {
       homeScreen: true,
       titleScreen: true,
@@ -139,7 +136,7 @@ export default {
       startText: [],
       // start at 0
       waveNumber: 0,
-      totalLevels: 9, 
+      totalLevels: 9,
       players: [],
       shields: [],
       beams: [],
@@ -179,7 +176,6 @@ export default {
       inPostScreen: false,
       startScreen: true,
       soundOn: true,
-
       pressedRight: 0,
       pressedLeft: 0,
       pressedUp: 0,
@@ -187,7 +183,6 @@ export default {
       pressedA: 0,
       pressedD: 0,
       mobileInput: false,
-
       fireDelay: false,
       myInterval: '',
       tickCounter: 0
@@ -205,11 +200,12 @@ export default {
     },
 
     init() {
+      this.chooseGame('invaders'); // remove line for pre game navigation menu
       this.startScreen = false;
       stage = new createjs.Stage("demoCanvas");
 
       // if mobile do not allow sounds as it causes bugs currently
-      if (this.detectIfMobile()){
+      if (this.detectIfMobile()) {
         this.soundOn = false;
       }
 
@@ -234,7 +230,7 @@ export default {
       createjs.Ticker.timingMode = createjs.Ticker.RAF;
       createjs.Ticker.addEventListener("tick", stage);
       createjs.Ticker.addEventListener("tick", this.tick);
- 
+
       stage.update()
 
     },
@@ -246,7 +242,7 @@ export default {
       this.handleCountdown('start')
     },
 
-    tick(event){
+    tick(event) {
       // console.log(stage.children.length)
 
       document.querySelector('#demoCanvas').style.opacity = 1
@@ -259,7 +255,7 @@ export default {
       this.removeOldPlayerBullets();
       this.removeOldInvaderBullets();
       this.enemyFire();
-    
+
       this.dashIcon.updateIcons(this.player.rollCount, this.dashIcons)
       this.gameOverCheck()
 
@@ -285,11 +281,11 @@ export default {
       this.enemyBombSheet = EnemyBombSheet.createSheet();
 
       this.explosionSheet = CreateContactExplosion.createSheet();
-      
+
       this.dashIconSheet = DashIconSheet.createSheet();
       this.dashIcon = new DashIcon();
       this.dashIcon.addToArray(this.players, stage, this.dashIconSheet, this.dashIcons);
-      
+
       this.invaderSheet = InvaderSpriteSheet.createSheet();
       this.invaderWhiteSheet = InvaderWhiteSpriteSheet.createSheet();
       this.invaderPinkSheet = InvaderPinkSpriteSheet.createSheet();
@@ -311,16 +307,16 @@ export default {
     },
 
     leaveLevel() {
-      if (this.nextWaveCheck(this.invaders) && !this.inPostScreen ){
+      if (this.nextWaveCheck(this.invaders) && !this.inPostScreen) {
         console.log(this.beams.length)
         this.waveNumber++
-        if (this.waveNumber <= this.totalLevels){
+        if (this.waveNumber <= this.totalLevels) {
           this.postScreen = true;
           this.inPostScreen = true;
           this.handleCountdown('stop');
           this.postWaveUpdateScore()
         }
-        else{
+        else {
           // game over screen
           this.postScreen = false;
           this.gameOver = true;
@@ -337,9 +333,9 @@ export default {
 
       this.invaders = []
       this.enemyBullets = []
-      
+
       // remaining children
-      console.log('remaining stage children' ,stage.children.length)
+      console.log('remaining stage children', stage.children.length)
     },
 
     postScreenSelection(choice) {
@@ -348,35 +344,35 @@ export default {
       this.handleCountdown('start')
       this.missedShots = 0
       this.invadersKilled = 0
-      
-      if (choice === "dash"){
+
+      if (choice === "dash") {
         this.player.rollCount++;
         this.domRollCount++;
       }
-      else if (choice === "attack"){
-        if (this.domAttackSpeed < 4){
+      else if (choice === "attack") {
+        if (this.domAttackSpeed < 4) {
           this.player.attackSpeed -= 100;
           this.domAttackSpeed++;
         }
       }
-      else if (choice === "move"){
-        if (this.domMoveSpeed < 4){
+      else if (choice === "move") {
+        if (this.domMoveSpeed < 4) {
           this.player.moveSpeed += .5;
           this.domMoveSpeed++;
         }
       }
-      else if (choice === "heal"){
-        if (this.healthBar.healthPoints === 9){
+      else if (choice === "heal") {
+        if (this.healthBar.healthPoints === 9) {
           this.domHealthVisual++
           this.healthBar.heal()
         }
-        else if (this.healthBar.healthPoints < 9){
+        else if (this.healthBar.healthPoints < 9) {
           this.domHealthVisual += 2
           this.healthBar.heal()
           this.healthBar.heal()
         }
       }
-        
+
       this.updateTimerForNewWave();
       this.nextWave();
     },
@@ -391,124 +387,117 @@ export default {
     },
 
     nextWave() {
-      if (this.waveNumber === 1 ){
+      if (this.waveNumber === 1) {
         WaveOne.createWave(this.invaders, this.invaderSheet, this.invaderWhiteSheet, this.invaderPinkSheet, this.invaderBlobSheet, stage)
       }
-      else if (this.waveNumber === 2 ){
+      else if (this.waveNumber === 2) {
         WaveTwo.createWave(this.invaders, this.invaderSheet, this.invaderWhiteSheet, this.invaderPinkSheet, this.invaderBlobSheet, stage)
       }
-      else if (this.waveNumber === 3)
-      {
+      else if (this.waveNumber === 3) {
         WaveThree.createWave(this.invaders, this.invaderSheet, this.invaderWhiteSheet, this.invaderPinkSheet, this.invaderBlobSheet, stage)
       }
-      else if (this.waveNumber === 4)
-      {
+      else if (this.waveNumber === 4) {
         WaveFour.createWave(this.invaders, this.invaderSheet, this.invaderWhiteSheet, this.invaderPinkSheet, this.invaderBlobSheet, stage)
       }
-      else if (this.waveNumber === 5)
-      {
+      else if (this.waveNumber === 5) {
         WaveFive.createWave(this.invaders, this.invaderSheet, this.invaderWhiteSheet, this.invaderPinkSheet, this.invaderBlobSheet, stage)
       }
-      else if (this.waveNumber === 6)
-      {
+      else if (this.waveNumber === 6) {
         WaveSix.createWave(this.invaders, this.invaderSheet, this.invaderWhiteSheet, this.invaderPinkSheet, this.invaderBlobSheet, stage)
       }
-      else if (this.waveNumber === 7)
-      {
+      else if (this.waveNumber === 7) {
         WaveSeven.createWave(this.invaders, this.invaderSheet, this.invaderWhiteSheet, this.invaderPinkSheet, this.invaderBlobSheet, stage)
       }
-      else if (this.waveNumber === 8)
-      {
+      else if (this.waveNumber === 8) {
         WaveEight.createWave(this.invaders, this.invaderSheet, this.invaderWhiteSheet, this.invaderPinkSheet, this.invaderBlobSheet, stage)
       }
-      else if (this.waveNumber === 9)
-      {
+      else if (this.waveNumber === 9) {
         WaveNine.createWave(this.invaders, this.invaderSheet, this.invaderWhiteSheet, this.invaderPinkSheet, this.invaderBlobSheet, stage)
       }
     },
 
-    removeOldPlayerBullets () {
+    removeOldPlayerBullets() {
       let isOffScreen = false;
       const stillInScreen = []
       const removeIndex = []
-      
+
       // removes sprites that are no longer on canvas for beams
-      if (this.beams.length > 0){
-    
-        for (let i = 0; i < this.beams.length; i++){
+      if (this.beams.length > 0) {
+
+        for (let i = 0; i < this.beams.length; i++) {
           isOffScreen = this.beams[i].removeIfOffScreen()
 
-          if (!isOffScreen){
+          if (!isOffScreen) {
             stillInScreen.push(this.beams[i]);
           }
           else {
             removeIndex.push(this.beams[i])
             // stage.removeChild(this.beams[i].sprite)
 
-            if (!this.titleScreen && !this.postScreen){
+            if (!this.titleScreen && !this.postScreen) {
               this.missedShots++
               this.missedShotText(i)
             }
           }
           isOffScreen = false;
-       
+
         }
 
         // remove from stage
-        for (let i = 0; i < removeIndex.length; i++){
+        for (let i = 0; i < removeIndex.length; i++) {
           stage.removeChild(removeIndex[i].sprite);
           this.beams = stillInScreen;
-  
+
         }
       }
     },
 
     missedShotText(i) {
       let text = new createjs.Text("-1", "10px Arial", "#FF0000");
-      text.x = this.beams[i].sprite.x 
+      text.x = this.beams[i].sprite.x
       text.y = 20
       stage.addChild(text)
-      setTimeout(() => {stage.removeChild(text)}, 500)
+      setTimeout(() => { stage.removeChild(text) }, 500)
     },
 
-    removeOldInvaderBullets () {
+    removeOldInvaderBullets() {
       // console.log(this.enemyBullets[0])
-      if (this.enemyBullets.length > 0){
+      if (this.enemyBullets.length > 0) {
 
         const stillInScreen = []
         const removeIndex = []
         // console.log(this.enemyBullets.length)
 
         // removes sprites that are no longer on canvas for beams
-        if (this.enemyBullets.length > 0){
-      
-          for (let i = 0; i < this.enemyBullets.length; i++){
+        if (this.enemyBullets.length > 0) {
 
-            if (!this.enemyBullets[i].sprite.visible){
+          for (let i = 0; i < this.enemyBullets.length; i++) {
+
+            if (!this.enemyBullets[i].sprite.visible) {
               removeIndex.push(i)
             }
-            else{
+            else {
               stillInScreen.push(this.enemyBullets[i])
             }
           }
 
           // remove from stage
-          for (let i = 0; i < removeIndex.length; i++){
+          for (let i = 0; i < removeIndex.length; i++) {
 
-            stage.removeChild(removeIndex[i].sprite);  
+            stage.removeChild(removeIndex[i].sprite);
             this.enemyBullets = stillInScreen;
           }
         }
       }
-      
+
     },
 
     enemyFire() {
-      this.tickCounter ++
-      for (let i = 0; i < this.invaders.length; i++){
-        if (this.invaders[i].sprite.currentAnimation !== "dead" && this.invaders[i].sprite.currentAnimation !== "dying"){
+      this.tickCounter++
+      for (let i = 0; i < this.invaders.length; i++) {
+        if (this.invaders[i].sprite.currentAnimation !== "dead" && this.invaders[i].sprite.currentAnimation !== "dying") {
           // if on screen
-          if (this.invaders[i].sprite.y > 2){
+          if (this.invaders[i].sprite.y > 2) {
 
             this.invaders[i].fire(this.invaders, i, this.enemyBullets, this.enemyBulletSheet, this.players, stage, this.soundOn);
             this.invaders[i].fireBomb(this.invaders, i, this.enemyBullets, this.enemyBombSheet, this.players, stage, this.soundOn);
@@ -519,23 +508,23 @@ export default {
       }
       if (this.tickCounter > 40) this.tickCounter = 0
     },
-    
+
     beamsCollisionDetection() {
       let x, y;
       let results, index;
-      for(let i = 0; i < this.beams.length; i++){
+      for (let i = 0; i < this.beams.length; i++) {
         x = this.beams[i].sprite.x
         y = this.beams[i].sprite.y
         results = this.beams[i].detectCollision(this.beams, this.invaders, stage);
-      
-        if (results.collision){
+
+        if (results.collision) {
 
           index = results.index
           this.beams[i].deathFall(this.invaders[index].sprite, stage)
           this.score += 10
           this.invadersKilled++
           this.connectedShotText(i)
-          
+
           stage.removeChild(this.beams[i]);
           // this.beams.splice(i, 1)
 
@@ -557,50 +546,50 @@ export default {
     connectedShotText(i) {
       // let text = new createjs.Text("+1", "10px Arial", "#6ac5fe");
       let text = new createjs.Text("+10", "10px Arial", "#00ff00");
-      text.x = this.beams[i].sprite.x 
-      text.y = this.beams[i].sprite.y 
+      text.x = this.beams[i].sprite.x
+      text.y = this.beams[i].sprite.y
       stage.addChild(text)
-      setTimeout(() => {stage.removeChild(text)}, 500)
+      setTimeout(() => { stage.removeChild(text) }, 500)
     },
-    
-    firstCollisionStartGame(){
+
+    firstCollisionStartGame() {
       // used to get out of the start menu as you shoot first invader
-      if (this.titleScreen){
-            this.waveNumber++
-            this.invaders = []
-            this.startBtn()
-            this.titleScreen = false
-            stage.removeChild(this.startText[0], this.startText[1], this.startText[2])
+      if (this.titleScreen) {
+        this.waveNumber++
+        this.invaders = []
+        this.startBtn()
+        this.titleScreen = false
+        stage.removeChild(this.startText[0], this.startText[1], this.startText[2])
 
-            if (this.soundOn){
-              bMusic.play()
-            }
+        if (this.soundOn) {
+          bMusic.play()
+        }
 
-          }
+      }
     },
 
     playerBulletCollisionDetection() {
       let spriteOffset = 6
-      if (!this.player.invincible){
-        
-        for (let i = 0; i < this.enemyBullets.length; i++){
+      if (!this.player.invincible) {
 
-          if (this.enemyBullets.length > 0 && this.enemyBullets[i].sprite.visible !== false){
+        for (let i = 0; i < this.enemyBullets.length; i++) {
+
+          if (this.enemyBullets.length > 0 && this.enemyBullets[i].sprite.visible !== false) {
 
             // bombs have bigger visuals so bigger hitboxes
-            if (this.enemyBullets[i].type === 'bomb'){
+            if (this.enemyBullets[i].type === 'bomb') {
               spriteOffset = 13
             }
-            
+
             // if between player y: top and bottom: top && bottom
-            if (this.enemyBullets[i].sprite.y >= this.player.sprite.y - spriteOffset && this.enemyBullets[i].sprite.y <= this.player.sprite.y + spriteOffset){
+            if (this.enemyBullets[i].sprite.y >= this.player.sprite.y - spriteOffset && this.enemyBullets[i].sprite.y <= this.player.sprite.y + spriteOffset) {
 
               // if between player x: left and right
-              if (this.enemyBullets[i].sprite.x >= this.player.sprite.x - spriteOffset && this.enemyBullets[i].sprite.x <= this.player.sprite.x + 15){
+              if (this.enemyBullets[i].sprite.x >= this.player.sprite.x - spriteOffset && this.enemyBullets[i].sprite.x <= this.player.sprite.x + 15) {
                 this.healthBar.takeDamage(this.player.invincible, this.soundOn)
 
                 // dom state variable needs to be out of external component
-                if (!this.player.invincible){
+                if (!this.player.invincible) {
                   this.domHealthVisual--
                 }
                 this.invinciblePlayer()
@@ -613,24 +602,24 @@ export default {
     },
 
     fallCollision() {
-      if (!this.player.sprite.invincible){
+      if (!this.player.sprite.invincible) {
         let spriteWidth;
         let spriteHeight;
-        
-        for (let i = 0; i < this.invaders.length; i++){
-          if (this.invaders[i].sprite.currentAnimation !== "default"){
+
+        for (let i = 0; i < this.invaders.length; i++) {
+          if (this.invaders[i].sprite.currentAnimation !== "default") {
             spriteWidth = this.getSpriteWidth(this.invaders[i].type)
             spriteHeight = this.getSpriteHeight(this.invaders[i].type)
-            
+
             // check if between y quadrates of player and falling invader
-            if (this.player.sprite.y <= this.invaders[i].sprite.y + spriteHeight && this.player.sprite.y >= this.invaders[i].sprite.y - spriteHeight){
+            if (this.player.sprite.y <= this.invaders[i].sprite.y + spriteHeight && this.player.sprite.y >= this.invaders[i].sprite.y - spriteHeight) {
               // check if between x quadrates of player and falling invader
-              if (this.player.sprite.x >= this.invaders[i].sprite.x - 8  && this.player.sprite.x <= this.invaders[i].sprite.x + 8 + spriteWidth ){
-      
+              if (this.player.sprite.x >= this.invaders[i].sprite.x - 8 && this.player.sprite.x <= this.invaders[i].sprite.x + 8 + spriteWidth) {
+
                 this.healthBar.takeDamage(this.player.invincible, this.soundOn)
 
                 // dom state variable needs to be out of external component
-                if (!this.player.invincible){
+                if (!this.player.invincible) {
                   this.domHealthVisual--
                 }
                 this.invinciblePlayer();
@@ -641,20 +630,20 @@ export default {
       }
     },
 
-    
-    getSpriteWidth (invaderType) {
-      if (invaderType === 'blob'){
+
+    getSpriteWidth(invaderType) {
+      if (invaderType === 'blob') {
         return 32
       }
       return 16
     },
 
-    getSpriteHeight  (invaderType) {
-        return 16
+    getSpriteHeight(invaderType) {
+      return 16
     },
-  
+
     invinciblePlayer() {
-      if (!this.player.rolling && !this.player.invincible){
+      if (!this.player.rolling && !this.player.invincible) {
         this.shield.sprite.visible = true
         this.player.invincible = true
 
@@ -666,7 +655,7 @@ export default {
     },
 
     gameOverCheck() {
-      if (this.healthBar.healthPoints < 1){
+      if (this.healthBar.healthPoints < 1) {
         this.gameOver = true;
       }
     },
@@ -674,66 +663,66 @@ export default {
     keyPressed(event, mobileKey = null) {
 
       // if using mobile controls ignore event and make JS not break 
-      if (event === null){
-        event = {code: ''}
+      if (event === null) {
+        event = { code: '' }
       }
 
       // don't allow movement during "roll" which is the invincible dash left or right
-      if ( this.player.rolling === false && !this.homeScreen){
+      if (this.player.rolling === false && !this.homeScreen) {
 
-        if (event.code === 'ArrowUp' || mobileKey === "ArrowUp"){
+        if (event.code === 'ArrowUp' || mobileKey === "ArrowUp") {
           this.pressedUp = 1;
         }
-        if (event.code === 'ArrowDown' || mobileKey === "ArrowDown"){
+        if (event.code === 'ArrowDown' || mobileKey === "ArrowDown") {
           this.pressedDown = 1;
         }
-        if (event.code === 'ArrowLeft' || mobileKey === "ArrowLeft"){  
+        if (event.code === 'ArrowLeft' || mobileKey === "ArrowLeft") {
           this.pressedLeft = 1;
         }
-        if (event.code === 'ArrowRight' || mobileKey === "ArrowRight"){
+        if (event.code === 'ArrowRight' || mobileKey === "ArrowRight") {
           this.pressedRight = 1;
         }
-        if (event.code === 'Space' || mobileKey === "Space"){
+        if (event.code === 'Space' || mobileKey === "Space") {
           this.pressedSpace = 1;
         }
-        if (event.key === 'a' || event.key === 'A' || mobileKey === "a"){
+        if (event.key === 'a' || event.key === 'A' || mobileKey === "a") {
           this.pressedA = 1;
         }
-        if (event.key === 'd' || event.key === 'D' || mobileKey === "d"){
+        if (event.key === 'd' || event.key === 'D' || mobileKey === "d") {
           this.pressedD = 1;
         }
 
-        if (mobileKey !== null){
+        if (mobileKey !== null) {
           this.mobileInput = true
           this.moveHandler()
           this.keyUp(event, mobileKey)
         }
-        else{
+        else {
           this.mobileInput = false
         }
       }
     },
 
     keyUp(event, mobileKey) {
-      if (event.code === 'ArrowRight'  || mobileKey === "ArrowRight"){
+      if (event.code === 'ArrowRight' || mobileKey === "ArrowRight") {
         this.pressedRight = 0;
       }
-      else if (event.code === 'ArrowLeft' || mobileKey === "ArrowLeft"){
+      else if (event.code === 'ArrowLeft' || mobileKey === "ArrowLeft") {
         this.pressedLeft = 0;
       }
-      else if (event.code === 'ArrowUp' || mobileKey === "ArrowUp"){
+      else if (event.code === 'ArrowUp' || mobileKey === "ArrowUp") {
         this.pressedUp = 0;
       }
-      else if (event.code === 'ArrowDown' || mobileKey === "ArrowDown"){
+      else if (event.code === 'ArrowDown' || mobileKey === "ArrowDown") {
         this.pressedDown = 0;
       }
-      else if (event.code === 'Space' || mobileKey === "Space"){
+      else if (event.code === 'Space' || mobileKey === "Space") {
         this.pressedSpace = 0;
       }
-      else if (event.key === 'a' || event.key === 'A' || mobileKey === "a"){
+      else if (event.key === 'a' || event.key === 'A' || mobileKey === "a") {
         this.pressedA = 0;
       }
-      else if (event.key === 'd' || event.key === 'D' || mobileKey === "d"){
+      else if (event.key === 'd' || event.key === 'D' || mobileKey === "d") {
         this.pressedD = 0;
       }
     },
@@ -749,8 +738,8 @@ export default {
     },
 
     moveRight() {
-      if (this.pressedRight === 1){
-        if (this.player.sprite.x < stage.canvas.width - 32){
+      if (this.pressedRight === 1) {
+        if (this.player.sprite.x < stage.canvas.width - 32) {
           let value = this.player.moveSpeed
           if (this.mobileInput) value = 35 + this.player.moveSpeed;
 
@@ -765,8 +754,8 @@ export default {
     },
 
     moveLeft() {
-      if (this.pressedLeft === 1){
-        if (this.player.sprite.x > 0){
+      if (this.pressedLeft === 1) {
+        if (this.player.sprite.x > 0) {
           let value = this.player.moveSpeed
           if (this.mobileInput) value = 35 + this.player.moveSpeed;
           this.player.sprite.x -= value;
@@ -780,8 +769,8 @@ export default {
     },
 
     moveUp() {
-      if (this.pressedUp === 1){
-        if (this.player.sprite.y > 350){
+      if (this.pressedUp === 1) {
+        if (this.player.sprite.y > 350) {
           let value = this.player.moveSpeed
           if (this.mobileInput) value = 35 + this.player.moveSpeed;
           this.player.sprite.y -= value;
@@ -795,8 +784,8 @@ export default {
     },
 
     moveDown() {
-      if (this.pressedDown === 1){
-        if (this.player.sprite.y < stage.canvas.height - 50){
+      if (this.pressedDown === 1) {
+        if (this.player.sprite.y < stage.canvas.height - 50) {
           let value = this.player.moveSpeed
           if (this.mobileInput) value = 35 + this.player.moveSpeed;
           this.player.sprite.y += value;
@@ -810,23 +799,23 @@ export default {
     },
 
     dashRight() {
-      if (this.pressedD === 1){
-        if (this.player.sprite.x < stage.canvas.width - 16 - 100){
+      if (this.pressedD === 1) {
+        if (this.player.sprite.x < stage.canvas.width - 16 - 100) {
 
-           // stops spending both rolls at once
-          if (!this.player.rolling){
-            this.player.roll("right", this.healthBars, this.shields, this.dashIcons,  this.soundOn);
+          // stops spending both rolls at once
+          if (!this.player.rolling) {
+            this.player.roll("right", this.healthBars, this.shields, this.dashIcons, this.soundOn);
           }
         }
       }
     },
 
     dashLeft() {
-      if (this.pressedA === 1){
-        if (this.player.sprite.x > 100){
+      if (this.pressedA === 1) {
+        if (this.player.sprite.x > 100) {
 
           // stops spending both rolls at once
-          if (!this.player.rolling){
+          if (!this.player.rolling) {
             this.player.roll("left", this.healthBars, this.shields, this.dashIcons, this.soundOn);
           }
         }
@@ -834,17 +823,17 @@ export default {
     },
 
     fire() {
-      if (this.pressedSpace === 1){
-        if (!this.fireDelay){
+      if (this.pressedSpace === 1) {
+        if (!this.fireDelay) {
           this.fireDelay = true;
           this.beam = new Beam(this.beamSheet);
           this.beam.setLocation(this.player.sprite, stage, this.beamSheet)
           this.beams.push(this.beam)
           stage.addChild(this.beam.sprite)
-  
+
           this.beam.moveBeams(this.player.sprite, this.soundOn)
 
-          setTimeout(() => { this.fireDelay = false}, this.player.attackSpeed)
+          setTimeout(() => { this.fireDelay = false }, this.player.attackSpeed)
           // setTimeout(() => { this.fireDelay = false}, 0)
         }
       }
@@ -852,12 +841,12 @@ export default {
 
 
     nextWaveCheck() {
-      if (this.startScreen){
+      if (this.startScreen) {
         return false;
       }
-      for (let i = 0; i < this.invaders.length; i++){
-        if (this.invaders[i].sprite.currentAnimation !== "dead"){
-            return false;
+      for (let i = 0; i < this.invaders.length; i++) {
+        if (this.invaders[i].sprite.currentAnimation !== "dead") {
+          return false;
         }
 
       }
@@ -870,57 +859,57 @@ export default {
     },
 
     handleCountdown(command) {
-      if (command === 'start'){
+      if (command === 'start') {
         this.myInterval = setInterval(this.myTimer, 1000);
       }
-      else{
-          clearInterval(this.myInterval);    
+      else {
+        clearInterval(this.myInterval);
       }
     },
 
-    detectIfMobile(){
+    detectIfMobile() {
       let details = navigator.userAgent;
-      
+
       /* Creating a regular expression 
       containing some mobile devices keywords 
       to search it in details string*/
       let regexp = /android|iphone|kindle|ipad/i;
-        
+
       /* Using test() method to search regexp in details
       it returns boolean value*/
       let isMobileDevice = regexp.test(details);
-        
+
       if (isMobileDevice) {
-          return true;
+        return true;
       } else {
-          return false;
+        return false;
       }
     },
 
     resetGame() {
-     window.location.reload();
+      window.location.reload();
     },
 
     staticOnScreenEffect() {
       let container = document.querySelector('#distortion-screen')
 
       // create line in html with the class of line
-      for (let i = 0; i < 50; i++){
+      for (let i = 0; i < 50; i++) {
         container.innerHTML += `<div id=line${i} class='line'"></div>`
       }
 
       // animate using GSAP on a timeline loop
-      for (let i = 0; i < 50; i++){
-        var tl2 = gsap.timeline({repeat: -1});
-        tl2.to(`#line${i}`, {y: '1rem', duration: 2,  ease: 'none'})
+      for (let i = 0; i < 50; i++) {
+        var tl2 = gsap.timeline({ repeat: -1 });
+        tl2.to(`#line${i}`, { y: '1rem', duration: 2, ease: 'none' })
       }
     },
 
     resolutionAdjustments() {
-      // alert("Your screen resolution is: " + window.screen.width * window.devicePixelRatio + "x" + window.screen.height * window.devicePixelRatio);
+      // console.log("Your screen resolution is: " + window.screen.width * window.devicePixelRatio + "x" + window.screen.height * window.devicePixelRatio);
 
       // 4k screens
-      if (window.screen.height * window.devicePixelRatio > 2000 ){
+      if (window.screen.height * window.devicePixelRatio > 2000) {
         // document.body.style.scale = 1.2
       }
       // ultra wide
@@ -931,8 +920,8 @@ export default {
     }
 
   },
-    
-  mounted() {            
+
+  mounted() {
     this.init();
     this.staticOnScreenEffect()
     this.resolutionAdjustments()
