@@ -39,6 +39,10 @@ import backgroundMusic from "./assets/sounds/neonGaming.mp3"
 </script>
 <template>
   <div id='body'>
+    <a href="https://matterofcode.xyz/" target="_blank">
+      <img id="github" src="./assets/github.jpg">
+    </a>
+
     <div id="home-screen" v-if="homeScreen">
       <h1>Game Collection</h1>
       <div id="home-cards-container">
