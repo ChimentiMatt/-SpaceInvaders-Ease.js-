@@ -35,9 +35,6 @@ function createWave (invaders, InvadersGreenSpriteSheet, invaderWhiteSpriteSheet
             invaderX += 20;
         }
 
-
-
-
         invader.sprite.x = invaderX;
         invader.sprite.y = invaderY;
   

@@ -60,10 +60,6 @@ import backgroundMusic from "./assets/sounds/neonGaming.mp3"
       </div>
     </div>
     <div id="invaders">
-      <div v-if="gameOver" id="intro-outro-screen">
-        <p v-if="gameOver">Score: {{ score }}</p>
-        <button v-if="gameOver" @click="resetGame">play again?</button>
-      </div>
       <div v-if="postScreen" id="post-stage-screen">
         <h1>Score: {{ score }}</h1>
 
@@ -89,6 +85,10 @@ import backgroundMusic from "./assets/sounds/neonGaming.mp3"
 
 
       <div id="cabinet-square">
+        <div v-if="gameOver" id="intro-outro-screen">
+          <p v-if="gameOver">Score: {{ score }}</p>
+          <button v-if="gameOver" @click="resetGame">play again?</button>
+        </div>
         <div id="hud">
           <div id="hud-inner">
             <p>level: {{ waveNumber }}</p>
@@ -96,22 +96,34 @@ import backgroundMusic from "./assets/sounds/neonGaming.mp3"
             <p id="time">time: {{ timer }}</p>
           </div>
         </div>
-        <canvas id="demoCanvas" width="900" height="500"></canvas>
+        <canvas id="gameCanvas" width="900" height="500"></canvas>
       </div>
 
 
       <!-- temporary until I make a high quality version -->
       <div id="mobile-controls">
-        <button @click="keyPressed(null, 'a')">L roll</button>
-        <button @click="keyPressed(null, 'd')">R roll</button>
-        <button @click="keyPressed(null, 'ArrowUp')" id="up">up</button>
-        <button @click="keyPressed(null, 'ArrowDown')">Down</button>
+        <div>
+          <p>Roll</p>
+          <button class="left-btns" @click="keyPressed(null, 'a')">Left</button>
+          <button class="right-btns" @click="keyPressed(null, 'd')">Right</button>
+        </div>
+        <div>
+          <p id="move-text">Move</p>
+          <button class="left-btns" @click="keyPressed(null, 'ArrowUp')" id="up">Up</button>
+          <button class="right-btns" @click="keyPressed(null, 'ArrowDown')">Down</button>
+        </div>
       </div>
 
       <div id="mobile-controls">
-        <button @click="keyPressed(null, 'ArrowLeft')">left</button>
-        <button @click="keyPressed(null, 'ArrowRight')">right</button>
-        <button @click="keyPressed(null, 'Space')" id="shoot">shoot</button>
+        <div>
+          <p>Move</p>
+          <button class="left-btns" @click="keyPressed(null, 'ArrowLeft')">Left</button>
+          <button class="right-btns" @click="keyPressed(null, 'ArrowRight')">Right</button>
+        </div>
+        <div>
+          <p id="move-text">Fire</p>
+          <button @click="keyPressed(null, 'Space')" id="shoot"></button>
+        </div>
       </div>
 
     </div>
@@ -202,7 +214,7 @@ export default {
     init() {
       this.chooseGame('invaders'); // remove line for pre game navigation menu
       this.startScreen = false;
-      stage = new createjs.Stage("demoCanvas");
+      stage = new createjs.Stage("gameCanvas");
 
       // if mobile do not allow sounds as it causes bugs currently
       if (this.detectIfMobile()) {
@@ -245,7 +257,7 @@ export default {
     tick(event) {
       // console.log(stage.children.length)
 
-      document.querySelector('#demoCanvas').style.opacity = 1
+      document.querySelector('#gameCanvas').style.opacity = 1
 
       this.playerBulletCollisionDetection()
       this.beamsCollisionDetection();
@@ -891,18 +903,20 @@ export default {
     },
 
     staticOnScreenEffect() {
-      let container = document.querySelector('#distortion-screen')
+      // TODO remake with a more subtle version 
 
-      // create line in html with the class of line
-      for (let i = 0; i < 50; i++) {
-        container.innerHTML += `<div id=line${i} class='line'"></div>`
-      }
+      // let container = document.querySelector('#distortion-screen')
 
-      // animate using GSAP on a timeline loop
-      for (let i = 0; i < 50; i++) {
-        var tl2 = gsap.timeline({ repeat: -1 });
-        tl2.to(`#line${i}`, { y: '1rem', duration: 2, ease: 'none' })
-      }
+      // // create line in html with the class of line
+      // for (let i = 0; i < 50; i++) {
+      //   container.innerHTML += `<div id=line${i} class='line'"></div>`
+      // }
+
+      // // animate using GSAP on a timeline loop
+      // for (let i = 0; i < 50; i++) {
+      //   var tl2 = gsap.timeline({ repeat: -1 });
+      //   tl2.to(`#line${i}`, { y: '1rem', duration: 2, ease: 'none' })
+      // }
     },
 
     resolutionAdjustments() {

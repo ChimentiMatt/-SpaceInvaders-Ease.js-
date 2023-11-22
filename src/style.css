@@ -28,10 +28,6 @@
   user-select: none; /* Standard syntax */
 }
 
-/* #no-mobile{
-  display: none;
-} */
-
 #body {
   display: flex;
   flex-direction: column;
@@ -49,7 +45,7 @@
   /* overflow: hidden; */
 }
 
-#demoCanvas {
+#gameCanvas {
   /* margin-top: 1.2rem; */
   margin-top: 1.9rem;
   position: relative;
@@ -164,22 +160,16 @@
 }
 
 button {
-  /* display: flex; */
   border: none;
-  /* background-color: #85fc52; */
-  /* color: black; */
-  /* padding: .2rem .5rem .5rem .5rem ; */
 }
 
 button:hover {
   color: #85fc52;
-  /* background-color: black; */
 }
 
 #up {
   position: relative;
   margin-left: 3rem;
-  /* margin-right: 1rem; */
 }
 
 #shoot {
@@ -203,28 +193,13 @@ button:hover {
 }
 
 @media (max-width: 1200px) {
-  body {
-    /* scale: .7; */
+  #body {
+    justify-content: start;
   }
-  #no-mobile {
-    position: fixed;
-    z-index: 9999;
-    padding: 2rem;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    top: 0;
-    background-color: black;
-    width: 100vw;
-    height: 100vh;
-  }
-
   :root {
     background-color: black;
   }
-  #demoCanvas {
-    margin-top: 10rem;
+  #gameCanvas {
     width: 337px;
     height: 187.5px;
     border: 1px solid white;
@@ -234,15 +209,47 @@ button:hover {
     display: flex;
   }
 
+  #mobile-controls button {
+    height: 3rem;
+    width: 3rem;
+    font-weight: bold;
+    color: #85fc52;
+  }
+
+  #mobile-controls button:hover {
+    background-color: #85fc52;
+    color: white;
+  }
+
+  .left-btns {
+    border-radius: 30% 0 0 30%;
+  }
+
+  .right-btns {
+    border-radius: 0 30% 30% 0;
+  }
+  
+  #shoot {
+    border-radius: 50%;
+    background-color: #85fc52;
+  }
+
+  #move-text{
+    margin-left: 3rem;
+  }
+
+
   #intro-outro-screen {
-    margin-top: 10rem;
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
     width: 337px;
     height: 187.5px;
     font-size: 0.5rem;
   }
 
   #post-stage-screen {
-    margin-top: 10rem;
+    margin-top: 2rem;
     width: 337px;
     height: 187.5px;
     font-size: 0.5rem;
@@ -253,8 +260,8 @@ button:hover {
   }
 
   #hud {
-    width: 337px;
-    margin-top: 8.7rem;
+    width: 270px;
+    margin-top: 0.7rem;
   }
   #hud-inner {
     margin-right: auto;
@@ -279,6 +286,8 @@ button:hover {
     height: initial;
     border: none;
     border-radius: none;
+    display: flex;
+    justify-content: center;
     background-color: black;
   }
 
@@ -297,27 +306,3 @@ button:hover {
     display: none;
   }
 }
-
-/* large screens */
-@media (min-width: 1930px) {
-  /* body{
-    position: relative;
-    bottom: 10rem; 
-    scale: .6;
-    overflow-y: hidden;
-  } */
-}
-
-/* light blue */
-/* color: #17fff8; */
-
-/* blue */
-/* color: #179fff; */
-
-/* green */
-/* color:  #85fc52; */
-/* color:  rgb(133, 252, 82); */
-
-/* purple */
-/* color:  #484db9 */
-/* color:  rgb(72, 77, 185), 45%, 50%) */
