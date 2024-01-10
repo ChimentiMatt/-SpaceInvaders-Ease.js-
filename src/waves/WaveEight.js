@@ -4,14 +4,6 @@ import InvaderParent from '../constructors/Invader'
 function move(invader) {
         createjs.Tween.get(invader, {override: true})
         .to({ y: invader.y + 100 }, 2000)
-        .call(() => {
-            if (invader.currentAnimation !== "dying"){
-                // createjs.Tween.get(invader, { loop: true })
-                // .to({ x: invader.x - 70}, 5000, createjs.Ease.none)
-                // .to({ x: invader.x + 70 }, 5000, createjs.Ease.none)
-                // .to({ x: invader.x  }, 5000, createjs.Ease.none)
-            }
-        })   
 }
 
 function createWave (invaders, InvadersGreenSpriteSheet, invaderWhiteSpriteSheet, invaderPinkSpriteSheet, invaderBlobSpriteSheet,  stage) {
@@ -45,8 +37,6 @@ function createWave (invaders, InvadersGreenSpriteSheet, invaderWhiteSpriteSheet
 }
 
 function paintWave (stage, invaders) {
-    // console.log(invaders.length)
-    
     for (let i = 0; i < invaders.length; i++){
       stage.addChild(invaders[i].sprite);
     }
@@ -60,7 +50,6 @@ function moveInvaders (invaders, stage) {
         }
     }
 }
-
 
 export default { move, createWave, paintWave, moveInvaders } ;
 

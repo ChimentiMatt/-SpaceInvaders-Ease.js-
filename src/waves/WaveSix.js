@@ -28,31 +28,25 @@ function secondMovement(stage,invader) {
 
 function createWave (invaders, InvadersGreenSpriteSheet, invaderWhiteSpriteSheet, invaderPinkSpriteSheet, invaderBlobSpriteSheet,  stage) {
     let invader = '';
-    let invaderX = 100
+    let invaderX = 100;
     let invaderY = -30;
 
     // 24
-    for (let i = 0; i < 16; i++){
-
-
+    for (let i = 0; i < 16; i++) {
         invader = new InvaderParent.InvaderBlob(invaderBlobSpriteSheet, 'blob');
 
         invader.sprite.x = invaderX;
         invader.sprite.y = invaderY;
 
         
-        if (i < 7){
-            invaderX += 100;
-        }
-        if ( i === 7){
+        if (i < 7) invaderX += 100;
+
+        if ( i === 7) {
             invaderY -= 150
             invaderX = 100;
         }
-        if ( i > 7){
-            invaderX += 100;
-        }
+        if ( i > 7) invaderX += 100;
 
-        
         invaders.push(invader);
     }
  

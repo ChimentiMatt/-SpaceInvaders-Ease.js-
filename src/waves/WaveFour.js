@@ -27,7 +27,6 @@ function createWave (invaders, InvadersGreenSpriteSheet, invaderWhiteSpriteSheet
     let invaderY = -30;
     let counter = 0
 
-    //23
     for (let i = 0; i < 20; i++){
         counter++
 
@@ -54,13 +53,9 @@ function createWave (invaders, InvadersGreenSpriteSheet, invaderWhiteSpriteSheet
         if (i === 11){
         }
 
-        
-        
         invader.sprite.x = invaderX;
         invader.sprite.y = -invaderY;
-        
-        // 1 - 3 invaders
-        invaderX += 50
+        invaderX += 50;
 
         invaders.push(invader)
     }
@@ -79,11 +74,6 @@ function moveInvaders (invaders, stage) {
     for (let i = 0; i < invaders.length; i++){
         if (invaders[i].currentAnimation !== "dying"){
             move(invaders[i].sprite, stage, invaders);
-            // if (i < 11){
-            // }
-            // else{
-            //     secondMovement(stage, invaders[i].sprite)
-            // }
         }
     }
 }

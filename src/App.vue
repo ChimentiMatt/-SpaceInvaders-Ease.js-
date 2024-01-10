@@ -1,5 +1,4 @@
 <script setup>
-import { gsap } from "gsap";
 import PlayerSpriteSheet from './spriteSheets/PlayerSpriteSheet.js';
 import BeamSpriteSheet from './spriteSheets/BeamSpriteSheet.js';
 import ShieldSpriteSheet from './spriteSheets/ShieldSpriteSheet.js';
@@ -59,7 +58,6 @@ import backgroundMusic from "./assets/sounds/neonGaming.mp3"
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum voluptatibus quis dolorem aspernatur
             reiciendis, aut voluptate. Debitis exercitationem fugiat optio laboriosam, dolorem animi obcaecati laborum,
             vel quasi ex sint labore!</p>
-
         </div>
       </div>
     </div>
@@ -87,7 +85,6 @@ import backgroundMusic from "./assets/sounds/neonGaming.mp3"
         <p>{{ domHealthVisual }} / 10 <button @click="postScreenSelection('heal')">+</button></p>
       </div>
 
-
       <div id="cabinet-square">
         <div v-if="gameOver" id="intro-outro-screen">
           <p v-if="gameOver">Score: {{ score }}</p>
@@ -103,8 +100,6 @@ import backgroundMusic from "./assets/sounds/neonGaming.mp3"
         <canvas id="gameCanvas" width="900" height="500"></canvas>
       </div>
 
-
-      <!-- temporary until I make a high quality version -->
       <div id="mobile-controls">
         <div>
           <p>Roll</p>
@@ -337,11 +332,7 @@ export default {
           this.postScreen = false;
           this.gameOver = true;
         }
-
         this.clearLevel()
-
-
-
       }
     },
 
@@ -542,11 +533,6 @@ export default {
           this.connectedShotText(i)
 
           stage.removeChild(this.beams[i]);
-          // this.beams.splice(i, 1)
-
-          // if (this.beams[i]){
-          //   stage.removeChild(this.beams[i].sprite)
-          // }
 
           this.explosion = new Explosion(this.explosionSheet);
           this.explosion.addToStage(stage, x, y, this.soundOn)
@@ -560,7 +546,6 @@ export default {
     },
 
     connectedShotText(i) {
-      // let text = new createjs.Text("+1", "10px Arial", "#6ac5fe");
       let text = new createjs.Text("+10", "10px Arial", "#00ff00");
       text.x = this.beams[i].sprite.x
       text.y = this.beams[i].sprite.y
@@ -857,16 +842,13 @@ export default {
 
 
     nextWaveCheck() {
-      if (this.startScreen) {
-        return false;
-      }
+      if (this.startScreen) return false;
+
       for (let i = 0; i < this.invaders.length; i++) {
         if (this.invaders[i].sprite.currentAnimation !== "dead") {
           return false;
         }
-
       }
-
       return true;
     },
 
@@ -905,44 +887,10 @@ export default {
     resetGame() {
       window.location.reload();
     },
-
-    staticOnScreenEffect() {
-      // TODO remake with a more subtle version 
-
-      // let container = document.querySelector('#distortion-screen')
-
-      // // create line in html with the class of line
-      // for (let i = 0; i < 50; i++) {
-      //   container.innerHTML += `<div id=line${i} class='line'"></div>`
-      // }
-
-      // // animate using GSAP on a timeline loop
-      // for (let i = 0; i < 50; i++) {
-      //   var tl2 = gsap.timeline({ repeat: -1 });
-      //   tl2.to(`#line${i}`, { y: '1rem', duration: 2, ease: 'none' })
-      // }
-    },
-
-    resolutionAdjustments() {
-      // console.log("Your screen resolution is: " + window.screen.width * window.devicePixelRatio + "x" + window.screen.height * window.devicePixelRatio);
-
-      // 4k screens
-      if (window.screen.height * window.devicePixelRatio > 2000) {
-        // document.body.style.scale = 1.2
-      }
-      // ultra wide
-      // else if (window.screen.height * window.devicePixelRatio > 1439 ){
-      //   document.body.style.marginTop = '-7rem'
-      //   document.body.style.scale = .5
-      // }
-    }
-
   },
 
   mounted() {
     this.init();
-    this.staticOnScreenEffect()
-    this.resolutionAdjustments()
   }
 }
 

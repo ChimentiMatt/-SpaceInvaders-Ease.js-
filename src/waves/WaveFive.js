@@ -20,14 +20,9 @@ function createWave (invaders, InvadersGreenSpriteSheet, invaderWhiteSpriteSheet
     let invaderX = 100
     let invaderY = -30;
 
-    // 24
     for (let i = 0; i < 11; i++){
-
-
         invader = new InvaderParent.InvaderBlob(invaderBlobSpriteSheet, 'blob');
 
-
-        
         if (i < 7){
             invader.sprite.x = invaderX;
             invader.sprite.y = invaderY;
@@ -58,16 +53,13 @@ function createWave (invaders, InvadersGreenSpriteSheet, invaderWhiteSpriteSheet
             invader.sprite.y = invaderY
             invader.sprite.x = invaderX;
         }
-        
         invaders.push(invader);
     }
- 
+
     paintWave(stage, invaders);
 }
 
 function paintWave (stage, invaders) {
-    // console.log(invaders.length)
-    
     for (let i = 0; i < invaders.length; i++){
       stage.addChild(invaders[i].sprite);
     }

@@ -14,7 +14,6 @@ function move(invader) {
         })   
 }
 
-
 function createWave (invaders, InvadersGreenSpriteSheet, invaderWhiteSpriteSheet, invaderPinkSpriteSheet, invaderBlobSpriteSheet,  stage) {
     let invader = '';
     let invaderX = 50
@@ -39,14 +38,6 @@ function createWave (invaders, InvadersGreenSpriteSheet, invaderWhiteSpriteSheet
         invaderX += 20;
  
 
-        // if (i === 38){
-        //     invaderX = 70
-        //     invaderY = -50
-        // }
-        // if (i > 38){
-        //     invaderX += 20;
-        // }
-
         invader.sprite.x = invaderX;
         invader.sprite.y = invaderY;
   
@@ -59,7 +50,7 @@ function createWave (invaders, InvadersGreenSpriteSheet, invaderWhiteSpriteSheet
 function paintWave (stage, invaders) {
     // console.log(invaders.length)
     
-    for (let i = 0; i < invaders.length; i++){
+    for (let i = 0; i < invaders.length; i++) {
       stage.addChild(invaders[i].sprite);
     }
     moveInvaders(invaders, stage);
@@ -67,7 +58,7 @@ function paintWave (stage, invaders) {
 
 function moveInvaders (invaders, stage) {
     for (let i = 0; i < invaders.length; i++){
-        if (invaders[i].sprite.currentAnimation !== "dying"){
+        if (invaders[i].sprite.currentAnimation !== "dying") {
             if (i < 14){
                 move(invaders[i].sprite, stage, invaders);
             }

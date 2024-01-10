@@ -23,70 +23,10 @@ function createWave (invaders, InvadersGreenSpriteSheet, invaderWhiteSpriteSheet
  
     //23
     for (let i = 0; i < 28; i++){
-
         invader = new InvaderParent.InvaderWhite(invaderWhiteSpriteSheet, 'white');
 
         invader.sprite.x = invaderX;
         invader.sprite.y = -invaderY;
-        
-        // // 1 - 3 invaders
-        // if (i <= 3 ){
-        //     invaderY -= 50
-        // }
-        // // 4th invader: the - in H
-        // if (i === 3 ){
-        //     invaderY = -85;
-        //     invaderX += 35
-        // }
-        // if (i === 4 ){
-        //     invaderX += 35
-        // }
-        // if (i === 5) {
-        //     invaderY = -10;
-        //     invaderX += 35
-        // }
-        // if (i === 6 ){
-        //     invaderY -= 50
-        // }
-        // if (i === 7){
-        //     invaderY -= 50
-        // }
-        // if (i === 8){
-        //     invaderY -= 50
-        // }
-        // if (i === 9){
-        //     invaderY = -10;
-        //     invaderX += 100
-        // }
-        // if (i === 10){
-        //     invaderX += 35
-        // }
-        // if (i === 11){
-        //     invaderX += 35
-        // }
-        // if (i === 12){
-        //     invaderX += 35
-        // }
-        // if (i === 13){
-        //     invaderX -= 52
-        //     invaderY -= 50
-        // }
-        // if (i === 14){
-        //     invaderY -= 50
-        // }
-        // if (i === 15){
-        //     invaderY -= 50
-        //     invaderX -= 52
-        // }
-        // if (i === 16){
-        //     invaderX += 35
-        // }
-        // if (i === 17){
-        //     invaderX += 35
-        // }
-        // if (i === 18){
-        //     invaderX += 35
-        // }
 
         if (i === 14 ){
     
@@ -112,14 +52,6 @@ function moveInvaders (invaders, stage) {
     for (let i = 0; i < invaders.length; i++){
         if (invaders[i].sprite.currentAnimation !== "dying"){
             move(invaders[i].sprite, stage, invaders);
-            // if (i !== 28){
-
-            // }
-            // else{
-            //     setTimeout(() => {
-            //         secondMovement(stage, invaders[i].sprite)
-            //     }, 3000);
-            // }
         }
     }
 }
